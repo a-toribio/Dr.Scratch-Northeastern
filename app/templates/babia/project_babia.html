@@ -21,6 +21,9 @@
 
 
   <script>
+
+    var projectData = {{ babia_dict|safe }};
+
     window.onload = function() {
       scratchblocks.renderMatching('pre.blocks', {
         style: 'scratch3',   // Optional, defaults to 'scratch2'.
@@ -33,17 +36,46 @@
 
 
 <body>
-  <div class="building_info" height="100px" width="100px" style="overflow: auto;">
-    <div class="container">
-      <button id="export_btn" class="button"><span>Export as STL</span></button>
+  <div class="building_info" style="overflow: auto; display: flex; flex-direction: column;">
+    
+    <div style="border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px;">
+        <h2 id="panel-title" style="margin: 0; color: #333;">Selecciona un elemento</h2>
+        <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Haz clic en el suelo o en una torre</span>
     </div>
-    <h1>
-      Script Selected:
-    </h1>
-    <pre id="script_blocks" class="blocks">
-      Please, select a building.
-    </pre>
-  </div>
+
+    <div id="view-district" style="display: none;">
+        <p>Has seleccionado el Sprite (Distrito):</p>
+        <h3 id="district-name-display" style="color: #3a85fc;">NombreSprite</h3>
+        <p><strong>Scripts (Torres) contenidos:</strong></p>
+        <ul id="district-scripts-list" style="padding-left: 20px;">
+            </ul>
+        <p style="font-size: 0.8em; color: #888;">Haz clic en una torre para ver detalles.</p>
+    </div>
+
+    <div id="view-description" style="display: none;">
+        <h3>Información del Script</h3>
+        <p><strong>ID:</strong> <span id="script-id-display"></span></p>
+        
+        <div style="background: #eef; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            <strong>Descripción (IA):</strong><br>
+            <span id="ai-description-text">Aquí iría la explicación generada por el LLM sobre qué hace este script específicamente.</span>
+        </div>
+
+        <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer;">
+            Ver Bloques de Código
+        </button>
+    </div>
+
+    <div id="view-code" style="display: none; margin-top: 15px;">
+        <hr>
+        <pre id="script_blocks" class="blocks"></pre>
+        
+        <button onclick="hideCodeView()" class="button" style="background-color: #666; color: white; margin-top: 10px;">
+            Ocultar Código
+        </button>
+    </div>
+
+</div>
 
   
   
@@ -72,7 +104,7 @@
     ' position="-0 0 -3"></a-entity-->
     <!-- Resto de tu escena -->
     <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
-        extra: 1.5; base_thick: 2; split: pivot; fmaxarea: area; fheight: Blocks;
+        extra: 2; base_thick: 2; split: pivot; fmaxarea: area; fheight: Blocks;
         data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
 
 
@@ -209,6 +241,175 @@
       padding: 10px; 
     }
   </style>
+
+  <script>
+    // --- DATOS DEL PROYECTO ---
+    // (Asegúrate de que esta línea esté al principio o aquí mismo)
+    // var projectData = {{ babia_dict|safe }}; // Ya la tienes arriba, no hace falta repetirla si es global
+
+    // Referencias al DOM
+    const views = {
+        district: document.getElementById('view-district'),
+        description: document.getElementById('view-description'),
+        code: document.getElementById('view-code')
+    };
+    
+    const ui = {
+        title: document.getElementById('panel-title'),
+        subtitle: document.getElementById('panel-subtitle'),
+        districtName: document.getElementById('district-name-display'),
+        scriptList: document.getElementById('district-scripts-list'),
+        scriptId: document.getElementById('script-id-display'),
+        codeBlock: document.getElementById('script_blocks')
+    };
+
+    let currentRawCode = ""; 
+
+    function hideAllViews() {
+        views.district.style.display = 'none';
+        views.description.style.display = 'none';
+        views.code.style.display = 'none';
+    }
+
+    window.showCodeView = function() {
+        views.code.style.display = 'block';
+        if (currentRawCode) {
+            ui.codeBlock.innerHTML = ""; 
+            ui.codeBlock.innerText = currentRawCode; 
+        }
+        scratchblocks.renderMatching('#script_blocks', { style: 'scratch3', scale: 0.7 });
+    };
+
+    window.hideCodeView = function() {
+        views.code.style.display = 'none';
+    };
+
+    // --- LISTENER SUPER ROBUSTO ---
+    document.querySelector('a-scene').addEventListener('click', function (evt) {
+        
+        let intersection = evt.detail.intersectedEl;
+        if (!intersection) return;
+
+        // Buscamos qué es lo que hemos clicado comparando IDs con nuestro JSON
+        let context = findContextByElementID(intersection);
+
+        if (context) {
+            if (context.type === 'district') {
+                // Limpiamos el bloque de código para evitar confusiones futuras
+                ui.codeBlock.innerText = "";
+                currentRawCode = "";
+                showDistrictView(context.data);
+            } 
+            else if (context.type === 'tower') {
+                // Es una torre
+                handleTowerData(context.data, context.parent);
+            }
+        } else {
+            // Si no encontramos nada por ID, intentamos el fallback antiguo (por si acaso)
+            // pero solo si es la primera vez o estamos seguros
+            console.log("No se identificó el objeto por ID. Elemento clicado:", intersection);
+        }
+    });
+
+    // Función "Sabueso": Busca el ID del elemento 3D en nuestros datos
+    function findContextByElementID(element) {
+        let el = element;
+        let depth = 0;
+        
+        // Subimos hasta 7 niveles por si el clic fue en un hijo del objeto
+        while (el && depth < 7) { 
+            let checkId = el.id;
+            
+            if (checkId) {
+                // Normalizamos IDs (Babia a veces cambia espacios por guiones bajos)
+                let variants = [
+                    checkId,
+                    checkId.replace(/_/g, ' '),
+                    checkId.replace(/ /g, '_')
+                ];
+
+                // Buscamos en todos los distritos
+                for (let district of projectData.children) {
+                    
+                    // 1. ¿Es un Distrito?
+                    if (variants.includes(district.id)) {
+                        return { type: 'district', data: district };
+                    }
+                    
+                    // 2. ¿Es una Torre dentro de este distrito?
+                    for (let script of district.children) {
+                        if (variants.includes(script.id)) {
+                            return { type: 'tower', data: script, parent: district };
+                        }
+                    }
+                }
+            }
+            el = el.parentNode;
+            depth++;
+        }
+        return null; // No encontramos nada conocido
+    }
+
+    function showDistrictView(districtData) {
+        hideAllViews();
+        
+        ui.title.innerText = "Distrito (Sprite)";
+        ui.subtitle.innerText = "Vista general del objeto";
+        ui.districtName.innerText = districtData.id;
+        ui.scriptList.innerHTML = "";
+        
+        if (districtData.children && districtData.children.length > 0) {
+            districtData.children.forEach(script => {
+                let li = document.createElement('li');
+                li.innerText = script.id + " (" + script.Blocks + " bloques)";
+                li.style.cursor = "pointer";
+                li.style.color = "#3a85fc";
+                li.style.textDecoration = "underline";
+                li.style.marginBottom = "5px";
+                li.onclick = function() {
+                    handleTowerData(script, districtData);
+                };
+                ui.scriptList.appendChild(li);
+            });
+        } else {
+            ui.scriptList.innerHTML = "<li>Este Sprite no tiene scripts.</li>";
+        }
+        views.district.style.display = 'block';
+    }
+
+    // Nueva función simplificada que recibe los datos directamente
+    function handleTowerData(scriptData, parentDistrict) {
+        hideAllViews();
+        
+        // Guardamos el código
+        currentRawCode = scriptData.script_blocks;
+        ui.codeBlock.innerText = currentRawCode; // Preparamos el hidden div
+
+        // Actualizamos UI
+        ui.title.innerText = "Script Seleccionado";
+        ui.subtitle.innerText = "Torre de código";
+        ui.scriptId.innerText = scriptData.id;
+        
+        // Botón volver
+        let descContainer = document.getElementById('view-description');
+        let oldBtn = document.getElementById('btn-back-district');
+        if(oldBtn) oldBtn.remove();
+
+        let backBtn = document.createElement('button');
+        backBtn.id = 'btn-back-district';
+        backBtn.className = 'button';
+        backBtn.innerText = "⬅ Volver al Sprite " + parentDistrict.id;
+        backBtn.style.background = "#ddd";
+        backBtn.style.color = "#333";
+        backBtn.style.width = "100%";
+        backBtn.style.marginBottom = "10px";
+        backBtn.onclick = function() { showDistrictView(parentDistrict); };
+        
+        descContainer.insertBefore(backBtn, descContainer.firstChild);
+
+        views.description.style.display = 'block';
+    }
+  </script>
 
 </body>
 
