@@ -44,10 +44,38 @@
     </div>
 
     <div id="view-district" style="display: none;">
-        <p>Has seleccionado el Sprite (Distrito):</p>
-        <h3 id="district-name-display" style="color: #3a85fc;">NombreSprite</h3>
-        <p><strong>Scripts (Torres) contenidos:</strong></p>
-        <ul id="district-scripts-list" style="padding-left: 20px;">
+        <p>Has seleccionado el Sprite:</p>
+        <h3 id="district-name-display" style="color: #3a85fc; border-left: 4px solid #3a85fc; padding-left: 10px;">NombreSprite</h3>
+        
+        <div id="ai-tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="openTab('tab-verbose', this)">Detallada</button>
+                <button class="tab-btn" onclick="openTab('tab-schematic', this)">Esquema</button>
+                <button class="tab-btn" onclick="openTab('tab-diagram', this)">Diagrama</button>
+            </div>
+
+            <div id="tab-verbose" class="tab-content active">
+                <strong>Descripción completa:</strong>
+                <p id="ia-verbose-placeholder" style="color: #666; font-style: italic;">
+                    Explicación verbosa.
+                </p>
+            </div>
+
+            <div id="tab-schematic" class="tab-content">
+                <p>Resumen esquemático del distrito/sprite:</p>
+                </ul>
+            </div>
+
+            <div id="tab-diagram" class="tab-content">
+                <div id="ia-diagram-placeholder" style="text-align: center; padding: 20px; background: #f9f9f9; border: 1px dashed #ccc; margin-top: 10px;">
+                    <p>Napkin IA</p>
+                    </div>
+            </div>
+        </div>
+        <hr style="margin: 20px 0; border: 1px solid #eee;">
+
+        <p><strong>Torres de Código (Scripts):</strong></p>
+        <ul id="district-scripts-list" style="padding-left: 20px; overflow-y: auto; max-height: 200px;">
             </ul>
     </div>
 
@@ -239,6 +267,39 @@
       border: 1px solid black;
       padding: 10px; 
     }
+
+    /* --- Estilos para las pestañas de la IA --- */
+    .tabs-header { 
+        display: flex; 
+        border-bottom: 2px solid #ccc; 
+        margin-top: 15px; 
+    }
+    .tab-btn { 
+        flex: 1; 
+        background: none; 
+        border: none; 
+        padding: 10px 5px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        color: #888; 
+        border-bottom: 3px solid transparent; 
+        transition: 0.3s;
+        font-size: 0.9em;
+    }
+    .tab-btn:hover { background: #f0f0f0; color: #333; }
+    .tab-btn.active { color: #3a85fc; border-bottom-color: #3a85fc; }
+
+    .tab-content { 
+        display: none; 
+        background: #fff; 
+        padding: 15px; 
+        border: 1px solid #ddd; 
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        font-size: 0.95em;
+        line-height: 1.5;
+    }
+    .tab-content.active { display: block; }
   </style>
 
   <script>
@@ -408,6 +469,22 @@
 
         views.description.style.display = 'block';
     }
+
+      // --- CONTROL DE PESTAÑAS IA ---
+    function openTab(tabId, btnElement) {
+        // 1. Ocultar todos los contenidos
+        let contents = document.querySelectorAll('.tab-content');
+        contents.forEach(c => c.classList.remove('active'));
+        
+        // 2. Quitar la clase 'active' de todos los botones
+        let btns = document.querySelectorAll('.tab-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        
+        // 3. Activar el contenido y el botón clicado
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
   </script>
 
 </body>
