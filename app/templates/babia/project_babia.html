@@ -49,7 +49,6 @@
         <p><strong>Scripts (Torres) contenidos:</strong></p>
         <ul id="district-scripts-list" style="padding-left: 20px;">
             </ul>
-        <p style="font-size: 0.8em; color: #888;">Haz clic en una torre para ver detalles.</p>
     </div>
 
     <div id="view-description" style="display: none;">
@@ -57,8 +56,8 @@
         <p><strong>ID:</strong> <span id="script-id-display"></span></p>
         
         <div style="background: #eef; padding: 10px; border-radius: 5px; margin: 10px 0;">
-            <strong>Descripción (IA):</strong><br>
-            <span id="ai-description-text">Aquí iría la explicación generada por el LLM sobre qué hace este script específicamente.</span>
+            <strong>Descripción:</strong><br>
+            <span id="ai-description-text">Aquí va la explicación del LLM.</span>
         </div>
 
         <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer;">
@@ -398,7 +397,7 @@
         let backBtn = document.createElement('button');
         backBtn.id = 'btn-back-district';
         backBtn.className = 'button';
-        backBtn.innerText = "⬅ Volver al Sprite " + parentDistrict.id;
+        backBtn.innerText = "Volver al Sprite " + parentDistrict.id;
         backBtn.style.background = "#ddd";
         backBtn.style.color = "#333";
         backBtn.style.width = "100%";
