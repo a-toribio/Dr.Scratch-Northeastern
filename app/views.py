@@ -62,9 +62,6 @@ from app.hairball3.block_sprite_usage import Block_Sprite_Usage
 import logging
 import coloredlogs
 
-import re
-from collections import defaultdict # Ayuda a crear los grupos fácilmente
-
 
 # Celery imports
 from .tasks import init_batch_dispatcher
@@ -1772,85 +1769,6 @@ def get_analysis_d(request, skill_points=None):
 ###################################
 
 
-def structure_project_into_districts(project_data, colors):
-    """
-    Toma los datos del proyecto y agrupa los Sprites en Distritos basándose en su nombre.
-    Estructura resultante: Ciudad -> Distritos -> Calles (Sprites) -> Edificios (Scripts)
-    """
-    
-    # Estructura base de la ciudad
-    city_data = {
-        "id": "ScratchCity",
-        "children": []
-    }
-
-    # Diccionario temporal para agrupar: {'NombreDistrito': [lista_de_sprites]}
-    districts_map = defaultdict(list)
-
-    # 1. CLASIFICACIÓN
-    for sprite_key, sprite_scripts in project_data.items():
-        
-        # --- Heurística de Nombres ---
-        # 1. Detectamos si es el Escenario/Fondo
-        if sprite_key.lower() in ["stage", "escenario", "background", "backdrop"]:
-            district_name = "World"
-        else:
-            # 2. Limpieza: Reemplazamos guiones bajos y números por espacios
-            # "Button_Play" -> "Button Play", "Ship1" -> "Ship"
-            clean_name = re.sub(r'[_\-\d]', ' ', sprite_key).strip()
-            
-            # 3. Tomamos la primera palabra como nombre del distrito
-            # "Button Play" -> "Button"
-            first_word = clean_name.split(' ')[0]
-            
-            # Si el nombre es muy corto o vacío (ej: sprite se llamaba "1"), lo mandamos a "Misc"
-            if len(first_word) < 3:
-                district_name = "Misc"
-            else:
-                district_name = first_word.capitalize()
-
-        # --- Creación del objeto Sprite (Calle) ---
-        # (Esta es la lógica que ya tenías para crear el sprite)
-        sprite_node = {
-            "id": sprite_key,
-            "children": [],
-            # Puedes añadir aquí métricas agregadas del sprite si las tienes
-        }
-
-        # Procesamos los Scripts (Edificios) dentro del Sprite
-        for script_key, script_value in sprite_scripts.items():
-            
-            # Gestión de colores (según tu código original)
-            if sprite_key not in colors:
-                colors[sprite_key] = {}
-            if script_key not in colors[sprite_key]:
-                colors[sprite_key][script_key] = "#ffffff" # Color por defecto
-
-            script_data = {
-                "id": script_key,
-                "area": 2, # Tamaño base del edificio
-                "Blocks": len(script_value.split('\n')), # Altura
-                "building_color": colors[sprite_key][script_key],
-                "script_blocks": script_value
-            }
-            sprite_node["children"].append(script_data)
-
-        # Añadimos el sprite procesado a su distrito correspondiente
-        districts_map[district_name].append(sprite_node)
-
-    # 2. CONSTRUCCIÓN DE LA RESPUESTA FINAL
-    for district_name, sprites_list in districts_map.items():
-        # Creamos el nodo del Distrito
-        district_node = {
-            "id": district_name,
-            "children": sprites_list, # Aquí van los sprites que agrupamos antes
-            "district_type": "Area"   # Metadato útil para Babia
-        }
-        city_data["children"].append(district_node)
-
-    return city_data
-
-
 def get_babia(request):
     # TEMP DATA
     numbers = ''
@@ -1881,97 +1799,78 @@ def get_babia(request):
     return render(request, 'babia/project_babia.html', context)
 
 
-import random
+import random, math
 
 def format_babia_dict(d: dict):
     global_babia = d['babia']
     deadCode_babia = d['deadCode']['scripts']
 
-    # 1. Configuración de colores
+    # 1. Configuración de colores (Lógica original)
     colors = {}
     for sprite_name, script_dicc in deadCode_babia.items():
         colors[sprite_name] = {}
         for script_key, script_value in script_dicc.items():
-            colors[sprite_name][script_key] = '#3a85fc'
+            colors[sprite_name][script_key] = '#3a85fc' # Azul para código muerto
 
-    # Estructura base
+    # Estructura base de la ciudad
     data = {
         "id": "ScratchCity",
         "children": [],
-        "area": 0 # Inicializamos área total
+        "area": 0 
     }
 
-    districts_map = defaultdict(list)
-    
-    # Diccionario para acumular el área de cada distrito temporalmente
-    districts_area = defaultdict(int)
+    total_city_area = 0
 
-    # 2. PROCESADO DE SPRITES Y SCRIPTS
+    # 2. ITERAMOS SOBRE LOS SPRITES
+    # Cada Sprite se convertirá en un Distrito (Barrio) cuadrado
     for sprite_key, sprite_item in global_babia['sprites'].items():
         
-        # --- Clasificación de Distritos ---
-        if sprite_key.lower() in ["stage", "escenario", "background", "backdrop"]:
-            district_name = "World"
-        else:
-            clean_name = re.sub(r'[_\-\d]', ' ', sprite_key).strip()
-            first_word = clean_name.split(' ')[0]
-            if len(first_word) < 3:
-                district_name = "Misc"
-            else:
-                district_name = first_word.capitalize()
+        script_children = []
 
-        # --- Nodo Sprite (Calle) ---
-        sprite_area = 0 # Área acumulada de este sprite
-        sprite_children = []
-
-        # Procesamos Scripts (Edificios)
+        # 3. Procesamos los Scripts (Torres dentro del Sprite)
         for script_key, script_value in sprite_item.items():
+            
             # Gestión de color
             if sprite_key not in colors:
                 colors[sprite_key] = {}
             if script_key not in colors[sprite_key]:
                 colors[sprite_key][script_key] = "#ffffff"
 
-            # Definimos el área del edificio (puedes ajustar este valor)
-            base_area = 10 
+            # --- CÁLCULO DE ALTURA Y ÁREA DE LA TORRE ---
+            lines_of_code = len(script_value.split('\n'))
+            
+            # Usamos logaritmo para que las torres no sean excesivamente gordas
+            # Multiplicamos por 100 para que ocupen espacio visual dentro de la plataforma
+            tower_area = math.log(lines_of_code + 1) * 100 
             
             script_data = {
                 "id": script_key,
-                "area": base_area, 
-                "Blocks": len(script_value.split('\n')),
+                "area": tower_area, 
+                "Blocks": lines_of_code, # Esto define la altura visual
                 "building_color": colors[sprite_key][script_key],
                 "script_blocks": script_value
             }
-            sprite_children.append(script_data)
-            sprite_area += base_area
+            
+            script_children.append(script_data)
 
-        # Si el sprite no tiene scripts, le damos un área mínima para que exista visualmente
-        if sprite_area == 0:
-            sprite_area = 5
+        # 4. ESTRATEGIA DE LOTEO CUADRADO (El truco final)
+        # Asignamos un área FIJA a todos los Sprites.
+        # Al ser todas iguales (400), el algoritmo Pivot las ordenará como una cuadrícula.
+        sprite_fixed_area = 400 
 
-        sprite_node = {
-            "id": sprite_key,
-            "children": sprite_children,
-            "area": sprite_area # ¡Importante!
+        # Creamos el nodo Distrito
+        sprite_district = {
+            "id": sprite_key,    # Nombre del Sprite (se verá flotando)
+            "children": script_children,
+            "area": sprite_fixed_area, 
+            "district_type": "Sprite"
         }
 
-        # Guardamos en los diccionarios temporales
-        districts_map[district_name].append(sprite_node)
-        districts_area[district_name] += sprite_area
+        # Lo añadimos a la ciudad
+        data["children"].append(sprite_district)
+        total_city_area += sprite_fixed_area
 
-    # 3. CONSTRUCCIÓN FINAL CON ÁREAS
-    total_city_area = 0
-    for district_name, sprites_list in districts_map.items():
-        
-        district_node = {
-            "id": "District_" + district_name,
-            "children": sprites_list,
-            "area": districts_area[district_name], # ¡Importante!
-            "district_type": "Area"
-        }
-        data["children"].append(district_node)
-        total_city_area += districts_area[district_name]
-
+    # Guardamos el área total
     data["area"] = total_city_area
 
     return data
