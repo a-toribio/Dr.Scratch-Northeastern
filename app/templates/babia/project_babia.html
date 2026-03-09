@@ -416,8 +416,25 @@
         ui.title.innerText = "Distrito (Sprite)";
         ui.subtitle.innerText = "Vista general del objeto";
         ui.districtName.innerText = districtData.id;
-        ui.scriptList.innerHTML = "";
         
+        // --- NUEVO: Rellenar las pestañas de la IA con los datos del backend ---
+        // Insertamos el párrafo detallado
+        let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
+        if(verbosePlaceholder) {
+            verbosePlaceholder.innerText = districtData.ai_verbose || "Explicación no disponible.";
+            verbosePlaceholder.style.color = "#333";
+            verbosePlaceholder.style.fontStyle = "normal";
+        }
+
+        // Insertamos el esquema HTML
+        let schematicTab = document.getElementById('tab-schematic');
+        if(schematicTab) {
+            schematicTab.innerHTML = "<p><strong>Resumen esquemático de responsabilidades:</strong></p>" + 
+                                     (districtData.ai_schematic || "<p>Esquema no disponible.</p>");
+        }
+        // -----------------------------------------------------------------------
+
+        ui.scriptList.innerHTML = "";
         if (districtData.children && districtData.children.length > 0) {
             districtData.children.forEach(script => {
                 let li = document.createElement('li');
