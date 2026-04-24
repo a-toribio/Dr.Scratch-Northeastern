@@ -1939,6 +1939,8 @@ def format_babia_dict(d: dict):
         
         script_children = []
 
+        script_counter = 1
+
         # 3. Procesamos los Scripts (Torres dentro del Sprite)
         for script_key, script_value in sprite_item.items():
             
@@ -1953,10 +1955,14 @@ def format_babia_dict(d: dict):
             
             # Usamos logaritmo para que las torres no sean excesivamente gordas
             # Multiplicamos por 100 para que ocupen espacio visual dentro de la plataforma
-            tower_area = math.log(lines_of_code + 1) * 100 
+            tower_area = math.log(lines_of_code + 1) * 100
+
+            unique_id = f"{sprite_key}_{script_key}_{script_counter}".lower().replace(" ", "_")
+            script_counter += 1
             
             script_data = {
-                "id": script_key.lower(),
+                "id": unique_id,
+                "nombre_corto": script_key.lower(),
                 "area": tower_area, 
                 "Blocks": lines_of_code, # Esto define la altura visual
                 "building_color": colors[sprite_key][script_key],
@@ -1966,8 +1972,6 @@ def format_babia_dict(d: dict):
             script_children.append(script_data)
 
         # 4. ESTRATEGIA DE LOTEO CUADRADO (El truco final)
-        # Asignamos un área FIJA a todos los Sprites.
-        # Al ser todas iguales (400), el algoritmo Pivot las ordenará como una cuadrícula.
         sprite_fixed_area = 400
 
         safe_key = sprite_key.lower().replace(' ', '_')

@@ -438,7 +438,7 @@
         if (districtData.children && districtData.children.length > 0) {
             districtData.children.forEach(script => {
                 let li = document.createElement('li');
-                li.innerText = script.id + " (" + script.Blocks + " bloques)";
+                li.innerText = (script.nombre_corto || script.id) + " (" + script.Blocks + " bloques)";
                 li.style.cursor = "pointer";
                 li.style.color = "#3a85fc";
                 li.style.textDecoration = "underline";
@@ -465,7 +465,7 @@
         // Actualizamos UI
         ui.title.innerText = "Script Seleccionado";
         ui.subtitle.innerText = "Torre de código";
-        ui.scriptId.innerText = scriptData.id;
+        ui.scriptId.innerText = scriptData.nombre_corto || scriptData.id;
         
         // Botón volver
         let descContainer = document.getElementById('view-description');
