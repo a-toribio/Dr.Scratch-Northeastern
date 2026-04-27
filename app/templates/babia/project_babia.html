@@ -23,6 +23,16 @@
   <script>
 
     var projectData = {{ babia_dict|safe }};
+    var projectFlat = {{ babia_flat|safe }};
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var treeEl = document.getElementById('tree');
+      if (treeEl) {
+        treeEl.setAttribute('babia-treebuilder', 'data', JSON.stringify(projectFlat));
+        treeEl.setAttribute('babia-treebuilder', 'field', 'path');
+        treeEl.setAttribute('babia-treebuilder', 'split_by', '/');
+      }
+    });
 
     window.onload = function() {
       scratchblocks.renderMatching('pre.blocks', {
@@ -81,14 +91,30 @@
 
     <div id="view-description" style="display: none;">
         <h3>Información del Script</h3>
-        <p><strong>ID:</strong> <span id="script-id-display"></span></p>
+        <p><strong>ID:</strong> <span id="script-id-display" style="color: #3a85fc; font-weight: bold;"></span></p>
         
-        <div style="background: #eef; padding: 10px; border-radius: 5px; margin: 10px 0;">
-            <strong>Descripción:</strong><br>
-            <span id="ai-description-text">Aquí va la explicación del LLM.</span>
+        <div class="tabs-header">
+            <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detallada</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Esquema</button>
         </div>
 
-        <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer;">
+        <div id="tab-tower-verbose" class="tab-content tower-tab-content active">
+            <strong>Descripción completa:</strong>
+            <p id="script-ai-verbose-placeholder" style="color: #333; margin-top: 10px;">
+                Cargando análisis...
+            </p>
+        </div>
+
+        <div id="tab-tower-schematic" class="tab-content tower-tab-content">
+            <p><strong>Resumen de lógica:</strong></p>
+            <div id="script-ai-schematic-placeholder">
+                Sin esquema disponible.
+            </div>
+        </div>
+
+        <hr style="margin: 20px 0; border: 1px solid #eee;">
+
+        <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer; border: none; border-radius: 5px;">
             Ver Bloques de Código
         </button>
     </div>
@@ -104,9 +130,48 @@
 
 </div>
 
+  <script>
+    AFRAME.registerComponent('pintor-ciudad', {
+        init: function() {
+            this.painted = false;
+        },
+        tick: function() {
+            let cajas = this.el.querySelectorAll('a-box');
+            
+            if (cajas.length > 0 && !this.painted) {
+                cajas.forEach(caja => {
+                    let idCaja = caja.id || "";
+                    // 1. SI ES UNA TORRE (Contiene 'script')
+                    if (idCaja.endsWith('ScratchCity')) {
+                      let colorBase = "#98e690";
+                      caja.setAttribute('color', colorBase);
+                      caja.setAttribute('babiaxrfirstcolor', colorBase);
+                    } 
+                    else if (idCaja.includes('script')) {
+                        projectFlat.forEach(item => {
+                          let scriptId = item.id; // Usamos el ID directo del script
+                          if (idCaja.includes(scriptId)) {
+                              caja.setAttribute('color', item.building_color);
+                              caja.setAttribute('babiaxrfirstcolor', item.building_color);
+                          }
+                        });
+                    }
+                    // 2. SI ES UNA BASE / ISLA (Contiene 'boat-' pero no 'script')
+                    else if (idCaja.startsWith('boat-')) {
+                        let colorVerde = "#adeba6"; // El color de base que tenías
+                        caja.setAttribute('color', colorVerde);
+                        caja.setAttribute('babiaxrfirstcolor', colorVerde);
+                    }
+                });
+                
+                // Si hemos encontrado cajas, marcamos como pintado para ahorrar procesador
+                this.painted = true;
+            }
+        }
+    });
+  </script>
   
-  
-  <a-scene id="scene" background="color:  #c9f4f9" stl-exporter>
+  <a-scene id="scene" background="color: #c9f4f9" stl-exporter>
     <!-- 
     <a-assets> 
       <div id="panelHtml" style="display: none;"> 
@@ -129,10 +194,26 @@
     streets_width: 1; border: 1;
     absolute: true; quarter_elevation: .1;
     ' position="-0 0 -3"></a-entity-->
-    <!-- Resto de tu escena -->
-    <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
-        extra: 2; base_thick: 2; split: pivot; fmaxarea: area; fheight: Blocks;
-        data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
+    <!-- Pipeline: treebuilder lee los datos del script tag, boats los visualiza -->
+    <a-entity id="tree" babia-treebuilder="field: path; split_by: /"></a-entity>
+
+    <a-entity id="boats-city"
+        pintor-ciudad
+        babia-boats="from: tree;
+            height: Blocks;
+            area: area;
+            base_color: #98e690;
+            zone_elevation: 0.2;
+            border: 0.5;
+            separation: 0.8;
+            extra: 1.2;
+            maxBuildingHeight: 10;
+            minBuildingHeight: 0.2;
+            autoscale: true;
+            autoscaleSizeX: 14;
+            autoscaleSizeZ: 14"
+        position="0 0 -3">
+    </a-entity>
 
 
     <!-- Controls and Camera -->
@@ -320,7 +401,8 @@
         districtName: document.getElementById('district-name-display'),
         scriptList: document.getElementById('district-scripts-list'),
         scriptId: document.getElementById('script-id-display'),
-        codeBlock: document.getElementById('script_blocks')
+        codeBlock: document.getElementById('script_blocks'),
+        aiDescription: document.getElementById('ai-description-text')
     };
 
     let currentRawCode = ""; 
@@ -350,56 +432,110 @@
         let intersection = evt.detail.intersectedEl;
         if (!intersection) return;
 
-        // Buscamos qué es lo que hemos clicado comparando IDs con nuestro JSON
+        // LOG DE DIAGNÓSTICO: muestra el árbol de IDs del elemento clicado
+        let debugEl = intersection;
+        let debugDepth = 0;
+        console.log("=== CLICK DETECTADO ===");
+        while (debugEl && debugDepth < 8) {
+            console.log("Nivel " + debugDepth + " | id:", debugEl.id, "| tagName:", debugEl.tagName, "| attrs:", debugEl.hasAttribute ? debugEl.getAttributeNames && debugEl.getAttributeNames().join(',') : '');
+            debugEl = debugEl.parentNode;
+            debugDepth++;
+        }
+        console.log("Keys en districtIndex:", Object.keys(districtIndex));
+        console.log("Keys en scriptIndex (primeros 5):", Object.keys(scriptIndex).slice(0,5));
+
         let context = findContextByElementID(intersection);
 
         if (context) {
             if (context.type === 'district') {
-                // Limpiamos el bloque de código para evitar confusiones futuras
                 ui.codeBlock.innerText = "";
                 currentRawCode = "";
                 showDistrictView(context.data);
             } 
             else if (context.type === 'tower') {
-                // Es una torre
                 handleTowerData(context.data, context.parent);
             }
         } else {
-            // Si no encontramos nada por ID, intentamos el fallback antiguo (por si acaso)
-            // pero solo si es la primera vez o estamos seguros
-            console.log("No se identificó el objeto por ID. Elemento clicado:", intersection);
+            console.log("No se identificó el objeto. Elemento clicado:", intersection.id, intersection.tagName);
         }
     });
 
-    // Función "Sabueso": Busca el ID del elemento 3D en nuestros datos
+    // Índices construidos desde projectFlat
+    // Claves: nombre corto Y uid completo ("ScratchCity/spriteName") -> distrito
+    var districtIndex = {};
+    var scriptIndex = {};
+
+    (function buildIndexes() {
+        projectFlat.forEach(function(item) {
+            // path = "ScratchCity/SpriteName/script_id"
+            var parts = item.path.split('/');
+            var rootName   = parts[0];  // "ScratchCity"
+            var spriteName = parts[1];  // "flappy_bird"
+            var scriptId   = parts[2];  // "flappy_bird_hat_1"
+
+            if (!districtIndex[spriteName]) {
+                var districtObj = {
+                    id: spriteName,
+                    ai_verbose:   item.ai_verbose,
+                    ai_schematic: item.ai_schematic,
+                    children: []
+                };
+                // Indexar por nombre corto Y por uid completo que usa treebuilder
+                districtIndex[spriteName] = districtObj;
+                districtIndex[rootName + '/' + spriteName] = districtObj;
+            }
+            districtIndex[spriteName].children.push(item);
+            scriptIndex[scriptId] = { data: item, spriteName: spriteName };
+        });
+    })();
+
+    // Función "Sabueso" DEFINITIVA y sin errores
     function findContextByElementID(element) {
         let el = element;
         let depth = 0;
         
-        // Subimos hasta 7 niveles por si el clic fue en un hijo del objeto
         while (el && depth < 7) { 
-            let checkId = el.id;
+            let checkId = el.id; 
             
-            if (checkId) {
-                // Normalizamos IDs (Babia a veces cambia espacios por guiones bajos)
+            // Nos aseguramos de que checkId y projectData existen
+            if (checkId && typeof projectData !== 'undefined' && projectData.children) {
+                
+                // 1. Quitamos el prefijo 'boat-' si lo tiene
+                let cleanId = checkId.replace(/^boat-/, '');
+                
+                // 2. Troceamos la ruta por las barras
+                // Ej: ["ScratchCity", "Flappy_Bird", "flappy_bird_script_1_1", "ScratchCity"]
+                let parts = cleanId.split('/');
+                
+                // La última parte suele ser el distrito cuando clicamos en el suelo
+                let baseId = parts[parts.length - 1]; 
+
                 let variants = [
                     checkId,
-                    checkId.replace(/_/g, ' '),
-                    checkId.replace(/ /g, '_')
+                    cleanId,
+                    baseId,
+                    baseId.replace(/_/g, ' '),
+                    baseId.replace(/ /g, '_')
                 ];
 
-                // Buscamos en todos los distritos
+                // 3. Buscamos en tu árbol de datos real
                 for (let district of projectData.children) {
                     
-                    // 1. ¿Es un Distrito?
-                    if (variants.includes(district.id)) {
+                    // A. ¿Hemos clicado en la base del distrito?
+                    if (variants.includes(district.id) || variants.includes(district.id.replace(/ /g, '_'))) {
                         return { type: 'district', data: district };
                     }
                     
-                    // 2. ¿Es una Torre dentro de este distrito?
-                    for (let script of district.children) {
-                        if (variants.includes(script.id)) {
-                            return { type: 'tower', data: script, parent: district };
+                    // B. ¿Hemos clicado en una torre?
+                    if (district.children) {
+                        for (let script of district.children) {
+                            let scriptIdSafe = script.id.replace(/ /g, '_');
+                            
+                            // Comprobamos si el ID de la torre es exactamente una de las "piezas" de la ruta
+                            // Así cazamos "flappy_bird_script_1_1" sin importar dónde lo ponga BabiaXR
+                            if (parts.includes(script.id) || parts.includes(scriptIdSafe)) {
+                                return { type: 'tower', data: script, parent: district }; // Aquí le pasamos el parent correcto
+                            }
                         }
                     }
                 }
@@ -407,7 +543,7 @@
             el = el.parentNode;
             depth++;
         }
-        return null; // No encontramos nada conocido
+        return null; 
     }
 
     function showDistrictView(districtData) {
@@ -454,20 +590,53 @@
         views.district.style.display = 'block';
     }
 
+    window.openTowerTab = function(tabId, btnElement) {
+        // Ocultar contenidos de torre
+        let contents = document.querySelectorAll('.tower-tab-content');
+        contents.forEach(c => c.classList.remove('active'));
+        
+        // Desactivar botones de torre
+        let btns = document.querySelectorAll('.script-tab-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        
+        // Activar el seleccionado
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    };
+
     // Nueva función simplificada que recibe los datos directamente
     function handleTowerData(scriptData, parentDistrict) {
+        console.log("Mostrando torre:", scriptData.id, "del distrito:", parentDistrict.id);
         hideAllViews();
         
-        // Guardamos el código
-        currentRawCode = scriptData.script_blocks;
-        ui.codeBlock.innerText = currentRawCode; // Preparamos el hidden div
+        // 1. Buscamos el objeto completo de la torre en tus datos aplanados (donde viene la info de la IA)
+        let fullData = projectFlat.find(item => item.id === scriptData.id) || scriptData;
 
-        // Actualizamos UI
+        // 2. Preparamos el código de bloques
+        currentRawCode = fullData.script_blocks || "";
+        ui.codeBlock.innerText = currentRawCode; 
+
+        // 3. Actualizamos los títulos
         ui.title.innerText = "Script Seleccionado";
         ui.subtitle.innerText = "Torre de código";
-        ui.scriptId.innerText = scriptData.nombre_corto || scriptData.id;
+        ui.scriptId.innerText = fullData.nombre_corto || fullData.id;
         
-        // Botón volver
+        // --- 4. AQUÍ SE COGE LA EXPLICACIÓN Y SE BORRA EL TEXTO DETERMINADO ---
+        let verbosePlaceholder = document.getElementById('script-ai-verbose-placeholder');
+        let schematicPlaceholder = document.getElementById('script-ai-schematic-placeholder');
+
+        if (verbosePlaceholder) {
+            // Coge "ai_verbose" de tu JSON. Si no existe, pone el texto de la derecha.
+            verbosePlaceholder.innerHTML = fullData.ai_verbose || "Análisis detallado no disponible para esta torre.";
+        }
+        
+        if (schematicPlaceholder) {
+            // Coge "ai_schematic" de tu JSON.
+            schematicPlaceholder.innerHTML = fullData.ai_schematic || "<p>Esquema no disponible para esta torre.</p>";
+        }
+        // ------------------------------------------------------------------------
+
+        // 5. Botón de volver al distrito
         let descContainer = document.getElementById('view-description');
         let oldBtn = document.getElementById('btn-back-district');
         if(oldBtn) oldBtn.remove();
@@ -487,7 +656,7 @@
         views.description.style.display = 'block';
     }
 
-      // --- CONTROL DE PESTAÑAS IA ---
+    // --- CONTROL DE PESTAÑAS IA ---
     function openTab(tabId, btnElement) {
         // 1. Ocultar todos los contenidos
         let contents = document.querySelectorAll('.tab-content');

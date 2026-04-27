@@ -179,6 +179,10 @@ FLAPPY_PERSPECTIVES = {
     "all_in_one!": {
         "verbose": "Opera como el subsistema de introducción y presentación inicial al cargar el proyecto. Coordina las animaciones y secuencias de aparición que preceden a la interacción del usuario. Su lógica establece una transición pulida entre la inicialización del sistema y el ecosistema del juego, preparando el terreno visual antes de ceder el control al menú principal.",
         "schematic": "<ul><li><b>Función principal:</b> Presentación introductoria e inicialización de secuencias de apertura.</li><li><b>Controla:</b> Animaciones temporizadas y carga visual previa al menú de juego.</li><li><b>Interactúa con:</b> El controlador global del Stage.</li><li><b>Variables / Eventos:</b> Gestiona temporizadores internos para sus secuencias estéticas.</li><li><b>Contribuye a:</b> El pulido profesional y la inmersión visual desde el primer segundo.</li></ul>"
+    },
+    "orange_script_3_3": {
+        "verbose": "Explicación detallada del edificio",
+        "schematic": "Explicación esquemática del edificio"
     }
 }
 
@@ -1904,8 +1908,12 @@ def get_babia(request):
     babia_dict = format_babia_dict(d[0])
     safe_json = json.dumps(babia_dict).replace("'", "\\u0027")
 
+    babia_flat = format_babia_flat(d[0])
+    safe_flat = json.dumps(babia_flat).replace("'", "\\u0027")
+
     context = {
-        'babia_dict': safe_json
+        'babia_dict': safe_json,
+        'babia_flat': safe_flat,
     }
 
     return render(request, 'babia/project_babia.html', context)
@@ -1999,6 +2007,63 @@ def format_babia_dict(d: dict):
     data["area"] = total_city_area
 
     return data
+
+def format_babia_flat(d: dict) -> list:
+    """
+    Genera una lista plana de objetos con campo 'path' para usar con
+    babia-treebuilder + babia-boats.
+    Formato: {"path": "ScratchCity/SpriteName/script_id", "area": x, "Blocks": y, ...}
+    """
+    import math
+
+    global_babia = d['babia']
+    deadCode_babia = d['deadCode']['scripts']
+
+    # Construimos set de (sprite_normalizado, script_normalizado) con código muerto
+    # Normalizamos a minúsculas sin espacios para comparación robusta
+    def norm(s):
+        return s.lower().replace(' ', '_').replace('/', '_').strip()
+
+    dead_set = set()
+    for sprite_name, script_dicc in deadCode_babia.items():
+        for script_key in script_dicc:
+            dead_set.add((norm(sprite_name), norm(script_key)))
+
+    print(f"[DEBUG babia_flat] dead_set: {dead_set}")
+
+    flat_list = []
+    for sprite_key, sprite_item in global_babia['sprites'].items():
+        safe_sprite = sprite_key.replace('/', '_').replace(' ', '_')
+        script_counter = 1
+        for script_key, script_value in sprite_item.items():
+            is_dead = (norm(sprite_key), norm(script_key)) in dead_set
+            building_color = '#3a85fc' if is_dead else '#ffffff'
+
+            lines_of_code = len([l for l in script_value.split('\n') if l.strip()])
+            tower_area = math.log(lines_of_code + 1) * 100
+            safe_script = script_key.replace('/', '_').replace(' ', '_')
+            unique_id = f"{safe_sprite}_{safe_script}_{script_counter}".lower()
+            script_counter += 1
+
+            ai_data = FLAPPY_PERSPECTIVES.get(unique_id, {
+                "verbose": "Análisis detallado no disponible para este Sprite.",
+                "schematic": "<ul><li>Sin datos esquemáticos.</li></ul>"
+            })
+
+            flat_list.append({
+                "path": f"ScratchCity/{safe_sprite}/{unique_id}",
+                "id": unique_id,
+                "nombre_corto": script_key.lower(),
+                "area": tower_area,
+                "Blocks": lines_of_code,
+                "building_color": building_color,
+                "script_blocks": script_value,
+                "ai_verbose": ai_data["verbose"],
+                "ai_schematic": ai_data["schematic"],
+            })
+
+    return flat_list
+
 
 def serve_document_pdf(request, filename):
     # Evitamos rutas peligrosas

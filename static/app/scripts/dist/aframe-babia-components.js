@@ -9297,19 +9297,19 @@ AFRAME.registerComponent('babia-boats', {
         if (typeof elements[i][self.data.color] === 'number') {
           figure.color = heatMapColorforValue(elements[i][self.data.color], self.babiaMetadata['color_max'], self.babiaMetadata['color_min']);
         } else if (typeof elements[i][self.data.color] === 'string') {
-          // Categoric color
-          if (elements[i][self.data.color] in self.categoricColorMaps) {
-            figure.color = self.categoricColorMaps[elements[i][self.data.color]];
-          } else {
-            self.categoricColorMaps[elements[i][self.data.color]] = colorsArray[self.categoricColorIndex];
-            figure.color = colorsArray[self.categoricColorIndex];
-            self.categoricColorIndex = self.categoricColorIndex + 1;
-            if (self.categoricColorIndex >= colorsArray.length) {
-              self.categoricColorIndex = 0;
+            // Categoric color
+            if (elements[i][self.data.color] in self.categoricColorMaps) {
+              figure.color = self.categoricColorMaps[elements[i][self.data.color]];
+            } else {
+              self.categoricColorMaps[elements[i][self.data.color]] = colorsArray[self.categoricColorIndex];
+              figure.color = colorsArray[self.categoricColorIndex];
+              self.categoricColorIndex = self.categoricColorIndex + 1;
+              if (self.categoricColorIndex >= colorsArray.length) {
+                self.categoricColorIndex = 0;
+              }
             }
           }
         }
-      }
       figure.rawData = elements[i];
 
       // If transparency by a field on buildings
