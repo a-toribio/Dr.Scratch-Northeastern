@@ -79,119 +79,20 @@ logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
 supported_languages = ['es', 'ca', 'gl', 'pt']
 
-# --- DATOS ESTRUCTURALES DEL TFG PARA FLAPPY BIRD (LISTADO COMPLETO) ---
-FLAPPY_PERSPECTIVES = {
-    # DISTRITO DE JUEGO
-    "flappy_bird": {
-        "verbose": "El edificio Flappy Bird opera como el avatar principal dentro del Distrito de Juego. Gestiona la representación visual del jugador y ejecuta continuamente la simulación física de gravedad y la mecánica de impulso. Se coordina de forma ininterrumpida con variables de estado para evaluar colisiones letales contra las tuberías o el suelo. Además, reacciona a los eventos de inicio para sincronizar sus coordenadas y su apariencia con las personalizaciones previamente elegidas por el usuario.",
-        "schematic": "<ul><li><b>Función principal:</b> Avatar del jugador y motor de físicas de gravedad e impulso.</li><li><b>Controla:</b> Posición vertical, animaciones de vuelo y aplicación de disfraces personalizados.</li><li><b>Interactúa con:</b> Tuberías y suelo para la detección de colisiones críticas.</li><li><b>Variables / Eventos:</b> Responde a eventos de salto y evalúa variables de estado de fin de partida.</li><li><b>Contribuye a:</b> La mecánica central de supervivencia y respuesta ágil de la aplicación.</li></ul>"
-    },
-    "firstpipe": {
-        "verbose": "Este edificio actúa como el principal generador de desafío físico en el entorno. Implementa una mecánica de desplazamiento lateral continuo de derecha a izquierda para simular el avance ininterrumpido del jugador. Al rebasar el límite izquierdo de la pantalla, aplica una lógica de teletransporte cíclico hacia el origen, adoptando alturas aleatorias para garantizar un recorrido impredecible. Su superación exitosa incrementa la puntuación, mientras que su contacto interrumpe la ejecución del sistema.",
-        "schematic": "<ul><li><b>Función principal:</b> Obstáculo dinámico infinito y definidor del nivel de dificultad.</li><li><b>Controla:</b> Su propia velocidad de desplazamiento lateral y altura de aparición.</li><li><b>Interactúa con:</b> Flappy Bird (colisión letal) y variables de puntuación.</li><li><b>Variables / Eventos:</b> Actualiza marcadores al ser rebasado y detiene su bucle en caso de GameOver.</li><li><b>Contribuye a:</b> El mantenimiento de un bucle de juego infinito, impredecible y desafiante.</li></ul>"
-    },
-    "secondpipe": { 
-        "verbose": "Este edificio actúa como el principal generador de desafío físico en el entorno. Implementa una mecánica de desplazamiento lateral continuo de derecha a izquierda para simular el avance ininterrumpido del jugador. Al rebasar el límite izquierdo de la pantalla, aplica una lógica de teletransporte cíclico hacia el origen, adoptando alturas aleatorias para garantizar un recorrido impredecible. Su superación exitosa incrementa la puntuación, mientras que su contacto interrumpe la ejecución del sistema.",
-        "schematic": "<ul><li><b>Función principal:</b> Obstáculo dinámico infinito y definidor del nivel de dificultad.</li><li><b>Controla:</b> Su propia velocidad de desplazamiento lateral y altura de aparición.</li><li><b>Interactúa con:</b> Flappy Bird (colisión letal) y variables de puntuación.</li><li><b>Variables / Eventos:</b> Actualiza marcadores al ser rebasado y detiene su bucle en caso de GameOver.</li><li><b>Contribuye a:</b> El mantenimiento de un bucle de juego infinito, impredecible y desafiante.</li></ul>"
-    },
-    "ground": {
-        "verbose": "Los edificios que conforman el suelo actúan simultáneamente como soporte estético inmersivo y como el límite inferior de colisión fatal. Ejecutan una rutina de desplazamiento horizontal perpetuo que, coordinada en pareja, disimula los cortes visuales para generar la ilusión óptica de avance constante. A nivel lógico, evalúan colisiones directas con el personaje para emitir la señal global de derrota, deteniendo automáticamente su animación para reforzar el impacto del choque.",
-        "schematic": "<ul><li><b>Función principal:</b> Límite físico inferior y soporte visual del entorno de juego.</li><li><b>Controla:</b> Bucle de animación de desplazamiento lateral infinito.</li><li><b>Interactúa con:</b> Flappy Bird (estableciendo una barrera física mortal).</li><li><b>Variables / Eventos:</b> Detiene su rutina de movimiento instantáneamente al recibir el evento GameOver.</li><li><b>Contribuye a:</b> La ilusión óptica de velocidad y al establecimiento de reglas de seguridad espacial.</li></ul>"
-    },
-    "ground2": { 
-        "verbose": "Los edificios que conforman el suelo actúan simultáneamente como soporte estético inmersivo y como el límite inferior de colisión fatal. Ejecutan una rutina de desplazamiento horizontal perpetuo que, coordinada en pareja, disimula los cortes visuales para generar la ilusión óptica de avance constante. A nivel lógico, evalúan colisiones directas con el personaje para emitir la señal global de derrota, deteniendo automáticamente su animación para reforzar el impacto del choque.",
-        "schematic": "<ul><li><b>Función principal:</b> Límite físico inferior y soporte visual del entorno de juego.</li><li><b>Controla:</b> Bucle de animación de desplazamiento lateral infinito.</li><li><b>Interactúa con:</b> Flappy Bird (estableciendo una barrera física mortal).</li><li><b>Variables / Eventos:</b> Detiene su rutina de movimiento instantáneamente al recibir el evento GameOver.</li><li><b>Contribuye a:</b> La ilusión óptica de velocidad y al establecimiento de reglas de seguridad espacial.</li></ul>"
-    },
 
-    # DISTRITO DE CONTROL DEL JUEGO
-    "stage": {
-        "verbose": "El Stage asume la jerarquía suprema como controlador global de estados y orquestador del entorno. Su responsabilidad recae en la inicialización pristina de las variables numéricas y físicas, evitando arrastrar fallos de ejecuciones anteriores. Define las transiciones de escena y establece el telón de fondo general, encargándose simultáneamente de la reproducción de las pistas musicales principales para cohesionar la atmósfera del proyecto.",
-        "schematic": "<ul><li><b>Función principal:</b> Controlador jerárquico de estados del programa e inicializador global.</li><li><b>Controla:</b> Reinicio de variables críticas y gestión de fondos de escenario.</li><li><b>Interactúa con:</b> Todos los distritos mediante la emisión de señales globales de inicio o pausa.</li><li><b>Variables / Eventos:</b> Establece el estado GameOver y gestiona los sonidos ambientales.</li><li><b>Contribuye a:</b> La estabilidad estructural, evitando colapsos lógicos entre partidas consecutivas.</li></ul>"
-    },
-    "game_over": {
-        "verbose": "Este módulo actúa como el gestor de crisis gráfica tras el fracaso del jugador. Permanece oculto durante el desarrollo de la sesión activa y toma el control de la capa frontal al interceptar la señal de colisión letal. Su aparición detiene el flujo cognitivo de la partida, brindando una confirmación visual inequívoca de la derrota y cediendo el relevo a los módulos de reinicio para que el usuario gestione su próximo intento.",
-        "schematic": "<ul><li><b>Función principal:</b> Confirmación visual y manejo del estado de derrota del sistema.</li><li><b>Controla:</b> Transiciones gráficas y opacidad de su propio cartel anunciador.</li><li><b>Interactúa con:</b> Señales del sistema que verifican la destrucción o choque del avatar.</li><li><b>Variables / Eventos:</b> Se activa exclusivamente bajo la señal global de fin de partida.</li><li><b>Contribuye a:</b> Cerrar el ciclo de retroalimentación visual de forma profesional y clara.</li></ul>"
-    },
-    "restart_button": { 
-        "verbose": "El edificio de reinicio opera como el puente mecánico entre el final de una partida y el inicio de la siguiente. Suprimiendo la necesidad de recurrir al menú principal, captura las intenciones táctiles del jugador tras una derrota y dispara las señales de restablecimiento. Su ejecución garantiza que el escenario quede limpio y las tuberías retornen a sus puntos de origen para comenzar un ciclo completamente nuevo.",
-        "schematic": "<ul><li><b>Función principal:</b> Activador manual de los protocolos de reseteo del entorno.</li><li><b>Controla:</b> Interfaz de reinicio rápido tras registrar una derrota.</li><li><b>Interactúa con:</b> El jugador y el Stage global.</li><li><b>Variables / Eventos:</b> Emite las señales fundacionales que limpian las variables residuales.</li><li><b>Contribuye a:</b> Retener al jugador permitiendo ciclos de reintento ágiles y directos.</li></ul>"
-    },
+def load_flappy_perspectives():
+    """Carga las explicaciones de la IA desde el archivo JSON externo."""
+    # Busca el archivo en la misma carpeta donde está este views.py
+    file_path = os.path.join(os.path.dirname(__file__), 'perspectives.json')
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Error cargando explicaciones.json: {e}")
+        return {}
 
-    # DISTRITO DE PUNTUACIÓN
-    "text_engine": {
-        "verbose": "El Text Engine asume el monopolio de la renderización tipográfica del progreso del usuario. Descartando los monitores nativos del sistema base, emplea un sofisticado sistema de clonación dinámica para posicionar y alinear disfraces numéricos directamente sobre el lienzo gráfico. Garantiza la precisión visual borrando instancias caducas y redibujando los dígitos en milisegundos cada vez que detecta la señal de incremento de puntuación.",
-        "schematic": "<ul><li><b>Función principal:</b> Motor de renderizado visual dedicado exclusivamente a la puntuación.</li><li><b>Controla:</b> Posicionamiento espaciado y clonación de dígitos numéricos en la interfaz.</li><li><b>Interactúa con:</b> Las variables globales de progreso del usuario.</li><li><b>Variables / Eventos:</b> Reacciona a señales de anotación para refrescar los gráficos instantáneamente.</li><li><b>Contribuye a:</b> Proporcionar una experiencia visual pulida y libre de interfaces estándar.</li></ul>"
-    },
+FLAPPY_PERSPECTIVES = load_flappy_perspectives()
 
-    # DISTRITO DEL MENÚ PRINCIPAL
-    "playbutton": {
-        "verbose": "Este componente conforma el núcleo interactivo del menú. Actúa como una compuerta lógica que mantiene inactivos los motores físicos del juego hasta que el jugador toma la decisión consciente de iniciar. Su interacción desencadena una secuencia de desactivación gráfica masiva en las capas frontales y emite la señal de inicio, cediendo el control absoluto del escenario a las mecánicas de vuelo.",
-        "schematic": "<ul><li><b>Función principal:</b> Disparador principal de la secuencia de inicialización de la partida.</li><li><b>Controla:</b> El final del estado de espera y el comienzo de la acción física.</li><li><b>Interactúa con:</b> Puntero del jugador y los controladores de todos los distritos.</li><li><b>Variables / Eventos:</b> Envía el evento central de inicio de juego y se auto-oculta.</li><li><b>Contribuye a:</b> Otorgar agencia al usuario sobre el momento exacto de empezar a jugar.</li></ul>"
-    },
-    "flappy_bird_title_page": { 
-        "verbose": "La pantalla de título y sus elementos decorativos asumen la responsabilidad de la presentación estética inicial. Su función es establecer la identidad del proyecto e imponer una barrera de inactividad segura antes de la partida. Desaparecen de forma orquestada al detectar la activación del juego, garantizando que el entorno físico quede libre de obstrucciones visuales y la cámara se centre en el protagonista.",
-        "schematic": "<ul><li><b>Función principal:</b> Presentación visual estática y mantenimiento del estado inactivo inicial.</li><li><b>Controla:</b> Identidad gráfica, logotipos y bloqueo de la vista del mapa base.</li><li><b>Interactúa con:</b> Los botones de inicio y el controlador global del Stage.</li><li><b>Variables / Eventos:</b> Se oculta permanentemente al recibir la confirmación de comienzo de juego.</li><li><b>Contribuye a:</b> La inmersión temprana y separación profesional entre menús y jugabilidad.</li></ul>"
-    },
-    "flappy_bird_sign": { 
-        "verbose": "La pantalla de título y sus elementos decorativos asumen la responsabilidad de la presentación estética inicial. Su función es establecer la identidad del proyecto e imponer una barrera de inactividad segura antes de la partida. Desaparecen de forma orquestada al detectar la activación del juego, garantizando que el entorno físico quede libre de obstrucciones visuales y la cámara se centre en el protagonista.",
-        "schematic": "<ul><li><b>Función principal:</b> Presentación visual estática y mantenimiento del estado inactivo inicial.</li><li><b>Controla:</b> Identidad gráfica, logotipos y bloqueo de la vista del mapa base.</li><li><b>Interactúa con:</b> Los botones de inicio y el controlador global del Stage.</li><li><b>Variables / Eventos:</b> Se oculta permanentemente al recibir la confirmación de comienzo de juego.</li><li><b>Contribuye a:</b> La inmersión temprana y separación profesional entre menús y jugabilidad.</li></ul>"
-    },
-    "title": { 
-        "verbose": "La pantalla de título y sus elementos decorativos asumen la responsabilidad de la presentación estética inicial. Su función es establecer la identidad del proyecto e imponer una barrera de inactividad segura antes de la partida. Desaparecen de forma orquestada al detectar la activación del juego, garantizando que el entorno físico quede libre de obstrucciones visuales y la cámara se centre en el protagonista.",
-        "schematic": "<ul><li><b>Función principal:</b> Presentación visual estática y mantenimiento del estado inactivo inicial.</li><li><b>Controla:</b> Identidad gráfica, logotipos y bloqueo de la vista del mapa base.</li><li><b>Interactúa con:</b> Los botones de inicio y el controlador global del Stage.</li><li><b>Variables / Eventos:</b> Se oculta permanentemente al recibir la confirmación de comienzo de juego.</li><li><b>Contribuye a:</b> La inmersión temprana y separación profesional entre menús y jugabilidad.</li></ul>"
-    },
-
-    # DISTRITO DE PERSONALIZACIÓN
-    "change_color_button": {
-        "verbose": "Actúa como el nodo de entrada hacia el módulo de personalización. Ofrece al usuario una ruta de escape lógica desde el menú principal hacia una interfaz secundaria dedicada exclusivamente al diseño del avatar. Su función principal radica en reordenar la visibilidad de los sprites de la interfaz, ocultando temporalmente las opciones de juego para superponer las paletas de colores disponibles.",
-        "schematic": "<ul><li><b>Función principal:</b> Gestor de navegación hacia el menú secundario de personalización.</li><li><b>Controla:</b> Transiciones de visibilidad entre la pantalla de título y el gestor de colores.</li><li><b>Interactúa con:</b> Entradas táctiles del usuario y gestores de interfaz de usuario.</li><li><b>Variables / Eventos:</b> Emite señales para desplegar el entorno estético y ocultar el resto.</li><li><b>Contribuye a:</b> Expandir las opciones de retención fuera del flujo de juego estricto.</li></ul>"
-    },
-    "color_picker": { 
-        "verbose": "Este módulo gestiona la interacción directa con las preferencias estéticas del usuario. Compuesto por múltiples muestras de color, escucha de forma activa las interacciones para actualizar una variable global de apariencia. Asegura que el estado visual elegido se consolide en la memoria del programa, permitiendo que el sprite del personaje principal acuda a esa variable para renderizar el disfraz correcto durante toda la partida.",
-        "schematic": "<ul><li><b>Función principal:</b> Procesamiento y almacenamiento de preferencias estéticas del avatar.</li><li><b>Controla:</b> Asignación de valores a la variable global dedicada al diseño del personaje.</li><li><b>Interactúa con:</b> El jugador y la lógica de disfraces del edificio principal.</li><li><b>Variables / Eventos:</b> Reescribe el estado visual garantizando persistencia en el cambio.</li><li><b>Contribuye a:</b> Fomentar la conexión del usuario con su avatar mediante la apropiación estética.</li></ul>"
-    },
-    "flappybirdguy": { "verbose": "Este módulo gestiona la interacción directa con las preferencias estéticas del usuario. Compuesto por múltiples muestras de color, escucha de forma activa las interacciones para actualizar una variable global de apariencia. Asegura que el estado visual elegido se consolide en la memoria del programa, permitiendo que el sprite del personaje principal acuda a esa variable para renderizar el disfraz correcto durante toda la partida.", "schematic": "<ul><li><b>Función principal:</b> Procesamiento y almacenamiento de preferencias estéticas del avatar.</li><li><b>Controla:</b> Asignación de valores a la variable global dedicada al diseño del personaje.</li><li><b>Interactúa con:</b> El jugador y la lógica de disfraces del edificio principal.</li><li><b>Variables / Eventos:</b> Reescribe el estado visual garantizando persistencia en el cambio.</li><li><b>Contribuye a:</b> Fomentar la conexión del usuario con su avatar mediante la apropiación estética.</li></ul>" },
-    
-    "back_button": {
-        "verbose": "Opera como el conducto de retorno estructurado dentro de la navegación de menús. Su interacción permite al usuario abandonar las interfaces secundarias, como las reglas o la personalización, para restaurar el estado del menú principal. Garantiza una experiencia fluida deshaciendo los cambios de visibilidad previos sin alterar el estado latente del motor de juego.",
-        "schematic": "<ul><li><b>Función principal:</b> Navegación de retorno hacia la interfaz gráfica principal.</li><li><b>Controla:</b> Ocultación de los menús secundarios y reaparición de los elementos de bienvenida.</li><li><b>Interactúa con:</b> Entradas táctiles del usuario y gestores gráficos de la interfaz.</li><li><b>Variables / Eventos:</b> Emite señales de restauración visual al ser pulsado.</li><li><b>Contribuye a:</b> Mantener una jerarquía de navegación de usuario clara y bidireccional.</li></ul>"
-    },
-
-    # DISTRITO DE REGLAS
-    "rules_button": {
-        "verbose": "Funciona como el acceso directo al módulo de asistencia técnica e información. Permite interrumpir la pasividad del menú principal para desplegar paneles informativos que instruyen al usuario sobre las físicas, controles y condiciones de derrota. Garantiza que la experiencia sea accesible, manteniendo el control del flujo para poder retornar a la pantalla de título una vez concluida la lectura.",
-        "schematic": "<ul><li><b>Función principal:</b> Proveer acceso bajo demanda al manual integrado de la aplicación.</li><li><b>Controla:</b> Interrupción y superposición gráfica de las instrucciones sobre la interfaz.</li><li><b>Interactúa con:</b> Sprites de paneles de texto informativos y el usuario.</li><li><b>Variables / Eventos:</b> Envía señales de invocación y ocultación del módulo de reglas.</li><li><b>Contribuye a:</b> La accesibilidad del proyecto asegurando reglas claras antes de jugar.</li></ul>"
-    },
-    "rules": {
-        "verbose": "Actúa como la capa gráfica informativa central. Cuando es convocado, se sitúa en la máxima prioridad de renderizado frontal, oscureciendo o superponiéndose al resto de la interfaz para forzar la concentración del usuario en las instrucciones mecánicas. Se retira ordenadamente del escenario en el instante en el que el jugador decide regresar, asegurando un entorno limpio para la navegación.",
-        "schematic": "<ul><li><b>Función principal:</b> Contenedor estático y visual del texto de instrucciones del sistema.</li><li><b>Controla:</b> Su propia visibilidad y superposición frontal frente al resto de sprites.</li><li><b>Interactúa con:</b> El botón de reglas y el botón de retroceso.</li><li><b>Variables / Eventos:</b> Responde binariamente a las señales de mostrar u ocultar la información.</li><li><b>Contribuye a:</b> Clarificar la curva de aprendizaje y mecánicas de interacción al usuario final.</li></ul>"
-    },
-    "back_button2": {
-        "verbose": "Opera como el conducto de retorno estructurado dentro de la navegación de menús. Su interacción permite al usuario abandonar las interfaces secundarias, como las reglas o la personalización, para restaurar el estado del menú principal. Garantiza una experiencia fluida deshaciendo los cambios de visibilidad previos sin alterar el estado latente del motor de juego.",
-        "schematic": "<ul><li><b>Función principal:</b> Navegación de retorno hacia la interfaz gráfica principal.</li><li><b>Controla:</b> Ocultación de los menús secundarios y reaparición de los elementos de bienvenida.</li><li><b>Interactúa con:</b> Entradas táctiles del usuario y gestores gráficos de la interfaz.</li><li><b>Variables / Eventos:</b> Emite señales de restauración visual al ser pulsado.</li><li><b>Contribuye a:</b> Mantener una jerarquía de navegación de usuario clara y bidireccional.</li></ul>"
-    },
-
-    # DISTRITO DE INTRODUCCIÓN / SISTEMA
-    "101508108-flappy_bird.1910x1000": {
-        "verbose": "Opera como el subsistema de introducción y presentación inicial al cargar el proyecto. Coordina las animaciones y secuencias de aparición que preceden a la interacción del usuario. Su lógica establece una transición pulida entre la inicialización del sistema y el ecosistema del juego, preparando el terreno visual antes de ceder el control al menú principal.",
-        "schematic": "<ul><li><b>Función principal:</b> Presentación introductoria e inicialización de secuencias de apertura.</li><li><b>Controla:</b> Animaciones temporizadas y carga visual previa al menú de juego.</li><li><b>Interactúa con:</b> El controlador global del Stage.</li><li><b>Variables / Eventos:</b> Gestiona temporizadores internos para sus secuencias estéticas.</li><li><b>Contribuye a:</b> El pulido profesional y la inmersión visual desde el primer segundo.</li></ul>"
-    },
-    "all_in_one!": {
-        "verbose": "Opera como el subsistema de introducción y presentación inicial al cargar el proyecto. Coordina las animaciones y secuencias de aparición que preceden a la interacción del usuario. Su lógica establece una transición pulida entre la inicialización del sistema y el ecosistema del juego, preparando el terreno visual antes de ceder el control al menú principal.",
-        "schematic": "<ul><li><b>Función principal:</b> Presentación introductoria e inicialización de secuencias de apertura.</li><li><b>Controla:</b> Animaciones temporizadas y carga visual previa al menú de juego.</li><li><b>Interactúa con:</b> El controlador global del Stage.</li><li><b>Variables / Eventos:</b> Gestiona temporizadores internos para sus secuencias estéticas.</li><li><b>Contribuye a:</b> El pulido profesional y la inmersión visual desde el primer segundo.</li></ul>"
-    },
-    "orange_script_3_3": {
-        "verbose": "Explicación detallada del edificio",
-        "schematic": "Explicación esquemática del edificio"
-    }
-}
-
-FLAPPY_PERSPECTIVES["yellow"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
-FLAPPY_PERSPECTIVES["green"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
-FLAPPY_PERSPECTIVES["blue"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
-FLAPPY_PERSPECTIVES["pink"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
-FLAPPY_PERSPECTIVES["red"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
-FLAPPY_PERSPECTIVES["orange"] = FLAPPY_PERSPECTIVES["flappybirdguy"]
 
 def main(request):
 
