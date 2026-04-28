@@ -1930,8 +1930,6 @@ def format_babia_flat(d: dict) -> list:
         for script_key in script_dicc:
             dead_set.add((norm(sprite_name), norm(script_key)))
 
-    print(f"[DEBUG babia_flat] dead_set: {dead_set}")
-
     flat_list = []
     for sprite_key, sprite_item in global_babia['sprites'].items():
         safe_sprite = sprite_key.replace('/', '_').replace(' ', '_')

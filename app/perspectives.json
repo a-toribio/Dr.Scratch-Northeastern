@@ -90,8 +90,696 @@
         "verbose": "Opera como el subsistema de introducción y presentación inicial al cargar el proyecto. Coordina las animaciones y secuencias de aparición que preceden a la interacción del usuario. Su lógica establece una transición pulida entre la inicialización del sistema y el ecosistema del juego, preparando el terreno visual antes de ceder el control al menú principal.",
         "schematic": "<ul><li><b>Función principal:</b> Presentación introductoria e inicialización de secuencias de apertura.</li><li><b>Controla:</b> Animaciones temporizadas y carga visual previa al menú de juego.</li><li><b>Interactúa con:</b> El controlador global del Stage.</li><li><b>Variables / Eventos:</b> Gestiona temporizadores internos para sus secuencias estéticas.</li><li><b>Contribuye a:</b> El pulido profesional y la inmersión visual desde el primer segundo.</li></ul>"
     },
+    "flappy_bird_script_1_1": {
+        "verbose": " Controla el salto del pájaro al pulsar la tecla de espacio. Fija la variable de impulso a 10, reproduce un sonido de aleteo y espera la condición de liberación de tecla. Afecta directamente la física de  modificando su velocidad vertical para contrarrestar la gravedad. Su ejecución es reactiva a un evento de teclado.",
+        "schematic": "<ul><li><b>Función principal:</b> Control de salto del pájaro (tecla espacio).</li><li><b>Controla:</b> Variable de impulso (velocidad vertical) y sonido.</li><li><b>Interactúa con:</b> Gravedad global.</li><li><b>Limitaciones:</b> No gestiona colisiones ni variables de fin de juego.</li></ul>"
+    },
+    "flappy_bird_script_2_2": {
+        "verbose": " Inicializa el estado activo del pájaro al comenzar la partida. Recibe la señal broadcast, posiciona al personaje  en las coordenadas iniciales (-150, 0), fija las variables a cero y lo prepara para iniciar el bucle de juego perpetuo.",
+        "schematic": "<ul><li><b>Función principal:</b> Inicialización de posición y estado activo al empezar partida.</li><li><b>Controla:</b> Coordenadas iniciales (x: -150, y: 0) y reseteo de variables de puntuación.</li><li><b>Interactúa con:</b> Motor de texto (enviando señal para dibujar Score).</li></ul>"
+    },
+    "flappy_bird_script_3_3": {
+        "verbose": "Se encarga de reiniciar las variables principales al recibir la señal de inicio de juego. Reinicia el contador de puntuación (Score) a 0 garantizando que las partidas previas no afecten la actual, sincronizándose posteriormente con el motor de texto.",
+        "schematic": "<ul><li><b>Función principal:</b> Reseteo del marcador de puntuación.</li><li><b>Controla:</b> Variable global [Score].</li><li><b>Contribuye a:</b> Un estado limpio entre sesiones consecutivas de juego.</li></ul>"
+    },
+    "flappy_bird_script_4_4": {
+        "verbose": " Posiciona inicialmente el pájaro al ejecutar el programa. Responde al evento de la bandera verde situando a  en (-150,0) sin fijar tamaño ni entrar en un bucle interactivo. Su ejecución es puntual y no condicionada, preparando el escenario para el menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Posicionamiento base al cargar el proyecto.</li><li><b>Controla:</b> Posición inicial XY antes del comienzo del juego real.</li><li><b>Contribuye a:</b> Estado preparatorio sin lógica activa de juego.</li></ul>"
+    },
+    "flappy_bird_script_5_5": {
+        "verbose": "Reinicia y estabiliza la apariencia estética del pájaro, limpiando cualquier efecto gráfico residual como el cambio de color para devolverle su disfraz predeterminado al comienzo del juego.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de efectos visuales aplicados.</li><li><b>Controla:</b> Efecto de bloque 'color'.</li></ul>"
+    },
+    "flappy_bird_script_6_6": {
+        "verbose": " Entra en un bucle perpetuo desde el inicio del programa (bandera verde) sin ejecutar bloques visibles dentro. Mantiene un hilo activo constante en  actuando posiblemente como sincronización implícita o reserva de procesamiento.",
+        "schematic": "<ul><li><b>Función principal:</b> Hilo de ejecución persistente desde el inicio.</li><li><b>Controla:</b> Bucle infinito inactivo.</li><li><b>Interactúa con:</b> Inicialización global.</li></ul>"
+    },
+    "flappy_bird_script_7_7": {
+        "verbose": " Muestra el pájaro al recibir la señal broadcast de comienzo de partida. Activa la visibilidad de  en pantalla. Coordina con los scripts que lo ocultan durante el Game Over o el inicio, siendo una ejecución condicionada al inicio de juego.",
+        "schematic": "<ul><li><b>Función principal:</b> Habilitar visibilidad del avatar.</li><li><b>Controla:</b> Propiedad gráfica de aparición ('show').</li><li><b>Variables / Eventos:</b> Responde a [GameStart].</li></ul>"
+    },
+    "flappy_bird_script_8_8": {
+        "verbose": " Oculta y escala el pájaro al iniciar el programa. Fija su tamaño reducido al 20%, lo sitúa apartado del área central y lo esconde para limpiar la pantalla de menú de inicio.",
+        "schematic": "<ul><li><b>Función principal:</b> Gestión gráfica pre-partida.</li><li><b>Controla:</b> Tamaño y ocultación inicial.</li><li><b>Contribuye a:</b> La fluidez y presentación limpia del título.</li></ul>"
+    },
+    "flappy_bird_script_9_9": {
+        "verbose": " Controla el salto del pájaro al pulsar la flecha arriba, duplicando la funcionalidad de la barra espaciadora. Fija el impulso vertical a 10 y reproduce sonido, contrarrestando la gravedad global de la simulación.",
+        "schematic": "<ul><li><b>Función principal:</b> Mecánica de salto secundaria (flecha arriba).</li><li><b>Controla:</b> Física de impulso vertical.</li><li><b>Interactúa con:</b> Físicas generales de caída del pájaro.</li></ul>"
+    },
+    "flappy_bird_script_10_10": {
+        "verbose": " Entra en un bucle perpetuo al recibir una señal específica de inicio de partida. Mantiene un hilo activo condicionado sin ejecutar bloques visibles en su interior. Funciona como reserva de procesamiento o sincronización implícita paralela a los otros motores.",
+        "schematic": "<ul><li><b>Función principal:</b> Bucle perpetuo en segundo plano.</li><li><b>Controla:</b> Hilo de sincronización inactiva.</li><li><b>Limitaciones:</b> No gestiona colisiones ni movimientos directamente.</li></ul>"
+    },
+    "flappy_bird_script_11_11": {
+        "verbose": "Cambia el disfraz del pájaro, actualizando su representación visual en la pantalla. Este código se encarga de acoplar el sprite con el diseño seleccionado en el menú de cambio de color.",
+        "schematic": "<ul><li><b>Función principal:</b> Actualización de apariencia visual.</li><li><b>Controla:</b> El bloque 'switch costume' del avatar.</li></ul>"
+    },
+    "flappy_bird_script_12_12": {
+        "verbose": "Alterna de manera continua entre los disfraces de animación del pájaro (alas arriba, alas abajo) para simular el aleteo natural durante su vuelo gravitacional.",
+        "schematic": "<ul><li><b>Función principal:</b> Animación de aleteo.</li><li><b>Controla:</b> Fluidez gráfica del sprite.</li></ul>"
+    },
+    "flappy_bird_script_13_13": {
+        "verbose": "Bloque aritmético secundario. Se utiliza típicamente en los cálculos del motor de físicas o del posicionamiento relativo para suavizar la caída del avatar tras alcanzar el punto máximo de su salto.",
+        "schematic": "<ul><li><b>Función principal:</b> Operación matemática.</li><li><b>Contribuye a:</b> Ecuaciones de aceleración en caída.</li></ul>"
+    },
+    "flappy_bird_script_14_14": {
+        "verbose": " Oculta y detiene por completo al pájaro tras chocar. Al interceptar la señal global de GameOver, detiene la ejecución de sus scripts secundarios y retira (hide) el sprite de la pantalla principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Desactivación terminal del avatar.</li><li><b>Controla:</b> Visibilidad gráfica ('hide') y suspensión de hilos ('stop other scripts').</li></ul>"
+    },
+    "flappy_bird_script_15_15": {
+        "verbose": " Gestiona el orden de las capas (eje Z) del pájaro desde el arranque. Al iniciar con la bandera verde, garantiza que el sprite se sitúe en la capa frontal ('front layer') para evitar ser opacado por las tuberías o los fondos.",
+        "schematic": "<ul><li><b>Función principal:</b> Ordenación visual prioritaria.</li><li><b>Controla:</b> Capa principal y constante del avatar (Front).</li></ul>"
+    },
+    "flappy_bird_script_16_16": {
+        "verbose": " Fija y estabiliza la orientación del pájaro al iniciar el juego activo. Asegura que el sprite apunte constantemente hacia la derecha (90 grados) y no se incline por errores de cálculo.",
+        "schematic": "<ul><li><b>Función principal:</b> Estabilización direccional.</li><li><b>Controla:</b> Bloque 'point in direction' a 90º.</li></ul>"
+    },
+    "secondpipe_script_1_1": {
+        "verbose": " Define el bloque personalizado 'random costume' para el segundo obstáculo (secondPipe). Borra efectos gráficos heredados y aplica condicionantes para asignarle un disfraz y altura aleatoria (entre upperHole, lowerHole, etc.).",
+        "schematic": "<ul><li><b>Función principal:</b> Selección aleatoria de obstáculos (secondPipe).</li><li><b>Controla:</b> Disfraz base y efectos del tubo.</li></ul>"
+    },
+    "secondpipe_script_2_2": {
+        "verbose": " Activa la lógica principal de desplazamiento del segundo tubo. Responde a GameStart fijando 'isGameOver' en false, ubica el tubo inicial en el margen derecho (x: 200) y desencadena su bucle de movimiento horizontal hacia el jugador.",
+        "schematic": "<ul><li><b>Función principal:</b> Generación y bucle de movimiento de la barrera.</li><li><b>Variables:</b> isGameOver, desplazamiento en el eje X.</li></ul>"
+    },
+    "secondpipe_script_3_3": {
+        "verbose": " Entra en un bucle perpetuo al recibir la transmisión en el segundo tubo. Mantiene la reserva de sincronización activa para que el programa detecte sus procesos en un hilo paralelo.",
+        "schematic": "<ul><li><b>Función principal:</b> Sincronización continua de procesos.</li></ul>"
+    },
+    "secondpipe_script_4_4": {
+        "verbose": " Duplica la estructura del bucle perpetuo condicionado en  (secondPipe) sin ejecutar bloques visibles para afianzar tiempos de lectura estables y sincronización del sprite.",
+        "schematic": "<ul><li><b>Función principal:</b> Reserva de memoria y procesamiento.</li></ul>"
+    },
+    "secondpipe_script_5_5": {
+        "verbose": "Actúa como un complemento estabilizador o cierre de un bucle infinito subyacente que retiene a la tubería en ejecución para que el recolector de basura no lo suspenda prematuramente.",
+        "schematic": "<ul><li><b>Función principal:</b> Estabilización de hilo lógico.</li></ul>"
+    },
+    "secondpipe_script_6_6": {
+        "verbose": " Se responsabiliza de ocultar completamente el segundo tubo al inicio técnico del programa (Bandera Verde). Limpia el entorno y espera pacientemente a que se presione Play.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación pre-juego.</li><li><b>Señal:</b> Bandera Verde.</li></ul>"
+    },
+    "secondpipe_script_7_7": {
+        "verbose": " Gestiona la profundidad de campo en el Game Over. Al colisionar, manda drásticamente el segundo tubo decenas de capas gráficas hacia atrás ('backward layers') para que jamás obstruya visualmente los carteles de puntuación.",
+        "schematic": "<ul><li><b>Función principal:</b> Reubicación dramática visual Z.</li><li><b>Controla:</b> Profundidad (go backward layers).</li></ul>"
+    },
+    "secondpipe_script_8_8": {
+        "verbose": " Habilita la visibilidad material del segundo tubo una vez que arranca oficialmente la contienda, permitiendo que aparezca en cámara en las coordenadas definidas.",
+        "schematic": "<ul><li><b>Función principal:</b> Aparición en pantalla.</li><li><b>Controla:</b> Bloque 'show'.</li></ul>"
+    },
+    "secondpipe_script_9_9": {
+        "verbose": "Esconde temporalmente el sprite para evitar el parpadeo molesto cuando el obstáculo es reiniciado (llevado de la izquierda al extremo derecho) simulando la creación de un nuevo nivel.",
+        "schematic": "<ul><li><b>Función principal:</b> Reset visual de tubería.</li></ul>"
+    },
+    "secondpipe_script_10_10": {
+        "verbose": "Detiene inmediatamente el bucle de desplazamiento horizontal del tubo. Sirve para congelar el escenario en el marco exacto donde ocurrió el choque fatal del pájaro.",
+        "schematic": "<ul><li><b>Función principal:</b> Parálisis ambiental en caso de colisión.</li></ul>"
+    },
+    "secondpipe_script_11_11": {
+        "verbose": "Apoya la orden  ocultando y parando los scripts terminales de la barrera 'secondPipe' cuando finaliza el ciclo del juego.",
+        "schematic": "<ul><li><b>Función principal:</b> Desactivación post-derrota.</li></ul>"
+    },
+    "firstpipe_script_1_1": {
+        "verbose": " Define el subsistema 'random costume' para el primer tubo (firstPipe). Reinicia sus efectos gráficos y sortea disfraces procedimentales para asegurar variedad en la altura a la que el jugador debe sortearlos.",
+        "schematic": "<ul><li><b>Función principal:</b> Generador visual procedimental (firstPipe).</li></ul>"
+    },
+    "firstpipe_script_2_2": {
+        "verbose": " Establece un bucle infinito que retiene el ciclo de vida condicionado en el primer tubo durante todo lo que dure la partida para sincronización de recursos.",
+        "schematic": "<ul><li><b>Función principal:</b> Bucle inactivo para sincronización de tiempos.</li></ul>"
+    },
+    "firstpipe_script_3_3": {
+        "verbose": " Inicia el desplazamiento primario del primer obstáculo. Fija las coordenadas originarias en el lado medio-derecho (0, -50), selecciona su apariencia aleatoria e invoca su bucle perpetuo horizontal.",
+        "schematic": "<ul><li><b>Función principal:</b> Activación e inicialización espacial.</li><li><b>Interactúa con:</b> Definidor 'random costume' y avance sobre eje X.</li></ul>"
+    },
+    "firstpipe_script_4_4": {
+        "verbose": " Levanta los bloqueos inicializando la variable 'isGameOver' en falso. Esto habilita que todo el flujo condicional asociado a la primera tubería arranque sin ser cortado.",
+        "schematic": "<ul><li><b>Función principal:</b> Permiso lógico (booleano).</li></ul>"
+    },
+    "firstpipe_script_5_5": {
+        "verbose": " Muestra físicamente el primer tubo en la interfaz al arrancar la jugabilidad. Coordina con las rutinas que ocultan al obstáculo en menús.",
+        "schematic": "<ul><li><b>Función principal:</b> Despliegue gráfico de FirstPipe.</li></ul>"
+    },
+    "firstpipe_script_6_6": {
+        "verbose": " Se encarga de esconder proactivamente la primera tubería al momento en que el usuario ejecuta (Bandera Verde) el proyecto de Scratch.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de pantalla del Menú Principal.</li></ul>"
+    },
+    "firstpipe_script_7_7": {
+        "verbose": " Un script complementario o duplicado que garantiza que la visibilidad de firstPipe y la actualización de su Capa Gráfica sean procesados de forma robusta al empezar.",
+        "schematic": "<ul><li><b>Función principal:</b> Aparición garantizada y ajuste de jerarquías.</li></ul>"
+    },
+    "firstpipe_script_8_8": {
+        "verbose": " Evita fallos gráficos enviando el primer tubo a lo más profundo del renderizado (backward n layers) al terminar la sesión, impidiendo que opaque al HUD y ventanas de texto final.",
+        "schematic": "<ul><li><b>Función principal:</b> Des-priorización de renderizado en GameOver.</li></ul>"
+    },
+    "firstpipe_script_9_9": {
+        "verbose": " Herramienta terminal que apaga todos los hilos de avance lateral paralelos del tubo cuando hay un accidente, inmovilizando completamente la escenografía.",
+        "schematic": "<ul><li><b>Función principal:</b> Congelación de mecánicas.</li></ul>"
+    },
+    "firstpipe_script_10_10": {
+        "verbose": " Escucha el evento global de derrota para matar el script activo de la primera tubería finalizando por completo la mecánica de obstáculos.",
+        "schematic": "<ul><li><b>Función principal:</b> Receptor global de paralización.</li></ul>"
+    },
+    "restart_button_script_1_1": {
+        "verbose": " Activa e invoca al Botón de Reinicio. Además corta en seco todos los recursos auditivos activos ('stop all sounds') para instaurar un efecto de pausa dramática antes de permitir reintentar.",
+        "schematic": "<ul><li><b>Función principal:</b> Gestor sensorial de colisión y botón reinicio.</li><li><b>Controla:</b> Limpieza acústica de la partida terminada.</li></ul>"
+    },
+    "restart_button_script_2_2": {
+        "verbose": " Fija las coordenadas neutrales (0,0) del botón de reseteo durante la carga del sistema y lo oculta hasta que sea estrictamente necesario tras una partida.",
+        "schematic": "<ul><li><b>Función principal:</b> Ubicación central inactiva post-carga.</li></ul>"
+    },
+    "restart_button_script_3_3": {
+        "verbose": " Intervención visual para el botón. Fuerza al botón de reinicio al 'Front Layer' absoluto para que los clics del mouse de los usuarios nunca sean interceptados accidentalmente por otros edificios visuales.",
+        "schematic": "<ul><li><b>Función principal:</b> Maximizar prioridad de UI táctil (Layer 0).</li></ul>"
+    },
+    "restart_button_script_4_4": {
+        "verbose": " Remueve del centro de la pantalla el botón cuando se acepta iniciar la partida, reposicionándolo ocultamente abajo (y: -96) para mantener el lienzo inmersivo completamente limpio.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de botones durante la jugabilidad.</li></ul>"
+    },
+    "restart_button_script_5_5": {
+        "verbose": " Escuchador de interacciones clave. Al clickearlo, inyecta las señales de reinicio fundacionales (GameStart) hacia el resto del código, resucitando de forma reactiva al pájaro, tubos y suelo.",
+        "schematic": "<ul><li><b>Función principal:</b> Enlazador y disparador del nuevo ciclo de partida.</li><li><b>Variables:</b> GameStart.</li></ul>"
+    },
+    "text_engine_script_1_1": {
+        "verbose": " Define el bloque del Motor de Texto 'Reset'. Restablece a su estado base (valor 0 o normal) todos los modificadores de embellecimiento de fuente (como grosor/bold, cursivas y márgenes).",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza sistemática del tipógrafo.</li></ul>"
+    },
+    "text_engine_script_2_2": {
+        "verbose": " Analizador de formato lógico. Altera disfraces temporales del motor para poder escanear y validar si el carácter que se desea escribir se corresponde a letras minúsculas (Lowercase).",
+        "schematic": "<ul><li><b>Función principal:</b> Comprobador Case-Sensitive.</li></ul>"
+    },
+    "text_engine_script_3_3": {
+        "verbose": " Script logístico para strings. Vacía las memorias de longitud (wordLengths) para calcular y procesar letra a letra el espaciado correcto antes de la impresión gráfica real.",
+        "schematic": "<ul><li><b>Función principal:</b> Calculador matemático de strings.</li></ul>"
+    },
+    "text_engine_script_4_4": {
+        "verbose": " Bloque maestro 'Type' del Text Engine. Oculta el cursor para agilizar el rendimiento y ejecuta el bucle de estampado condicional utilizando múltiples variables lógicas como las coordenadas absolutas (x,y) y tamaño.",
+        "schematic": "<ul><li><b>Función principal:</b> Orquestador central de la renderización del marcador.</li><li><b>Controla:</b> La inyección gráfica del lápiz (Pen) en la pantalla.</li></ul>"
+    },
+    "text_engine_script_5_5": {
+        "verbose": " Procedimiento de Estampado de letra 'printLetter'. Instruye al sistema el método exacto y el índice (i) que debe seguir el módulo lápiz para dibujar el dígito en las coordenadas que le delegó Type.",
+        "schematic": "<ul><li><b>Función principal:</b> Sellado individual de los dígitos.</li></ul>"
+    },
+    "text_engine_script_6_6": {
+        "verbose": " Implementa 'findData'. Localiza de la base de datos interna la correspondencia y estructura geométrica de los disfraces alfanuméricos que se necesitan pintar.",
+        "schematic": "<ul><li><b>Función principal:</b> Diccionario interno del motor.</li></ul>"
+    },
+    "text_engine_script_7_7": {
+        "verbose": " Condicional 'New Line'. Reestablece el valor de X a su origen y baja progresivamente la coordenada Y según el tamaño (size) si el motor detecta que hay desbordamiento lateral y se necesita escribir renglones múltiples.",
+        "schematic": "<ul><li><b>Función principal:</b> Salto de línea matemático y retorno de carro.</li></ul>"
+    },
+    "text_engine_script_8_8": {
+        "verbose": " Modificador estético 'Colour'. Afecta directamente al tono y la sombra ('brightness') con la que la herramienta lápiz dibuja para tematizar la puntuación a gusto del entorno.",
+        "schematic": "<ul><li><b>Función principal:</b> Modificador de matiz cromático de la fuente.</li></ul>"
+    },
+    "text_engine_script_9_9": {
+        "verbose": " Aplicador de grosor en trazados ('Bold'). Fija las variables de peso del lápiz duplicando sutilmente la impresión para engañar a la vista y crear un efecto de Negrita.",
+        "schematic": "<ul><li><b>Función principal:</b> Efecto de fuente en Negrita.</li></ul>"
+    },
+    "text_engine_script_10_10": {
+        "verbose": " Modificador de 'Italics' (Cursiva). Manipula condicionalmente una variable angular alterando la inclinación del trazado del texto si se encuentra en un rango específico.",
+        "schematic": "<ul><li><b>Función principal:</b> Inclinación matemática visual de las letras.</li></ul>"
+    },
+    "text_engine_script_11_11": {
+        "verbose": " Añade formato de 'Underline' (Subrayado). Calcula la base de los píxeles (y) y lanza un trazo rectilíneo debajo de los caracteres recién procesados.",
+        "schematic": "<ul><li><b>Función principal:</b> Trazado horizontal inferior para subrayados.</li></ul>"
+    },
+    "text_engine_script_12_12": {
+        "verbose": " Procedimiento 'Capslock'. Restringe los arrays forzando todas las minúsculas a sus correspondientes formatos en mayúscula durante el momento de impresión.",
+        "schematic": "<ul><li><b>Función principal:</b> Transformador de texto mayúsculo estricto.</li></ul>"
+    },
+    "text_engine_script_13_13": {
+        "verbose": " Define la llamada central 'Set Score'. Destruye el renderizado anterior ('erase all') invocando de inmediato a las llamadas del lápiz para pintar una vez más la cifra correcta y actualizada en pantalla.",
+        "schematic": "<ul><li><b>Función principal:</b> Actualizador destructivo del marcador en pantalla.</li></ul>"
+    },
+    "text_engine_script_14_14": {
+        "verbose": " El enlace reactivo (Listener). Al detectar asíncronamente desde las colisiones o tuberías el aviso de anotación 'drawScore', delega el trabajo ejecutando el bloque  para visualizar el avance.",
+        "schematic": "<ul><li><b>Función principal:</b> Oyente activo de actualizaciones de HUD.</li></ul>"
+    },
+    "text_engine_script_15_15": {
+        "verbose": " Calculadora cromática hexadecimal. Recibe los 3 argumentos (Rojo, Verde, Azul) y procesa las matemáticas de bits y sombreado para otorgarle al motor un color puro absoluto.",
+        "schematic": "<ul><li><b>Función principal:</b> Algoritmo de colorización nativa RGB de los trazos.</li></ul>"
+    },
+    "text_engine_script_16_16": {
+        "verbose": " Determina configuraciones base relativas del lápiz y colores iniciales para el motor texto general al presionar la bandera de arranque, limpiando arrastres visuales.",
+        "schematic": "<ul><li><b>Función principal:</b> Estabilización de pluma técnica de render.</li></ul>"
+    },
+    "text_engine_script_17_17": {
+        "verbose": " Script validador de récord personal. Compara constantemente la variable global interna 'Score' con la alojada en la nube ('Hidh' / HighScore). Si la supera, sobrescribe el dato del servidor.",
+        "schematic": "<ul><li><b>Función principal:</b> Gestión de records y datos de Nube.</li></ul>"
+    },
+    "text_engine_script_18_18": {
+        "verbose": " Elimina por completo todos los dígitos renderizados y la puntuación de la memoria gráfica actual cuando el jugador falla, vaciando el lienzo para los textos de Fin.",
+        "schematic": "<ul><li><b>Función principal:</b> Vaciado gráfico definitivo al estrellarse.</li></ul>"
+    },
+    "flappy_bird_title_page_script_1_1": {
+        "verbose": " Encargado de esconder por defecto la portada decorativa principal o título al iniciar el simulador. Se muestra un poco después desde scripts de menú especializados.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación técnica inicial del decorado.</li></ul>"
+    },
+    "flappy_bird_title_page_script_2_2": {
+        "verbose": " Apaga la imagen publicitaria con el nombre principal del juego en el instante preciso en el que el botón de play es pulsado para ceder el plano completo a la escenografía.",
+        "schematic": "<ul><li><b>Función principal:</b> Retiro del logo tras salir del menú.</li></ul>"
+    },
+    "flappy_bird_title_page_script_3_3": {
+        "verbose": " Escuchador de la señal 'start' que fuerza el despliegue del logo de la cabecera, lo sitúa en las coordenadas y lo pone en el área superior de las capas del menú para ser la atención principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Exposición del título al usuario.</li></ul>"
+    },
+    "playbutton_script_1_1": {
+        "verbose": " Evento reactivo a la acción de ratón. Envía masivamente el evento 'GameStart' (Start a la partida activa) al resto de la arquitectura del proyecto, marcando la salida oficial del estado de Menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Botón maestro para iniciar jugabilidad.</li></ul>"
+    },
+    "playbutton_script_2_2": {
+        "verbose": " Ubica al botón principal del menú ('Play') en pantalla en sus coordenadas altas (0, 111) y habilita su capa visual en cuanto Scratch arranca.",
+        "schematic": "<ul><li><b>Función principal:</b> Posicionamiento e inyección del botón en Menú Principal.</li></ul>"
+    },
+    "playbutton_script_3_3": {
+        "verbose": " Oculta el botón de juego al recibir la señal de inicio de partida. Coordina con otras señales para asegurar que desaparezca cuando el jugador ya está en la partida activa, limpiando la pantalla.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de la interfaz gráfica.</li><li><b>Controla:</b> Ocultación del botón Play durante el juego.</li></ul>"
+    },
+    "playbutton_script_4_4": {
+        "verbose": " Muestra el botón de juego al recibir la señal de retorno desde el selector de colores. Activa la visibilidad del botón Play al volver a la pantalla inicial.",
+        "schematic": "<ul><li><b>Función principal:</b> Restauración del menú principal.</li><li><b>Controla:</b> Reaparición del botón tras cerrar submenús.</li></ul>"
+    },
+    "playbutton_script_5_5": {
+        "verbose": " Oculta el botón de juego al abrir el menú de selección de colores. Evita el solapamiento de interfaces mientras el usuario escoge la apariencia del pájaro.",
+        "schematic": "<ul><li><b>Función principal:</b> Transición de menú limpia.</li><li><b>Controla:</b> Ocultación para dar prioridad visual al Color Picker.</li></ul>"
+    },
+    "playbutton_script_6_6": {
+        "verbose": " Script redundante o alternativo que oculta el botón de juego al inicializar el proyecto con la Bandera Verde, delegando su aparición a scripts posteriores que controlan el estado del menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Inicialización oculta de seguridad.</li></ul>"
+    },
+    "playbutton_script_7_7": {
+        "verbose": " Oculta el botón Play cuando el jugador presiona el botón para visualizar las reglas del juego, asegurando que no haya clics accidentales mientras se lee.",
+        "schematic": "<ul><li><b>Función principal:</b> Desactivación de UI durante tutorial.</li></ul>"
+    },
+    "playbutton_script_8_8": {
+        "verbose": " Vuelve a mostrar el botón Play tras cerrar la pantalla de las reglas del juego, restaurando la interfaz táctil principal del título.",
+        "schematic": "<ul><li><b>Función principal:</b> Restauración de interfaz post-reglas.</li></ul>"
+    },
+    "playbutton_script_9_9": {
+        "verbose": " Mueve el botón de Play hacia la capa gráfica superior absoluta. Asegura que ningún otro elemento del menú introductorio lo opaque, permitiendo siempre la interacción del usuario.",
+        "schematic": "<ul><li><b>Función principal:</b> Prioridad absoluta de visualización UI.</li></ul>"
+    },
+    "flappy_bird_sign_script_1_1": {
+        "verbose": " Oculta el letrero principal (título) del juego cuando se navega hacia la pantalla de selección de color, despejando la pantalla superior.",
+        "schematic": "<ul><li><b>Función principal:</b> Despejar área de lectura superior.</li></ul>"
+    },
+    "flappy_bird_sign_script_2_2": {
+        "verbose": " Muestra el letrero nuevamente cuando el jugador regresa del menú de colores hacia la pantalla de inicio principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Reaparición del título.</li></ul>"
+    },
+    "flappy_bird_sign_script_3_3": {
+        "verbose": " Oculta el gran letrero de 'Flappy Bird' apenas arranca la jugabilidad, permitiendo concentrarse de lleno en los obstáculos sin distracciones visuales.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación inmersiva para juego activo.</li></ul>"
+    },
+    "flappy_bird_sign_script_4_4": {
+        "verbose": " Retira visualmente el cartel de Flappy Bird cuando se está desplegando la tarjeta con el reglamento para evitar desórdenes tipográficos.",
+        "schematic": "<ul><li><b>Función principal:</b> Evitar saturación de texto.</li></ul>"
+    },
+    "flappy_bird_sign_script_5_5": {
+        "verbose": " Al igual que con el menú de colores, esto restablece la apariencia frontal del cartel decorativo de Flappy Bird una vez que se cierra la lectura de las normas.",
+        "schematic": "<ul><li><b>Función principal:</b> Retorno al ecosistema visual base.</li></ul>"
+    },
+    "flappy_bird_sign_script_6_6": {
+        "verbose": " Hilo condicionado sin bloques directos de ejecución. Inicializa su procesamiento en paralelo como un hilo reservado durante el estado técnico de arranque.",
+        "schematic": "<ul><li><b>Función principal:</b> Bucle de reserva pasivo.</li></ul>"
+    },
+    "flappy_bird_sign_script_7_7": {
+        "verbose": " Asegura la eliminación técnica de artefactos gráficos ocultando forzosamente el cartel en el mismo instante en el que el programa recibe el arranque (Bandera Verde).",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación técnica inicial.</li></ul>"
+    },
+    "flappy_bird_sign_script_8_8": {
+        "verbose": " Inyecta el gran letrero de 'Flappy Bird' en las coordenadas (0, -10) en el marco principal de visualización apenas termina la introducción asíncrona.",
+        "schematic": "<ul><li><b>Función principal:</b> Despliegue estético principal.</li></ul>"
+    },
+    "change_color_button_script_1_1": {
+        "verbose": " Vuelve a mostrar el icono de atajo para abrir el selector de disfraces en la pantalla inicial.",
+        "schematic": "<ul><li><b>Función principal:</b> Restablecer accesos de UI en menú.</li></ul>"
+    },
+    "change_color_button_script_2_2": {
+        "verbose": " Oculta en segundo plano el botón Change Color hasta que el menú esté 100% cargado tras la intro de la Bandera Verde.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de carga asíncrona.</li></ul>"
+    },
+    "change_color_button_script_3_3": {
+        "verbose": " Emisor clave. Detecta el clic y envía la señal broadcast para mutar la lógica de todo el entorno hacia el estado del Color Picker, abriendo la interfaz de opciones.",
+        "schematic": "<ul><li><b>Función principal:</b> Transición activa a la personalización.</li></ul>"
+    },
+    "change_color_button_script_4_4": {
+        "verbose": " Oculta el botón 'Change Color' cuando la partida arranca (evento GameStart), impidiendo que estorbe al usuario.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultar elemento accesorio al jugar.</li></ul>"
+    },
+    "change_color_button_script_5_5": {
+        "verbose": " Retira temporalmente de la pantalla el botón para evitar colisiones de clics cuando el jugador navega en las reglas.",
+        "schematic": "<ul><li><b>Función principal:</b> Prioridad táctil del pop-up de reglas.</li></ul>"
+    },
+    "change_color_button_script_6_6": {
+        "verbose": " Restituye el botón visualmente al volver desde la pestaña reglamentaria.",
+        "schematic": "<ul><li><b>Función principal:</b> Restitución de IU general.</li></ul>"
+    },
+    "change_color_button_script_7_7": {
+        "verbose": " Muestra formalmente y posiciona este submenú para elegir estilos estéticos durante el despliegue del menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Muestra inicial en Menú principal.</li></ul>"
+    },
+    "flappybirdguy_script_1_1": {
+        "verbose": " Inicializa y esconde al pájaro decorativo estático en el fondo durante la carga técnica inicial del programa.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación por defecto (pre-intro).</li></ul>"
+    },
+    "flappybirdguy_script_2_2": {
+        "verbose": " Muestra al personaje decorativo estático como parte del fondo visual cuando se interactúa en el submenú de selección de colores.",
+        "schematic": "<ul><li><b>Función principal:</b> Adorno de fondo de IU secundaria.</li></ul>"
+    },
+    "flappybirdguy_script_3_3": {
+        "verbose": " Oculta a esta entidad decorativa cuando se regresa al menú inicial, priorizando el logo real.",
+        "schematic": "<ul><li><b>Función principal:</b> Repliegue de adorno gráfico.</li></ul>"
+    },
+    "flappybirdguy_script_4_4": {
+        "verbose": " Bucle pasivo perpetuo que el decorativo mantiene como estado desde que arranca la simulación, actuando como retenedor subyacente.",
+        "schematic": "<ul><li><b>Función principal:</b> Bucle infinito sin bloqueos lógicos activos.</li></ul>"
+    },
+    "color_picker_script_1_1": {
+        "verbose": " Precarga el panel principal de los selectores de colores en las coordenadas específicas preparándolo invisible antes del menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Inicialización posicional silenciosa del Picker.</li></ul>"
+    },
+    "color_picker_script_2_2": {
+        "verbose": " Cierra completamente la caja o recuadro general de la paleta de colores cuando el usuario presiona el botón Back.",
+        "schematic": "<ul><li><b>Función principal:</b> Desactivar interfaz gráfica de color.</li></ul>"
+    },
+    "color_picker_script_3_3": {
+        "verbose": " Reacciona al botón de cambiar color, mostrándose y sirviendo como 'contenedor' visual para las distintas esferas de tonalidades (rojo, amarillo, etc.).",
+        "schematic": "<ul><li><b>Función principal:</b> Desplegar caja de herramientas (Color Picker).</li></ul>"
+    },
+    "yellow_script_1_1": {
+        "verbose": " Establece internamente el amarillo como el color por defecto técnico en arranque antes de las preferencias personales.",
+        "schematic": "<ul><li><b>Función principal:</b> Variable de color por defecto técnica.</li></ul>"
+    },
+    "yellow_script_2_2": {
+        "verbose": " Oculta la opción (botón amarillo) cuando se regresa de este panel para no obstruir el centro del juego.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza de iconos secundarios de color.</li></ul>"
+    },
+    "yellow_script_3_3": {
+        "verbose": " Entra en un ciclo de inactividad de escucha desde el principio, para estar preparado asíncronamente.",
+        "schematic": "<ul><li><b>Función principal:</b> Retenedor perpetuo y estabilizador.</li></ul>"
+    },
+    "yellow_script_4_4": {
+        "verbose": " Lleva el botón a la capa frontal y lo muestra superponiéndose al panel principal de Color Picker para que el usuario pueda presionarlo.",
+        "schematic": "<ul><li><b>Función principal:</b> Prioridad táctil del botón Amarillo.</li></ul>"
+    },
+    "yellow_script_5_5": {
+        "verbose": " Controlador de usuario. Sobrescribe la apariencia del personaje principal en  transformándolo a Amarillo e informando a los demás subsistemas.",
+        "schematic": "<ul><li><b>Función principal:</b> Selección activa de Skin Amarilla.</li></ul>"
+    },
+    "green_script_1_1": {
+        "verbose": " Limpia la pantalla de las esferas de colores ocultando el botón verde cuando cerramos el selector.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación del botón Verde al salir.</li></ul>"
+    },
+    "green_script_2_2": {
+        "verbose": " Activa y hace visible la burbuja de la opción Verde para que sea interactuable dentro del panel selector.",
+        "schematic": "<ul><li><b>Función principal:</b> Despliegue en panel del botón Verde.</li></ul>"
+    },
+    "green_script_3_3": {
+        "verbose": " Fija sus coordenadas base estáticas (-65 en Y) correspondientes dentro del Grid del menú de colores apenas carga el proyecto.",
+        "schematic": "<ul><li><b>Función principal:</b> Inicialización pre-render Grid Verde.</li></ul>"
+    },
+    "green_script_4_4": {
+        "verbose": " Bucle asíncrono infinito inactivo desde el inicio (se repite la misma lógica de contención que todos los colores).",
+        "schematic": "<ul><li><b>Función principal:</b> Retenedor perpetuo asíncrono.</li></ul>"
+    },
+    "green_script_5_5": {
+        "verbose": " Controlador de usuario. Configura la apariencia del pájaro a Verde, reemplazando el valor y disfraz de .",
+        "schematic": "<ul><li><b>Función principal:</b> Selección de Skin Verde.</li></ul>"
+    },
+    "blue_script_1_1": {
+        "verbose": " Oculta la opción azul tras retroceder o regresar de la interfaz cromática.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación técnica Azul.</li></ul>"
+    },
+    "blue_script_2_2": {
+        "verbose": " Habilita la interfaz y la capa frontal visual del botón azul en el selector de diseño del usuario.",
+        "schematic": "<ul><li><b>Función principal:</b> Visibilidad Azul.</li></ul>"
+    },
+    "blue_script_3_3": {
+        "verbose": " Posiciona este elemento en su coordenada absoluta derecha (x: 86) y lo limpia en el lanzamiento.",
+        "schematic": "<ul><li><b>Función principal:</b> Inicialización posicional Azul.</li></ul>"
+    },
+    "blue_script_4_4": {
+        "verbose": " Reserva el hilo condicionado mediante un bucle cerrado perpetuo al momento de presionar bandera verde.",
+        "schematic": "<ul><li><b>Función principal:</b> Retenedor constante.</li></ul>"
+    },
+    "blue_script_5_5": {
+        "verbose": " Emisor reactivo. Actualiza las variables globales y el motor del Pájaro  indicándole que el usuario desea que use el color Azul.",
+        "schematic": "<ul><li><b>Función principal:</b> Setter de la Skin Azul.</li></ul>"
+    },
+    "pink_script_1_1": {
+        "verbose": " Preparación global en el arranque. Aunque inyecta un estado, se pisa por el sistema Yellow por default.",
+        "schematic": "<ul><li><b>Función principal:</b> Ajuste base Rosa.</li></ul>"
+    },
+    "pink_script_2_2": {
+        "verbose": " Oculta la canica Rosa para despejar la pantalla tras finalizar la personalización.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación de cierre Rosa.</li></ul>"
+    },
+    "pink_script_3_3": {
+        "verbose": " Sistema paralelo y bucle en segundo plano que conserva la instancia de Pink inactiva.",
+        "schematic": "<ul><li><b>Función principal:</b> Hilo retenedor Rosa.</li></ul>"
+    },
+    "pink_script_4_4": {
+        "verbose": " Se despliega de forma interactuable en el marco del cuadro selector.",
+        "schematic": "<ul><li><b>Función principal:</b> Mostrador del componente Rosa.</li></ul>"
+    },
+    "pink_script_5_5": {
+        "verbose": " Inyecta las variables necesarias informando de la selección definitiva del diseño Rosa para el avatar.",
+        "schematic": "<ul><li><b>Función principal:</b> Input de usuario confirmando Skin Rosa.</li></ul>"
+    },
+    "red_script_1_1": {
+        "verbose": " Define sus valores y posiciones base durante el lanzamiento del ecosistema en Bandera Verde.",
+        "schematic": "<ul><li><b>Función principal:</b> Asignación precarga Rojo.</li></ul>"
+    },
+    "red_script_2_2": {
+        "verbose": " Ocultamiento proactivo en transiciones de navegación del jugador cerrando ventanas.",
+        "schematic": "<ul><li><b>Función principal:</b> Repliegue del Rojo.</li></ul>"
+    },
+    "red_script_3_3": {
+        "verbose": " Garantía de reserva asíncrona mediante bucle infinito.",
+        "schematic": "<ul><li><b>Función principal:</b> Reserva pasiva.</li></ul>"
+    },
+    "red_script_4_4": {
+        "verbose": " Reacción para hacerse visible dentro de la UI de menú cromático.",
+        "schematic": "<ul><li><b>Función principal:</b> Renderizado activo UI (Rojo).</li></ul>"
+    },
+    "red_script_5_5": {
+        "verbose": " Captura el clic del usuario y propaga la variable estética global a Red (Rojo).",
+        "schematic": "<ul><li><b>Función principal:</b> Confirmación de Skin Roja por UI.</li></ul>"
+    },
+    "orange_script_1_1": {
+        "verbose": " Rutina de estabilización en bandera verde con valores Naranjas.",
+        "schematic": "<ul><li><b>Función principal:</b> Precarga técnica Orange.</li></ul>"
+    },
+    "orange_script_2_2": {
+        "verbose": " Ocultación del elemento interactuable Naranja en transiciones.",
+        "schematic": "<ul><li><b>Función principal:</b> Cierre de submenú.</li></ul>"
+    },
     "orange_script_3_3": {
-        "verbose": "Explicación detallada del edificio",
-        "schematic": "Explicación esquemática del edificio"
+        "verbose": " Entra en bucle constante sin interacciones subyacentes.",
+        "schematic": "<ul><li><b>Función principal:</b> Bucle inactivo.</li></ul>"
+    },
+    "orange_script_4_4": {
+        "verbose": " Invoca al sprite 'Orange' a hacerse visible cuando es requerido en el panel.",
+        "schematic": "<ul><li><b>Función principal:</b> Habilitación visual.</li></ul>"
+    },
+    "orange_script_5_5": {
+        "verbose": " El jugador hace clic: muta el sistema inyectando el color Orange en el disfraz.",
+        "schematic": "<ul><li><b>Función principal:</b> Modificador de la Skin a Naranja.</li></ul>"
+    },
+    "rules_button_script_1_1": {
+        "verbose": " Ancla el botón de acceso al menú de reglas en la parte inferior izquierda de la pantalla al cargar la aplicación y lo hace visible.",
+        "schematic": "<ul><li><b>Función principal:</b> Posicionamiento estático UI (Menú de Reglas).</li></ul>"
+    },
+    "rules_button_script_2_2": {
+        "verbose": " Emite asíncronamente el aviso [Rules] para que todos los demás motores oculten sus bloques (como botones y título) y dejen espacio al pergamino explicativo.",
+        "schematic": "<ul><li><b>Función principal:</b> Desencadenador del panel de reglas.</li></ul>"
+    },
+    "rules_button_script_3_3": {
+        "verbose": " Oculta el propio botón para que no estorbe en el lienzo durante la lectura.",
+        "schematic": "<ul><li><b>Función principal:</b> Retiro personal para UI limpia.</li></ul>"
+    },
+    "rules_button_script_4_4": {
+        "verbose": " Devuelve el botón si veníamos de menús como el de color y volvemos a la portada limpia.",
+        "schematic": "<ul><li><b>Función principal:</b> Rehabilitación posicional.</li></ul>"
+    },
+    "rules_button_script_5_5": {
+        "verbose": " Apaga este acceso en cuanto comienza el gameplay principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Bloqueo durante la partida.</li></ul>"
+    },
+    "rules_button_script_6_6": {
+        "verbose": " Oculta este botón si entramos en el submenú de Color, evitando cruces de navegación entre submenús paralelos.",
+        "schematic": "<ul><li><b>Función principal:</b> Prioridad de Menú secundario.</li></ul>"
+    },
+    "rules_button_script_7_7": {
+        "verbose": " Ocultación de prevención por si falla el posicionamiento inicial del loader.",
+        "schematic": "<ul><li><b>Función principal:</b> Apagado preventivo.</li></ul>"
+    },
+    "rules_button_script_8_8": {
+        "verbose": " Se autovuelve a mostrar apenas damos al botón rojo de 'cerrar reglas' (volver atrás).",
+        "schematic": "<ul><li><b>Función principal:</b> Restitución visual.</li></ul>"
+    },
+    "rules_button_script_9_9": {
+        "verbose": " Lo despliega visiblemente en el entorno en cuanto la animación principal cede el paso al Menú funcional.",
+        "schematic": "<ul><li><b>Función principal:</b> Apertura principal del elemento interactuable.</li></ul>"
+    },
+    "back_button_script_1_1": {
+        "verbose": " Detecta el clic del usuario en la flecha de 'Regresar'. Cierra el selector de color informando al resto del entorno para que vuelvan a su estado normal de menú.",
+        "schematic": "<ul><li><b>Función principal:</b> Navegación hacia atrás (Cerrar menú Color).</li></ul>"
+    },
+    "back_button_script_2_2": {
+        "verbose": " Oculta este botón específico (del Color Picker) para que no se mezcle o confunda si la variable Rules fuera alterada.",
+        "schematic": "<ul><li><b>Función principal:</b> Prevención de solapamiento de submenús.</li></ul>"
+    },
+    "back_button_script_3_3": {
+        "verbose": " Se apaga irremediablemente al comenzar cualquier mecánica de juego interactiva del pájaro.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza.</li></ul>"
+    },
+    "back_button_script_4_4": {
+        "verbose": " Salta a la capa delantera (Front) prioritaria, se visibiliza y ofrece la función de 'regresar' al usuario que se encuentra explorando las skins.",
+        "schematic": "<ul><li><b>Función principal:</b> Puesta en escena y prioridad UI.</li></ul>"
+    },
+    "back_button_script_5_5": {
+        "verbose": " Se acomoda silenciosamente en la esquina superior izquierda del área de renderizado preparado para futuras intervenciones.",
+        "schematic": "<ul><li><b>Función principal:</b> Coordenadas de interfaz.</li></ul>"
+    },
+    "back_button_script_6_6": {
+        "verbose": " Asegura la constante permanencia de botones UI de retorno en la capa Z más superficial del simulador.",
+        "schematic": "<ul><li><b>Función principal:</b> Bloqueo del render Frontal.</li></ul>"
+    },
+    "back_button2_script_1_1": {
+        "verbose": " Ejecuta el cierre de la ventana de reglamentos mandando el broadcast 'backRules' que desarma las instrucciones y revive los menús centrales.",
+        "schematic": "<ul><li><b>Función principal:</b> Cierre de submenú de Reglas.</li></ul>"
+    },
+    "back_button2_script_2_2": {
+        "verbose": " Aparece en pantalla para proveer una ruta de salida únicamente cuando el pergamino de Reglas es invocado.",
+        "schematic": "<ul><li><b>Función principal:</b> Renderizado en contexto Reglas.</li></ul>"
+    },
+    "back_button2_script_3_3": {
+        "verbose": " Escondido de forma genérica durante el gameplay.",
+        "schematic": "<ul><li><b>Función principal:</b> Limpieza UI.</li></ul>"
+    },
+    "back_button2_script_4_4": {
+        "verbose": " Escondido en caso de que se navegue al módulo de color, evitando choques con su equivalente (back_button 1).",
+        "schematic": "<ul><li><b>Función principal:</b> Evitar conflictos.</li></ul>"
+    },
+    "back_button2_script_5_5": {
+        "verbose": " Configurado exactamente en la misma esquina superior izquierda técnica para ofrecer un retorno visualmente idéntico al otro módulo.",
+        "schematic": "<ul><li><b>Función principal:</b> Alineación geométrica.</li></ul>"
+    },
+    "back_button2_script_6_6": {
+        "verbose": " Lo clava como elemento inamovible de capa principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Render Frontal.</li></ul>"
+    },
+    "rules_script_1_1": {
+        "verbose": " Precarga y resguarda el gran panel/disfraz del texto completo con las normas en posición (0,0) dejándolo invisible para cuando se demande.",
+        "schematic": "<ul><li><b>Función principal:</b> Estabilización de recursos gráficos.</li></ul>"
+    },
+    "rules_script_2_2": {
+        "verbose": " Superpone el letrero con todas las normas sobre el plano principal, permitiendo la lectura del usuario.",
+        "schematic": "<ul><li><b>Función principal:</b> Impresión o muestra del decálogo.</li></ul>"
+    },
+    "rules_script_3_3": {
+        "verbose": " Se esconde y devuelve el foco al título principal tras escuchar el cierre asíncrono desde el botón superior.",
+        "schematic": "<ul><li><b>Función principal:</b> Liberación visual.</li></ul>"
+    },
+    "title_script_1_1": {
+        "verbose": " Precarga las coordenadas del título secundario u opcional del juego superior.",
+        "schematic": "<ul><li><b>Función principal:</b> Carga base.</li></ul>"
+    },
+    "title_script_2_2": {
+        "verbose": " Despliega o reafirma un texto titulario de apoyo durante los submenús de configuración.",
+        "schematic": "<ul><li><b>Función principal:</b> Decorado persistente UI.</li></ul>"
+    },
+    "title_script_3_3": {
+        "verbose": " Retira el título asíncrono si regresamos al escenario central u otras opciones.",
+        "schematic": "<ul><li><b>Función principal:</b> Desactivación titular.</li></ul>"
+    },
+    "game_over_script_1_1": {
+        "verbose": " Despliega en pantalla el contundente cartel de 'GAME OVER' interrumpiendo el flujo tras una colisión e imposibilitando continuar interactuando en ese frame.",
+        "schematic": "<ul><li><b>Función principal:</b> Detención central. Despliegue pantalla de Muerte.</li></ul>"
+    },
+    "game_over_script_2_2": {
+        "verbose": " Guarda este importante cartel en el centro absoluto (0,0) pero de forma oculta durante toda la precarga para una invocación veloz.",
+        "schematic": "<ul><li><b>Función principal:</b> Posicionamiento latente.</li></ul>"
+    },
+    "game_over_script_3_3": {
+        "verbose": " Se asegura que bajo ningún contexto el letrero fatal siga presente mientras jugamos.",
+        "schematic": "<ul><li><b>Función principal:</b> Ocultación obligatoria post-reintento.</li></ul>"
+    },
+    "ground_script_1_1": {
+        "verbose": " Lanza la base del entorno. Inicia el sprite del suelo en bucle desplazándose horizontalmente (-33,-197) en capas inferiores para emular movimiento.",
+        "schematic": "<ul><li><b>Función principal:</b> Motor de animación estática parallax del Suelo Base.</li></ul>"
+    },
+    "ground_script_2_2": {
+        "verbose": " Continua visualizando y operando el suelo cuando se pulsa el botón de arranque principal.",
+        "schematic": "<ul><li><b>Función principal:</b> Activación del plano ambiental.</li></ul>"
+    },
+    "ground_script_3_3": {
+        "verbose": " Congela el efecto y oculta su script/lógica al terminar la jugada para el efecto fotográfico de la colisión.",
+        "schematic": "<ul><li><b>Función principal:</b> Detención del Parallax post-muerte.</li></ul>"
+    },
+    "ground2_script_1_1": {
+        "verbose": " Sitúa de forma continua un segundo fragmento (copia) del suelo al borde derecho (x:240) para suplir el espacio que deja vacío el primer suelo y emular un infinito.",
+        "schematic": "<ul><li><b>Función principal:</b> Subsistema de reciclaje infinito visual Parallax.</li></ul>"
+    },
+    "ground2_script_2_2": {
+        "verbose": " Oyente pasivo secundario o de reserva para inyectar movimiento condicional de empalme con el suelo principal al transitar de menú a partida.",
+        "schematic": "<ul><li><b>Función principal:</b> Hilo retenedor paralelo de sincronización.</li></ul>"
+    },
+    "ground2_script_3_3": {
+        "verbose": " Fuerzan la visibilidad para asegurar la envoltura inferior desde el inicio de juego interactivo.",
+        "schematic": "<ul><li><b>Función principal:</b> Reactivación de Sprite.</li></ul>"
+    },
+    "ground2_script_4_4": {
+        "verbose": " Se acopla a su hermano paralelo y se apaga ante la condición de fracaso y muerte global del avatar.",
+        "schematic": "<ul><li><b>Función principal:</b> Suspensión por colisión general.</li></ul>"
+    },
+    "101508108-flappy_bird.1910x1000_script_1_1": {
+        "verbose": " Intercepta la pantalla de arranque masiva o cortina de carga. Muestra el diseño principal ocultándolo tras un timer muy breve (como splash screen inicial).",
+        "schematic": "<ul><li><b>Función principal:</b> Despliegue del Splash Screen / Loader.</li></ul>"
+    },
+    "101508108-flappy_bird.1910x1000_script_2_2": {
+        "verbose": " Arranca el temporizador de inicialización del proyecto en el centro total antes de retirar asíncronamente las pantallas e infografías de introducción.",
+        "schematic": "<ul><li><b>Función principal:</b> Cronómetro y gestor central de la secuencia de Intro.</li></ul>"
+    },
+    "101508108-flappy_bird.1910x1000_script_3_3": {
+        "verbose": " Efecto dramático principal de inicio. Recibe un ping temporal (Tim), hace un barrido vertical suave enviando la pantalla de carga principal hacia abajo (-360) liberando todo el escenario.",
+        "schematic": "<ul><li><b>Función principal:</b> Transición animada suave del Loader hacia el Menú.</li></ul>"
+    },
+    "all_in_one!_script_1_1": {
+        "verbose": " Generador cíclico publicitario o decorativo que usa la herramienta de Clones. Lanza copias de sí mismo en intervalos preprogramados evaluando el identificador global.",
+        "schematic": "<ul><li><b>Función principal:</b> Instanciación iterativa (Cloning).</li></ul>"
+    },
+    "all_in_one!_script_2_2": {
+        "verbose": " Purificador logístico global. Se ejecuta para eliminar cualquier trazo de lápiz sucio residual del motor y restablecer estados.",
+        "schematic": "<ul><li><b>Función principal:</b> Gestor de mantenimiento y Limpieza general.</li></ul>"
+    },
+    "all_in_one!_script_3_3": {
+        "verbose": " Función que mata o destruye eficientemente el clon temporal en cuanto ha consumido su rango útil (10 repeticiones) para no sobrecargar de entidades virtuales a la CPU.",
+        "schematic": "<ul><li><b>Función principal:</b> Autodestrucción selectiva (Garbage Collector).</li></ul>"
+    },
+    "all_in_one!_script_4_4": {
+        "verbose": " Condicionales receptoras pasivas interconectadas a la asincronía de la intro para inyectar recursos si fuese necesario.",
+        "schematic": "<ul><li><b>Función principal:</b> Puntos de escucha en segundo plano de la música o publicidad.</li></ul>"
+    },
+    "all_in_one!_script_5_5": {
+        "verbose": " Receptor pasivo hermano, esperando condiciones o disparos del motor paralelo.",
+        "schematic": "<ul><li><b>Función principal:</b> Receptor global extra.</li></ul>"
+    },
+    "all_in_one!_script_6_6": {
+        "verbose": " Reproductor Maestro o Master de Audio. Mantiene el BGM (Música de fondo) iterando mediante condicionales en el ciclo total de carga para que el juego siempre tenga sonido.",
+        "schematic": "<ul><li><b>Función principal:</b> Soundtrack global persistente de toda la aplicación.</li></ul>"
+    },
+    "all_in_one!_script_7_7": {
+        "verbose": " Fuerza la bandera global principal de clones a 'Logo' posibilitando que toda la cadena de secuencias posteriores funcione en sus ifs lógicos.",
+        "schematic": "<ul><li><b>Función principal:</b> Marcador booleano estricto.</li></ul>"
+    },
+    "all_in_one!_script_8_8": {
+        "verbose": " Reinicia temporizadores de reserva ('timer2') en cero para iniciar el barrido lógico asíncrono para el ciclo publicitario.",
+        "schematic": "<ul><li><b>Función principal:</b> Estabilización de cronómetro secundario.</li></ul>"
+    },
+    "all_in_one!_script_9_9": {
+        "verbose": " Limpiador inmersivo. Resetea los efectos como el brillo o desvanecimientos, forzando la ocultación si es necesario para liberar procesamiento puro a las lógicas del juego.",
+        "schematic": "<ul><li><b>Función principal:</b> Restauración gráfica total por GameStart.</li></ul>"
     }
 }
