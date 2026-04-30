@@ -1897,7 +1897,8 @@ def format_babia_dict(d: dict):
             "area": sprite_fixed_area, 
             "district_type": "Sprite",
             "ai_verbose": ai_data["verbose"],
-            "ai_schematic": ai_data["schematic"]
+            "ai_schematic": ai_data["schematic"],
+            "id_num": ai_data.get("id_num", "")
         }
 
         # Lo añadimos a la ciudad
@@ -1959,6 +1960,7 @@ def format_babia_flat(d: dict) -> list:
                 "script_blocks": script_value,
                 "ai_verbose": ai_data["verbose"],
                 "ai_schematic": ai_data["schematic"],
+                "id_num": ai_data.get("id_num", "")
             })
 
     return flat_list
