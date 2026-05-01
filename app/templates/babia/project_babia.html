@@ -506,6 +506,9 @@
 
     function buildReferenceMap() {
         if (projectData && projectData.children) {
+            if (projectData.id_num) {
+                referenceMap[projectData.id_num.toUpperCase()] = { type: 'district', data: projectData };
+            }
             projectData.children.forEach(district => {
                 if (district.id_num) {
                     referenceMap[district.id_num] = { type: 'district', data: district };
@@ -562,41 +565,30 @@
             // Nos aseguramos de que checkId y projectData existen
             if (checkId && typeof projectData !== 'undefined' && projectData.children) {
                 
-                // 1. Quitamos el prefijo 'boat-' si lo tiene
                 let cleanId = checkId.replace(/^boat-/, '');
-                
-                // 2. Troceamos la ruta por las barras
-                // Ej: ["ScratchCity", "Flappy_Bird", "flappy_bird_script_1_1", "ScratchCity"]
                 let parts = cleanId.split('/');
-                
-                // La última parte suele ser el distrito cuando clicamos en el suelo
                 let baseId = parts[parts.length - 1]; 
+                
+                // 1. ¿Es la base principal de la ciudad? (G1)
+                if (checkId.endsWith('ScratchCity') || checkId === 'boat-ScratchCity' || baseId === 'ScratchCity') {
+                    return { type: 'district', data: projectData }; 
+                }
 
-                let variants = [
-                    checkId,
-                    cleanId,
-                    baseId,
-                    baseId.replace(/_/g, ' '),
-                    baseId.replace(/ /g, '_')
-                ];
+                let variants = [checkId, cleanId, baseId, baseId.replace(/_/g, ' '), baseId.replace(/ /g, '_')];
 
-                // 3. Buscamos en tu árbol de datos real
                 for (let district of projectData.children) {
                     
-                    // A. ¿Hemos clicado en la base del distrito?
+                    // A. ¿Es un distrito?
                     if (variants.includes(district.id) || variants.includes(district.id.replace(/ /g, '_'))) {
                         return { type: 'district', data: district };
                     }
                     
-                    // B. ¿Hemos clicado en una torre?
+                    // B. ¿Es una torre?
                     if (district.children) {
                         for (let script of district.children) {
                             let scriptIdSafe = script.id.replace(/ /g, '_');
-                            
-                            // Comprobamos si el ID de la torre es exactamente una de las "piezas" de la ruta
-                            // Así cazamos "flappy_bird_script_1_1" sin importar dónde lo ponga BabiaXR
                             if (parts.includes(script.id) || parts.includes(scriptIdSafe)) {
-                                return { type: 'tower', data: script, parent: district }; // Aquí le pasamos el parent correcto
+                                return { type: 'tower', data: script, parent: district }; 
                             }
                         }
                     }
@@ -610,9 +602,11 @@
 
     function showDistrictView(districtData) {
         hideAllViews();
+
+        let isCityRoot = (districtData.id === "ScratchCity");
         
-        ui.title.innerText = "Distrito (Sprite)";
-        ui.subtitle.innerText = "Vista general del objeto";
+        ui.title.innerText = isCityRoot ? "Proyecto Completo" : "Distrito (Sprite)";
+        ui.subtitle.innerText = isCityRoot ? "Vista general" : "Vista general del objeto";
         ui.districtName.innerText = districtData.id;
         
         // --- NUEVO: Rellenar las pestañas de la IA con los datos del backend ---
@@ -631,24 +625,28 @@
             schematicTab.innerHTML = "<p><strong>Resumen esquemático de responsabilidades:</strong></p>" + 
                                      linkifyReferences(districtData.ai_schematic || "<p>Esquema no disponible.</p>");
         }
-        // -----------------------------------------------------------------------
 
         ui.scriptList.innerHTML = "";
         if (districtData.children && districtData.children.length > 0) {
-            districtData.children.forEach(script => {
+            districtData.children.forEach(child => {
                 let li = document.createElement('li');
-                li.innerText = (script.nombre_corto || script.id) + " (" + script.Blocks + " bloques)";
+                let nombreEdificio = child.id_num ? "Edificio [" + child.id_num + "]" : "Edificio (" + (child.nombre_corto || child.id) + ")";
+                li.innerText = isCityRoot ? "Distrito: " + child.id : nombreEdificio + " - " + child.Blocks + " bloques";
                 li.style.cursor = "pointer";
                 li.style.color = "#3a85fc";
                 li.style.textDecoration = "underline";
                 li.style.marginBottom = "5px";
                 li.onclick = function() {
-                    handleTowerData(script, districtData);
+                    if (isCityRoot) {
+                        showDistrictView(child);
+                    } else {
+                        handleTowerData(child, districtData);
+                    }
                 };
                 ui.scriptList.appendChild(li);
             });
         } else {
-            ui.scriptList.innerHTML = "<li>Este Sprite no tiene scripts.</li>";
+            ui.scriptList.innerHTML = isCityRoot ? "<li>La ciudad está vacía.</li>" : "<li>Este Sprite no tiene scripts.</li>";
         }
         views.district.style.display = 'block';
     }

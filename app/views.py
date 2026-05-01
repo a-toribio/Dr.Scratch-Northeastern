@@ -1833,11 +1833,20 @@ def format_babia_dict(d: dict):
         for script_key, script_value in script_dicc.items():
             colors[sprite_name][script_key] = '#3a85fc' # Azul para código muerto
 
+    city_ai_data = FLAPPY_PERSPECTIVES.get("scratchcity", {
+        "verbose": "Vista general del proyecto no disponible.",
+        "schematic": "<p>Sin esquema global.</p>",
+        "id_num": "G1"
+    })
+
     # Estructura base de la ciudad
     data = {
         "id": "ScratchCity",
         "children": [],
-        "area": 0 
+        "area": 0,
+        "ai_verbose": city_ai_data.get("verbose", ""),
+        "ai_schematic": city_ai_data.get("schematic", ""),
+        "id_num": city_ai_data.get("id_num", "")
     }
 
     total_city_area = 0
@@ -1875,7 +1884,8 @@ def format_babia_dict(d: dict):
                 "area": tower_area, 
                 "Blocks": lines_of_code, # Esto define la altura visual
                 "building_color": colors[sprite_key][script_key],
-                "script_blocks": script_value
+                "script_blocks": script_value,
+                "id_num": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("id_num", "")
             }
             
             script_children.append(script_data)
