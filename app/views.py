@@ -187,13 +187,9 @@ def show_dashboard(request, skill_points=None):
 
         analysis_results_for_template = d[0]  # Renombrar para claridad
 
-        # --- INICIO DE LA MODIFICACIÓN ---
-        # Comprobamos si el análisis falló (devolvió None)
         if analysis_results_for_template is None:
-            # Si falló, mostramos un mensaje de error y redirigimos a la página principal
             messages.error(request, 'An error occurred during project analysis. The analysis failed to return data.')
             return redirect('/') 
-        # --- FIN DE LA MODIFICACIÓN ---
 
         print("Skill rubric:")
         print(skill_rubric)
@@ -1852,7 +1848,6 @@ def format_babia_dict(d: dict):
     total_city_area = 0
 
     # 2. ITERAMOS SOBRE LOS SPRITES
-    # Cada Sprite se convertirá en un Distrito (Barrio) cuadrado
     for sprite_key, sprite_item in global_babia['sprites'].items():
         
         script_children = []
@@ -1868,11 +1863,8 @@ def format_babia_dict(d: dict):
             if script_key not in colors[sprite_key]:
                 colors[sprite_key][script_key] = "#ffffff"
 
-            # --- CÁLCULO DE ALTURA Y ÁREA DE LA TORRE ---
             lines_of_code = len([linea for linea in script_value.split('\n') if linea.strip()])
             
-            # Usamos logaritmo para que las torres no sean excesivamente gordas
-            # Multiplicamos por 100 para que ocupen espacio visual dentro de la plataforma
             tower_area = math.log(lines_of_code + 1) * 100
 
             unique_id = f"{sprite_key}_{script_key}_{script_counter}".lower().replace(" ", "_")
@@ -1890,7 +1882,6 @@ def format_babia_dict(d: dict):
             
             script_children.append(script_data)
 
-        # 4. ESTRATEGIA DE LOTEO CUADRADO (El truco final)
         sprite_fixed_area = 400
 
         safe_key = sprite_key.lower().replace(' ', '_')
@@ -1977,7 +1968,6 @@ def format_babia_flat(d: dict) -> list:
 
 
 def serve_document_pdf(request, filename):
-    # Evitamos rutas peligrosas
     if not filename.endswith('.pdf') or '/' in filename or '\\' in filename:
         raise Http404("Invalid filename")
 

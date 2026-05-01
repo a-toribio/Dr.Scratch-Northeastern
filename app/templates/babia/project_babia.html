@@ -141,7 +141,7 @@
             if (cajas.length > 0 && !this.painted) {
                 cajas.forEach(caja => {
                     let idCaja = caja.id || "";
-                    // 1. SI ES UNA TORRE (Contiene 'script')
+                    
                     if (idCaja.endsWith('ScratchCity')) {
                       let colorBase = "#98e690";
                       caja.setAttribute('color', colorBase);
@@ -156,15 +156,13 @@
                           }
                         });
                     }
-                    // 2. SI ES UNA BASE / ISLA (Contiene 'boat-' pero no 'script')
                     else if (idCaja.startsWith('boat-')) {
-                        let colorVerde = "#adeba6"; // El color de base que tenías
+                        let colorVerde = "#adeba6";
                         caja.setAttribute('color', colorVerde);
                         caja.setAttribute('babiaxrfirstcolor', colorVerde);
                     }
                 });
                 
-                // Si hemos encontrado cajas, marcamos como pintado para ahorrar procesador
                 this.painted = true;
             }
         }
@@ -398,10 +396,6 @@
   </style>
 
   <script>
-    // --- DATOS DEL PROYECTO ---
-    // (Asegúrate de que esta línea esté al principio o aquí mismo)
-    // var projectData = {{ babia_dict|safe }}; // Ya la tienes arriba, no hace falta repetirla si es global
-
     // Referencias al DOM
     const views = {
         district: document.getElementById('view-district'),
@@ -440,23 +434,10 @@
         views.code.style.display = 'none';
     };
 
-    // --- LISTENER SUPER ROBUSTO ---
     document.querySelector('a-scene').addEventListener('click', function (evt) {
         
         let intersection = evt.detail.intersectedEl;
         if (!intersection) return;
-
-        // LOG DE DIAGNÓSTICO: muestra el árbol de IDs del elemento clicado
-        let debugEl = intersection;
-        let debugDepth = 0;
-        console.log("=== CLICK DETECTADO ===");
-        while (debugEl && debugDepth < 8) {
-            console.log("Nivel " + debugDepth + " | id:", debugEl.id, "| tagName:", debugEl.tagName, "| attrs:", debugEl.hasAttribute ? debugEl.getAttributeNames && debugEl.getAttributeNames().join(',') : '');
-            debugEl = debugEl.parentNode;
-            debugDepth++;
-        }
-        console.log("Keys en districtIndex:", Object.keys(districtIndex));
-        console.log("Keys en scriptIndex (primeros 5):", Object.keys(scriptIndex).slice(0,5));
 
         let context = findContextByElementID(intersection);
 
@@ -528,7 +509,6 @@
 
     buildReferenceMap();
 
-    // 2. Función que convierte [D26] o [E6] en etiquetas clicables
     function linkifyReferences(text) {
         if (!text) return "";
         // Busca cualquier corchete que contenga una letra (D, E, R) y números
@@ -542,7 +522,6 @@
         });
     }
 
-    // 3. Función que se ejecuta al hacer clic en el enlace
     window.navigateToReference = function(refCode) {
         let target = referenceMap[refCode];
         if (target) {
@@ -554,7 +533,6 @@
         }
     };
 
-    // Función "Sabueso" DEFINITIVA y sin errores
     function findContextByElementID(element) {
         let el = element;
         let depth = 0;
@@ -562,14 +540,12 @@
         while (el && depth < 7) { 
             let checkId = el.id; 
             
-            // Nos aseguramos de que checkId y projectData existen
             if (checkId && typeof projectData !== 'undefined' && projectData.children) {
                 
                 let cleanId = checkId.replace(/^boat-/, '');
                 let parts = cleanId.split('/');
                 let baseId = parts[parts.length - 1]; 
-                
-                // 1. ¿Es la base principal de la ciudad? (G1)
+
                 if (checkId.endsWith('ScratchCity') || checkId === 'boat-ScratchCity' || baseId === 'ScratchCity') {
                     return { type: 'district', data: projectData }; 
                 }
@@ -578,12 +554,10 @@
 
                 for (let district of projectData.children) {
                     
-                    // A. ¿Es un distrito?
                     if (variants.includes(district.id) || variants.includes(district.id.replace(/ /g, '_'))) {
                         return { type: 'district', data: district };
                     }
                     
-                    // B. ¿Es una torre?
                     if (district.children) {
                         for (let script of district.children) {
                             let scriptIdSafe = script.id.replace(/ /g, '_');
@@ -608,9 +582,7 @@
         ui.title.innerText = isCityRoot ? "Proyecto Completo" : "Distrito (Sprite)";
         ui.subtitle.innerText = isCityRoot ? "Vista general" : "Vista general del objeto";
         ui.districtName.innerText = districtData.id;
-        
-        // --- NUEVO: Rellenar las pestañas de la IA con los datos del backend ---
-        // Insertamos el párrafo detallado
+
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
         if(verbosePlaceholder) {
             // Pasamos el texto por linkifyReferences
@@ -665,7 +637,6 @@
         btnElement.classList.add('active');
     };
 
-    // Nueva función simplificada que recibe los datos directamente
     function handleTowerData(scriptData, parentDistrict) {
         console.log("Mostrando torre:", scriptData.id, "del distrito:", parentDistrict.id);
         hideAllViews();
@@ -680,9 +651,8 @@
         // 3. Actualizamos los títulos
         ui.title.innerText = "Script Seleccionado";
         ui.subtitle.innerText = "Torre de código";
-        ui.scriptId.innerText = fullData.nombre_corto || fullData.id;
+        ui.scriptId.innerText = fullData.id_num ? fullData.id_num : (fullData.nombre_corto || fullData.id);
         
-        // --- 4. AQUÍ SE COGE LA EXPLICACIÓN Y SE BORRA EL TEXTO DETERMINADO ---
         let verbosePlaceholder = document.getElementById('script-ai-verbose-placeholder');
         let schematicPlaceholder = document.getElementById('script-ai-schematic-placeholder');
 
@@ -693,7 +663,6 @@
         if (schematicPlaceholder) {
             schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Esquema no disponible para esta torre.</p>";
         }
-        // ------------------------------------------------------------------------
 
         // 5. Botón de volver al distrito
         let descContainer = document.getElementById('view-description');
@@ -715,7 +684,6 @@
         views.description.style.display = 'block';
     }
 
-    // --- CONTROL DE PESTAÑAS IA ---
     function openTab(tabId, btnElement) {
         // 1. Ocultar todos los contenidos
         let contents = document.querySelectorAll('.tab-content');
