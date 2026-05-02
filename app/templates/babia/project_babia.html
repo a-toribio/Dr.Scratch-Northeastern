@@ -48,9 +48,15 @@
 <body>
   <div class="building_info" style="overflow: auto; display: flex; flex-direction: column;">
     
-    <div style="border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px;">
-        <h2 id="panel-title" style="margin: 0; color: #333;">Selecciona un elemento</h2>
-        <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Haz clic en el suelo o en una torre</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px;">
+        <div style="flex-grow: 1;">
+            <h2 id="panel-title" style="margin: 0; color: #333; font-size: 1.5em;">Selecciona un elemento</h2>
+            <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Haz clic en el suelo o en una torre</span>
+        </div>
+        <div id="nav-history-buttons" style="display: flex; gap: 5px; flex-shrink: 0;">
+            <button id="btn-back" onclick="goBack()" disabled style="cursor: pointer; padding: 6px 12px; background: #3a85fc; color: white; border: none; border-radius: 4px; font-weight: bold; opacity: 0.5; font-size: 16px;">&larr;</button>
+            <button id="btn-forward" onclick="goForward()" disabled style="cursor: pointer; padding: 6px 12px; background: #3a85fc; color: white; border: none; border-radius: 4px; font-weight: bold; opacity: 0.5; font-size: 16px;">&rarr;</button>
+        </div>
     </div>
 
     <div id="view-district" style="display: none;">
@@ -415,6 +421,71 @@
 
     let currentRawCode = ""; 
 
+    let navHistory = [];
+    let historyIndex = -1;
+    let isNavigating = false;
+
+    function pushToHistory(type, data, parent = null) {
+        if (isNavigating) return; // Si estamos usando las flechas, no añadimos al historial
+
+        // Si el usuario vuelve atrás y pincha un enlace nuevo, borramos el "futuro"
+        if (historyIndex < navHistory.length - 1) {
+            navHistory = navHistory.slice(0, historyIndex + 1);
+        }
+
+        // Evitar guardar el mismo sitio dos veces seguidas
+        if (navHistory.length > 0) {
+            let last = navHistory[navHistory.length - 1];
+            if (last.type === type && last.data.id === data.id) return;
+        }
+
+        navHistory.push({ type: type, data: data, parent: parent });
+        historyIndex++;
+        updateNavButtons();
+    }
+
+    function updateNavButtons() {
+        let btnBack = document.getElementById('btn-back');
+        let btnForward = document.getElementById('btn-forward');
+        
+        if(btnBack) {
+            btnBack.disabled = (historyIndex <= 0);
+            btnBack.style.opacity = (historyIndex <= 0) ? "0.5" : "1";
+        }
+        if(btnForward) {
+            btnForward.disabled = (historyIndex >= navHistory.length - 1);
+            btnForward.style.opacity = (historyIndex >= navHistory.length - 1) ? "0.5" : "1";
+        }
+    }
+
+    window.goBack = function() {
+        if (historyIndex > 0) {
+            historyIndex--;
+            loadHistoryState(navHistory[historyIndex]);
+        }
+    };
+
+    window.goForward = function() {
+        if (historyIndex < navHistory.length - 1) {
+            historyIndex++;
+            loadHistoryState(navHistory[historyIndex]);
+        }
+    };
+
+    function loadHistoryState(state) {
+        isNavigating = true; // Bloqueamos guardar historial temporalmente
+        try {
+            if (state.type === 'district') {
+                showDistrictView(state.data);
+            } else if (state.type === 'tower') {
+                handleTowerData(state.data, state.parent);
+            }
+        } finally {
+            isNavigating = false; // Desbloqueamos
+            updateNavButtons();
+        }
+    }
+
     function hideAllViews() {
         views.district.style.display = 'none';
         views.description.style.display = 'none';
@@ -577,6 +648,8 @@
     function showDistrictView(districtData) {
         hideAllViews();
 
+        pushToHistory('district', districtData);
+
         let isCityRoot = (districtData.id === "ScratchCity");
         
         ui.title.innerText = isCityRoot ? "Proyecto Completo" : "Distrito (Sprite)";
@@ -640,6 +713,8 @@
     function handleTowerData(scriptData, parentDistrict) {
         console.log("Mostrando torre:", scriptData.id, "del distrito:", parentDistrict.id);
         hideAllViews();
+
+        pushToHistory('tower', scriptData, parentDistrict);
         
         // 1. Buscamos el objeto completo de la torre en tus datos aplanados (donde viene la info de la IA)
         let fullData = projectFlat.find(item => item.id === scriptData.id) || scriptData;
