@@ -163,7 +163,7 @@
                         });
                     }
                     else if (idCaja.startsWith('boat-')) {
-                        let colorVerde = "#adeba6";
+                        let colorVerde = "#bdefb7";
                         caja.setAttribute('color', colorVerde);
                         caja.setAttribute('babiaxrfirstcolor', colorVerde);
                     }
@@ -580,16 +580,36 @@
 
     buildReferenceMap();
 
+    // 2. Función que convierte [D26] o [E6] en los nombres reales clicables
     function linkifyReferences(text) {
         if (!text) return "";
-        // Busca cualquier corchete que contenga una letra (D, E, R) y números
-        return text.replace(/\[([A-Z]\d+)\]/g, function(match, idCode) {
-            // Si existe en nuestro mapa, lo hacemos enlace
-            if (referenceMap[idCode]) {
-                return `<span class="ai-ref-link" onclick="navigateToReference('${idCode}')">${match}</span>`;
+        return text.replace(/\[\s*([a-zA-Z]\d+)\s*\]/g, function(match, idCode) {
+            
+            let cleanIdCode = idCode.toUpperCase().trim(); 
+            let target = referenceMap[cleanIdCode];
+
+            // Si existe en nuestro mapa, sacamos su nombre real y lo hacemos enlace
+            if (target) {
+                let nombreReal = cleanIdCode; // Valor por defecto por si acaso
+                
+                if (target.type === 'district') {
+                    // Si es la base de la ciudad (G1), le ponemos un nombre bonito
+                    if (target.data.id === "ScratchCity") {
+                        nombreReal = "Ciudad Completa";
+                    } else {
+                        // Usamos el nombre del Sprite
+                        nombreReal = target.data.id; 
+                    }
+                } else if (target.type === 'tower') {
+                    // Si es una torre, usamos el nombre del bloque (ej: "when flag clicked")
+                    nombreReal = target.data.nombre_corto || target.data.id;
+                }
+
+                return `<span class="ai-ref-link" title="Ir a ${cleanIdCode}" onclick="navigateToReference('${cleanIdCode}')">${nombreReal}</span>`;
+            } else {
+                // Si no existe (ej. relaciones [R29] que no tienen objeto 3D asignado), lo dejamos igual
+                return match; 
             }
-            // Si no existe (ej. relaciones [R29] que no son objetos físicos), lo dejamos normal
-            return match; 
         });
     }
 
