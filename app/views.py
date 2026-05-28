@@ -1818,6 +1818,20 @@ def get_babia(request):
 
 import random, math
 
+def get_region_for_sprite(sprite_name):
+    regions = {
+        "Colores": ["color_picker", "change_color_button", "yellow", "green", "blue", "pink", "red", "orange"],
+        "Gameplay": ["flappy_bird", "firstpipe", "secondpipe", "ground", "ground2"],
+        "Menús y UI": ["flappy_bird_title_page", "title", "flappy_bird_sign", "flappybirdguy", "game_over", "101508108-flappy_bird.1910x1000"],
+        "Botones": ["playbutton", "restart_button", "rules_button", "back_button", "back_button2"],
+        "Sistemas": ["text_engine", "rules", "all_in_one!"]
+    }
+    for region_name, sprites in regions.items():
+        # Comprobamos en minúsculas por seguridad
+        if sprite_name.lower() in [s.lower() for s in sprites]:
+            return region_name
+    return "Otros"
+
 def format_babia_dict(d: dict):
     global_babia = d['babia']
     deadCode_babia = d['deadCode']['scripts']
@@ -1846,6 +1860,7 @@ def format_babia_dict(d: dict):
     }
 
     total_city_area = 0
+    regions_dict = {}
 
     # 2. ITERAMOS SOBRE LOS SPRITES
     for sprite_key, sprite_item in global_babia['sprites'].items():
@@ -1901,14 +1916,28 @@ def format_babia_dict(d: dict):
             "ai_schematic": ai_data["schematic"],
             "id_num": ai_data.get("id_num", "")
         }
+        
+        region_name = get_region_for_sprite(sprite_key)
+        if region_name not in regions_dict:
+            regions_dict[region_name] = {
+                "id": region_name,
+                "children": [],
+                "area": 0,
+                "node_type": "Region",
+                "ai_verbose": f"Este barrio agrupa los componentes de la categoría: {region_name}.",
+                "ai_schematic": f"<p>Elementos incluidos en el barrio de {region_name}.</p>"
+            }
 
         # Lo añadimos a la ciudad
-        data["children"].append(sprite_district)
-        total_city_area += sprite_fixed_area
+        regions_dict[region_name]["children"].append(sprite_district)
+        regions_dict[region_name]["area"] += sprite_fixed_area
 
+    for region in regions_dict.values():
+        data["children"].append(region)
+        total_city_area += region["area"]
+        
     # Guardamos el área total
     data["area"] = total_city_area
-
     return data
 
 def format_babia_flat(d: dict) -> list:
@@ -1935,6 +1964,9 @@ def format_babia_flat(d: dict) -> list:
     flat_list = []
     for sprite_key, sprite_item in global_babia['sprites'].items():
         safe_sprite = sprite_key.replace('/', '_').replace(' ', '_')
+        region_name = get_region_for_sprite(sprite_key)
+        safe_region = region_name.replace('/', '_').replace(' ', '_')
+        
         script_counter = 1
         for script_key, script_value in sprite_item.items():
             is_dead = (norm(sprite_key), norm(script_key)) in dead_set
@@ -1952,7 +1984,7 @@ def format_babia_flat(d: dict) -> list:
             })
 
             flat_list.append({
-                "path": f"ScratchCity/{safe_sprite}/{unique_id}",
+                "path": f"ScratchCity/{safe_region}/{safe_sprite}/{unique_id}",
                 "id": unique_id,
                 "nombre_corto": script_key.lower(),
                 "area": tower_area,

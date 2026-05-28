@@ -163,7 +163,7 @@
                         });
                     }
                     else if (idCaja.startsWith('boat-')) {
-                        let colorVerde = "#adeba6";
+                        let colorVerde = "#bdefb7";
                         caja.setAttribute('color', colorVerde);
                         caja.setAttribute('babiaxrfirstcolor', colorVerde);
                     }
@@ -561,16 +561,23 @@
             if (projectData.id_num) {
                 referenceMap[projectData.id_num.toUpperCase()] = { type: 'district', data: projectData };
             }
-            projectData.children.forEach(district => {
-                if (district.id_num) {
-                    referenceMap[district.id_num] = { type: 'district', data: district };
-                }
-                if (district.children) {
-                    // Para que las torres tengan su id_num mapeado (lo leemos de projectFlat)
-                    district.children.forEach(script => {
-                        let flatData = projectFlat.find(item => item.id === script.id);
-                        if (flatData && flatData.id_num) {
-                            referenceMap[flatData.id_num] = { type: 'tower', data: flatData, parent: district };
+            
+            // Recorremos los Barrios (Regiones)
+            projectData.children.forEach(region => {
+                if (region.children) {
+                    // Recorremos los Distritos (Sprites)
+                    region.children.forEach(district => {
+                        if (district.id_num) {
+                            referenceMap[district.id_num] = { type: 'district', data: district };
+                        }
+                        if (district.children) {
+                            // Recorremos las Torres (Scripts)
+                            district.children.forEach(script => {
+                                let flatData = projectFlat.find(item => item.id === script.id);
+                                if (flatData && flatData.id_num) {
+                                    referenceMap[flatData.id_num] = { type: 'tower', data: flatData, parent: district };
+                                }
+                            });
                         }
                     });
                 }
@@ -580,16 +587,36 @@
 
     buildReferenceMap();
 
+    // 2. Función que convierte [D26] o [E6] en los nombres reales clicables
     function linkifyReferences(text) {
         if (!text) return "";
-        // Busca cualquier corchete que contenga una letra (D, E, R) y números
-        return text.replace(/\[([A-Z]\d+)\]/g, function(match, idCode) {
-            // Si existe en nuestro mapa, lo hacemos enlace
-            if (referenceMap[idCode]) {
-                return `<span class="ai-ref-link" onclick="navigateToReference('${idCode}')">${match}</span>`;
+        return text.replace(/\[\s*([a-zA-Z]\d+)\s*\]/g, function(match, idCode) {
+            
+            let cleanIdCode = idCode.toUpperCase().trim(); 
+            let target = referenceMap[cleanIdCode];
+
+            // Si existe en nuestro mapa, sacamos su nombre real y lo hacemos enlace
+            if (target) {
+                let nombreReal = cleanIdCode; // Valor por defecto por si acaso
+                
+                if (target.type === 'district') {
+                    // Si es la base de la ciudad (G1), le ponemos un nombre bonito
+                    if (target.data.id === "ScratchCity") {
+                        nombreReal = "Ciudad Completa";
+                    } else {
+                        // Usamos el nombre del Sprite
+                        nombreReal = target.data.id; 
+                    }
+                } else if (target.type === 'tower') {
+                    // Si es una torre, usamos el nombre del bloque (ej: "when flag clicked")
+                    nombreReal = target.data.nombre_corto || target.data.id;
+                }
+
+                return `<span class="ai-ref-link" title="Ir a ${cleanIdCode}" onclick="navigateToReference('${cleanIdCode}')">${nombreReal}</span>`;
+            } else {
+                // Si no existe (ej. relaciones [R29] que no tienen objeto 3D asignado), lo dejamos igual
+                return match; 
             }
-            // Si no existe (ej. relaciones [R29] que no son objetos físicos), lo dejamos normal
-            return match; 
         });
     }
 
@@ -608,7 +635,7 @@
         let el = element;
         let depth = 0;
         
-        while (el && depth < 7) { 
+        while (el && depth < 8) { 
             let checkId = el.id; 
             
             if (checkId && typeof projectData !== 'undefined' && projectData.children) {
@@ -616,24 +643,30 @@
                 let cleanId = checkId.replace(/^boat-/, '');
                 let parts = cleanId.split('/');
                 let baseId = parts[parts.length - 1]; 
-
+                
                 if (checkId.endsWith('ScratchCity') || checkId === 'boat-ScratchCity' || baseId === 'ScratchCity') {
-                    return { type: 'district', data: projectData }; 
+                    return { type: 'city', data: projectData }; 
                 }
 
                 let variants = [checkId, cleanId, baseId, baseId.replace(/_/g, ' '), baseId.replace(/ /g, '_')];
 
-                for (let district of projectData.children) {
-                    
-                    if (variants.includes(district.id) || variants.includes(district.id.replace(/ /g, '_'))) {
-                        return { type: 'district', data: district };
+                // NUEVO BUCLE PARA 3 NIVELES
+                for (let region of projectData.children) {
+                    if (variants.includes(region.id) || variants.includes(region.id.replace(/ /g, '_'))) {
+                        return { type: 'region', data: region };
                     }
-                    
-                    if (district.children) {
-                        for (let script of district.children) {
-                            let scriptIdSafe = script.id.replace(/ /g, '_');
-                            if (parts.includes(script.id) || parts.includes(scriptIdSafe)) {
-                                return { type: 'tower', data: script, parent: district }; 
+                    if (region.children) {
+                        for (let district of region.children) {
+                            if (variants.includes(district.id) || variants.includes(district.id.replace(/ /g, '_'))) {
+                                return { type: 'district', data: district, parent: region };
+                            }
+                            if (district.children) {
+                                for (let script of district.children) {
+                                    let scriptIdSafe = script.id.replace(/ /g, '_');
+                                    if (parts.includes(script.id) || parts.includes(scriptIdSafe)) {
+                                        return { type: 'tower', data: script, parent: district }; 
+                                    }
+                                }
                             }
                         }
                     }
@@ -645,53 +678,63 @@
         return null; 
     }
 
-    function showDistrictView(districtData) {
+    function showDistrictView(nodeData) {
         hideAllViews();
+        pushToHistory('district', nodeData);
 
-        pushToHistory('district', districtData);
-
-        let isCityRoot = (districtData.id === "ScratchCity");
+        // Detectar en qué nivel estamos
+        let nodeType = 'district';
+        if (nodeData.id === "ScratchCity") nodeType = 'city';
+        else if (nodeData.node_type === "Region") nodeType = 'region';
         
-        ui.title.innerText = isCityRoot ? "Proyecto Completo" : "Distrito (Sprite)";
-        ui.subtitle.innerText = isCityRoot ? "Vista general" : "Vista general del objeto";
-        ui.districtName.innerText = districtData.id;
-
+        ui.title.innerText = nodeType === 'city' ? "Proyecto Completo" : (nodeType === 'region' ? "Barrio Lógico" : "Distrito (Sprite)");
+        ui.subtitle.innerText = nodeType === 'city' ? "Vista general (G1)" : (nodeType === 'region' ? "Agrupación de Sprites" : "Vista general del objeto");
+        ui.districtName.innerText = nodeData.id;
+        
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
         if(verbosePlaceholder) {
-            // Pasamos el texto por linkifyReferences
-            verbosePlaceholder.innerHTML = linkifyReferences(districtData.ai_verbose) || "Explicación no disponible.";
-            verbosePlaceholder.style.color = "#333";
-            verbosePlaceholder.style.fontStyle = "normal";
+            verbosePlaceholder.innerHTML = linkifyReferences(nodeData.ai_verbose) || "Explicación no disponible.";
         }
-
         let schematicTab = document.getElementById('tab-schematic');
         if(schematicTab) {
-            // Pasamos el esquema por linkifyReferences
-            schematicTab.innerHTML = "<p><strong>Resumen esquemático de responsabilidades:</strong></p>" + 
-                                     linkifyReferences(districtData.ai_schematic || "<p>Esquema no disponible.</p>");
+            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(nodeData.ai_schematic || "<p>Esquema no disponible.</p>");
         }
 
         ui.scriptList.innerHTML = "";
-        if (districtData.children && districtData.children.length > 0) {
-            districtData.children.forEach(child => {
+        if (nodeData.children && nodeData.children.length > 0) {
+            nodeData.children.forEach(child => {
                 let li = document.createElement('li');
-                let nombreEdificio = child.id_num ? "Edificio [" + child.id_num + "]" : "Edificio (" + (child.nombre_corto || child.id) + ")";
-                li.innerText = isCityRoot ? "Distrito: " + child.id : nombreEdificio + " - " + child.Blocks + " bloques";
+                
+                if (nodeType === 'city') {
+                    li.innerText = "Barrio: " + child.id;
+                } else if (nodeType === 'region') {
+                    li.innerText = "Distrito (Sprite): " + child.id;
+                } else {
+                    let primerBloque = "Script";
+                    if (child.script_blocks) {
+                        let lineas = child.script_blocks.trim().split('\n');
+                        if (lineas.length > 0) {
+                            primerBloque = lineas[0].trim();
+                            if (primerBloque.length > 45) { primerBloque = primerBloque.substring(0, 42) + "..."; }
+                        }
+                    }
+                    let nombreEdificio = child.nombre_natural ? child.nombre_natural : (child.id_num ? "[" + child.id_num + "] " + primerBloque : "(" + primerBloque + ")");
+                    li.innerText = nombreEdificio + " - " + child.Blocks + " bloques";
+                }
+
                 li.style.cursor = "pointer";
                 li.style.color = "#3a85fc";
                 li.style.textDecoration = "underline";
                 li.style.marginBottom = "5px";
                 li.onclick = function() {
-                    if (isCityRoot) {
+                    if (nodeType === 'city' || nodeType === 'region') {
                         showDistrictView(child);
                     } else {
-                        handleTowerData(child, districtData);
+                        handleTowerData(child, nodeData);
                     }
                 };
                 ui.scriptList.appendChild(li);
             });
-        } else {
-            ui.scriptList.innerHTML = isCityRoot ? "<li>La ciudad está vacía.</li>" : "<li>Este Sprite no tiene scripts.</li>";
         }
         views.district.style.display = 'block';
     }
