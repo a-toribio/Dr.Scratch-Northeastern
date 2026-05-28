@@ -1820,14 +1820,15 @@ import random, math
 
 def get_region_for_sprite(sprite_name):
     regions = {
-        "Colores": ["color_picker", "change_color_button", "yellow", "green", "blue", "pink", "red", "orange"],
-        "Gameplay": ["flappy_bird", "firstpipe", "secondpipe", "ground", "ground2"],
-        "Menús y UI": ["flappy_bird_title_page", "title", "flappy_bird_sign", "flappybirdguy", "game_over", "101508108-flappy_bird.1910x1000"],
-        "Botones": ["playbutton", "restart_button", "rules_button", "back_button", "back_button2"],
-        "Sistemas": ["text_engine", "rules", "all_in_one!"]
+        "Juego Principal": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
+        "Control del Juego": ["stage", "game over", "restart button", "life"], 
+        "Puntuación": ["text engine"],
+        "Menú Principal": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
+        "Personalización": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
+        "Reglas": ["rules_button", "rules", "back button2"],
+        "Introducción del Sistema": ["101508108-flappy_bird.1910x1000", "all in one!"]
     }
     for region_name, sprites in regions.items():
-        # Comprobamos en minúsculas por seguridad
         if sprite_name.lower() in [s.lower() for s in sprites]:
             return region_name
     return "Otros"
