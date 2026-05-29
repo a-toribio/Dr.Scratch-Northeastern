@@ -72,7 +72,7 @@
 
             <div id="tab-verbose" class="tab-content active">
                 <strong>Descripción completa:</strong>
-                <p id="ia-verbose-placeholder" style="color: #666; font-style: italic;">
+                <p id="ia-verbose-placeholder" style="color: #000000;">
                     Explicación verbosa.
                 </p>
             </div>
@@ -513,7 +513,7 @@
         let context = findContextByElementID(intersection);
 
         if (context) {
-            if (context.type === 'district') {
+            if (context.type === 'city' || context.type === 'region' || context.type === 'district') {
                 ui.codeBlock.innerText = "";
                 currentRawCode = "";
                 showDistrictView(context.data);
@@ -534,11 +534,11 @@
 
     (function buildIndexes() {
         projectFlat.forEach(function(item) {
-            // path = "ScratchCity/SpriteName/script_id"
             var parts = item.path.split('/');
             var rootName   = parts[0];  // "ScratchCity"
-            var spriteName = parts[1];  // "flappy_bird"
-            var scriptId   = parts[2];  // "flappy_bird_hat_1"
+            var regionName = parts[1];  // "Juego Principal"
+            var spriteName = parts[2];  // "flappy_bird"
+            var scriptId   = parts[3];  // "flappy_bird_script_1"
 
             if (!districtIndex[spriteName]) {
                 var districtObj = {
@@ -547,9 +547,8 @@
                     ai_schematic: item.ai_schematic,
                     children: []
                 };
-                // Indexar por nombre corto Y por uid completo que usa treebuilder
                 districtIndex[spriteName] = districtObj;
-                districtIndex[rootName + '/' + spriteName] = districtObj;
+                districtIndex[rootName + '/' + regionName + '/' + spriteName] = districtObj;
             }
             districtIndex[spriteName].children.push(item);
             scriptIndex[scriptId] = { data: item, spriteName: spriteName };
@@ -558,24 +557,30 @@
 
     function buildReferenceMap() {
         if (projectData && projectData.children) {
+            // La ciudad base
             if (projectData.id_num) {
-                referenceMap[projectData.id_num.toUpperCase()] = { type: 'district', data: projectData };
+                referenceMap[projectData.id_num.toUpperCase()] = { type: 'city', data: projectData };
             }
             
             // Recorremos los Barrios (Regiones)
             projectData.children.forEach(region => {
+                // --- AÑADIMOS EL BARRIO AL MAPA ---
+                if (region.id_num) {
+                    referenceMap[region.id_num.toUpperCase()] = { type: 'region', data: region };
+                }
+
                 if (region.children) {
                     // Recorremos los Distritos (Sprites)
                     region.children.forEach(district => {
                         if (district.id_num) {
-                            referenceMap[district.id_num] = { type: 'district', data: district };
+                            referenceMap[district.id_num.toUpperCase()] = { type: 'district', data: district };
                         }
                         if (district.children) {
                             // Recorremos las Torres (Scripts)
                             district.children.forEach(script => {
                                 let flatData = projectFlat.find(item => item.id === script.id);
                                 if (flatData && flatData.id_num) {
-                                    referenceMap[flatData.id_num] = { type: 'tower', data: flatData, parent: district };
+                                    referenceMap[flatData.id_num.toUpperCase()] = { type: 'tower', data: flatData, parent: district };
                                 }
                             });
                         }
@@ -590,40 +595,81 @@
     // 2. Función que convierte [D26] o [E6] en los nombres reales clicables
     function linkifyReferences(text) {
         if (!text) return "";
-        return text.replace(/\[\s*([a-zA-Z]\d+)\s*\]/g, function(match, idCode) {
-            
-            let cleanIdCode = idCode.toUpperCase().trim(); 
-            let target = referenceMap[cleanIdCode];
+        
+        // 1. Detectar GRUPOS lógicos (ej. [Mecánica|E1,E2])
+        text = text.replace(/\[([^|\]]+)\|([a-zA-Z0-9,\s]+)\]/g, function(match, customName, ids) {
+            let idsString = ids.split(',').map(id => id.trim().toUpperCase()).join(','); 
+            return `<span class="ai-ref-link" title="Explorar scripts agrupados" onclick="showGroupView('${customName}', '${idsString}')">[${customName}]</span>`;
+        });
 
-            // Si existe en nuestro mapa, sacamos su nombre real y lo hacemos enlace
-            if (target) {
-                let nombreReal = cleanIdCode; // Valor por defecto por si acaso
-                
-                if (target.type === 'district') {
-                    // Si es la base de la ciudad (G1), le ponemos un nombre bonito
-                    if (target.data.id === "ScratchCity") {
-                        nombreReal = "Ciudad Completa";
-                    } else {
-                        // Usamos el nombre del Sprite
-                        nombreReal = target.data.id; 
+        // 2. Detectar ENLACES SIMPLES (ej. [D4], [B1], [Flappy Bird] o [Juego Principal])
+        // Ahora captura cualquier texto dentro de corchetes que no tenga la barra |
+        text = text.replace(/\[([^|\]]+)\]/g, function(match, innerText) {
+            let cleanText = innerText.trim();
+            let upperText = cleanText.toUpperCase();
+
+            // A. Intentamos buscar si el texto es un código exacto (ej: D4, B1, G1)
+            let target = referenceMap[upperText];
+
+            // B. Si NO es un código, buscamos por su nombre real
+            if (!target) {
+                // Limpiamos el texto quitando tildes, espacios y pasándolo a minúsculas
+                // para que "[Menu Principal]" encuentre a "Menú Principal" sin problemas
+                let searchKey = cleanText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
+
+                for (let key in referenceMap) {
+                    let item = referenceMap[key];
+
+                    // Si es ciudad
+                    if (item.type === 'city' && (searchKey === 'scratchcity' || searchKey === 'ciudad_completa')) {
+                        target = item; break;
                     }
-                } else if (target.type === 'tower') {
-                    // Si es una torre, usamos el nombre del bloque (ej: "when flag clicked")
-                    nombreReal = target.data.nombre_corto || target.data.id;
+                    // Si es barrio o distrito
+                    if (item.type === 'district' || item.type === 'region') {
+                        let itemIdNormalized = item.data.id.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
+                        if (itemIdNormalized === searchKey) {
+                            target = item; break;
+                        }
+                    }
+                    // Si es torre (script)
+                    if (item.type === 'tower') {
+                        let nomNat = (item.data.nombre_natural || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
+                        let towerId = item.data.id.toLowerCase().replace(/ /g, '_');
+                        if (nomNat === searchKey || towerId === searchKey) {
+                            target = item; break;
+                        }
+                    }
+                }
+            }
+
+            // Si hemos encontrado el objeto en el mapa...
+            if (target && target.data.id_num) {
+                let refCode = target.data.id_num.toUpperCase();
+                let nombreReal = cleanText; // Por defecto dejamos el texto que has escrito
+
+                // Solo lo "renombramos" si el usuario usó la versión de código (ej. escribió [D4])
+                if (cleanText.toUpperCase() === refCode) {
+                    if (target.type === 'city') nombreReal = "Ciudad Completa";
+                    else if (target.type === 'region') nombreReal = "Barrio: " + target.data.id;
+                    else if (target.type === 'district') nombreReal = target.data.id;
+                    else if (target.type === 'tower') nombreReal = target.data.nombre_natural || cleanText;
                 }
 
-                return `<span class="ai-ref-link" title="Ir a ${cleanIdCode}" onclick="navigateToReference('${cleanIdCode}')">${nombreReal}</span>`;
-            } else {
-                // Si no existe (ej. relaciones [R29] que no tienen objeto 3D asignado), lo dejamos igual
-                return match; 
+                // Generamos el enlace clicable
+                return `<span class="ai-ref-link" title="Ir a ${refCode}" onclick="navigateToReference('${refCode}')">[${nombreReal}]</span>`;
             }
+
+            // Si no existe ni por código ni por nombre, se queda negro y normal
+            return match; 
         });
+        
+        return text; 
     }
 
     window.navigateToReference = function(refCode) {
         let target = referenceMap[refCode];
         if (target) {
-            if (target.type === 'district') {
+            if (target.type === 'city' || target.type === 'region' || target.type === 'district') {
                 showDistrictView(target.data);
             } else if (target.type === 'tower') {
                 handleTowerData(target.data, target.parent);

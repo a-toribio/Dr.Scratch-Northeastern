@@ -1824,7 +1824,7 @@ def get_region_for_sprite(sprite_name):
         "Control del Juego": ["stage", "game over", "restart button", "life"], 
         "Puntuación": ["text engine"],
         "Menú Principal": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
-        "Personalización": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
+        "Personalizacion": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
         "Reglas": ["rules_button", "rules", "back button2"],
         "Introducción del Sistema": ["101508108-flappy_bird.1910x1000", "all in one!"]
     }
@@ -1899,9 +1899,7 @@ def format_babia_dict(d: dict):
             script_children.append(script_data)
 
         sprite_fixed_area = 400
-
         safe_key = sprite_key.lower().replace(' ', '_')
-
         ai_data = FLAPPY_PERSPECTIVES.get(safe_key, {
             "verbose": "Análisis detallado no disponible para este Sprite.",
             "schematic": "<ul><li>Sin datos esquemáticos.</li></ul>"
@@ -1920,16 +1918,30 @@ def format_babia_dict(d: dict):
         
         region_name = get_region_for_sprite(sprite_key)
         if region_name not in regions_dict:
+            safe_region_keys = {
+                "Juego Principal": "juego_principal",
+                "Control del Juego": "control_del_juego",
+                "Puntuación": "puntuacion",
+                "Menú Principal": "menu_principal",
+                "Fin del Juego": "fin_del_juego",
+                "Personalizacion": "personalizacion",
+                "Reglas": "reglas",
+                "Introducción del Sistema": "introduccion_del_sistema"
+            }
+
+            json_key = safe_region_keys.get(region_name, "otros")
+            region_ai_data = FLAPPY_PERSPECTIVES.get(json_key, {})
+            
             regions_dict[region_name] = {
                 "id": region_name,
                 "children": [],
                 "area": 0,
                 "node_type": "Region",
-                "ai_verbose": f"Este barrio agrupa los componentes de la categoría: {region_name}.",
-                "ai_schematic": f"<p>Elementos incluidos en el barrio de {region_name}.</p>"
+                "ai_verbose": region_ai_data.get("verbose", f"Este barrio agrupa los componentes de la categoría: {region_name}."),
+                "ai_schematic": region_ai_data.get("schematic", f"<p>Elementos incluidos en el barrio de {region_name}.</p>"),
+                "id_num": region_ai_data.get("id_num", "")
             }
 
-        # Lo añadimos a la ciudad
         regions_dict[region_name]["children"].append(sprite_district)
         regions_dict[region_name]["area"] += sprite_fixed_area
 
