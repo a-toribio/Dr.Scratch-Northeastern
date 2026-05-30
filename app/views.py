@@ -1860,6 +1860,18 @@ def format_babia_dict(d: dict):
         "id_num": city_ai_data.get("id_num", "")
     }
 
+    broadcast = []
+    for key, val in FLAPPY_PERSPECTIVES.items():
+        if key.startswith('broadcast_'):
+            broadcast.append({
+                "id": val.get("nombre", key),
+                "id_num": val.get("id_num", ""),
+                "ai_verbose": val.get("verbose", ""),
+                "ai_schematic": val.get("schematic", ""),
+                "node_type": "Broadcast"
+            })
+    data["broadcast"] = broadcast
+
     total_city_area = 0
     regions_dict = {}
 

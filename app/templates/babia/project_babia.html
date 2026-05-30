@@ -479,9 +479,13 @@
                 showDistrictView(state.data);
             } else if (state.type === 'tower') {
                 handleTowerData(state.data, state.parent);
+            } else if (state.type === 'broadcast') {
+                showBroadcastView(state.data);
+            } else if (state.type === 'group' && window.showGroupView) {
+                showGroupView(state.data.name, state.data.ids);
             }
         } finally {
-            isNavigating = false; // Desbloqueamos
+            isNavigating = false;
             updateNavButtons();
         }
     }
@@ -556,10 +560,18 @@
     })();
 
     function buildReferenceMap() {
-        if (projectData && projectData.children) {
+        if (projectData) {
             // La ciudad base
             if (projectData.id_num) {
                 referenceMap[projectData.id_num.toUpperCase()] = { type: 'city', data: projectData };
+            }
+
+            if (projectData.virtual_nodes) {
+                projectData.virtual_nodes.forEach(broadcast => {
+                    if (broadcast.id_num) {
+                        referenceMap[broadcast.id_num.toUpperCase()] = { type: 'broadcast', data: broadcast };
+                    }
+                });
             }
             
             // Recorremos los Barrios (Regiones)
@@ -603,7 +615,6 @@
         });
 
         // 2. Detectar ENLACES SIMPLES (ej. [D4], [B1], [Flappy Bird] o [Juego Principal])
-        // Ahora captura cualquier texto dentro de corchetes que no tenga la barra |
         text = text.replace(/\[([^|\]]+)\]/g, function(match, innerText) {
             let cleanText = innerText.trim();
             let upperText = cleanText.toUpperCase();
@@ -625,7 +636,7 @@
                         target = item; break;
                     }
                     // Si es barrio o distrito
-                    if (item.type === 'district' || item.type === 'region') {
+                    if (item.type === 'district' || item.type === 'region'|| item.type === 'broadcast') {
                         let itemIdNormalized = item.data.id.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
                         if (itemIdNormalized === searchKey) {
                             target = item; break;
@@ -653,9 +664,9 @@
                     else if (target.type === 'region') nombreReal = "Barrio: " + target.data.id;
                     else if (target.type === 'district') nombreReal = target.data.id;
                     else if (target.type === 'tower') nombreReal = target.data.nombre_natural || cleanText;
+                    else if (target.type === 'broadcast') nombreReal = "Mensaje: " + target.data.id;
                 }
 
-                // Generamos el enlace clicable
                 return `<span class="ai-ref-link" title="Ir a ${refCode}" onclick="navigateToReference('${refCode}')">[${nombreReal}]</span>`;
             }
 
@@ -673,9 +684,35 @@
                 showDistrictView(target.data);
             } else if (target.type === 'tower') {
                 handleTowerData(target.data, target.parent);
+            } else if (target.type === 'broadcast') {
+                showBroadcastView(target.data);
             }
         }
     };
+
+    window.showBroadcastView = function(broadcastData) {
+        hideAllViews();
+        pushToHistory('broadcast', broadcastData);
+
+        // Reutilizamos el panel lateral de "Distrito" pero le cambiamos los títulos
+        ui.title.innerText = "Mensaje (Broadcast)";
+        ui.subtitle.innerText = "Definición del sistema";
+        ui.districtName.innerText = broadcastData.id;
+        
+        let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
+        if(verbosePlaceholder) {
+            verbosePlaceholder.innerHTML = linkifyReferences(broadcastData.ai_verbose) || "Explicación no disponible.";
+        }
+        let schematicTab = document.getElementById('tab-schematic');
+        if(schematicTab) {
+            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(broadcastData.ai_schematic || "<p>Esquema no disponible.</p>");
+        }
+
+        // Le avisamos al usuario de que esto no existe físicamente en el mapa 3D
+        ui.scriptList.innerHTML = "<li style='color:#666;'><em>Este es un mensaje interno (Señal) y no tiene representación física como edificio en la ciudad 3D.</em></li>";
+        
+        views.district.style.display = 'block';
+    }
 
     function findContextByElementID(element) {
         let el = element;

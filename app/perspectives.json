@@ -189,6 +189,102 @@
         "schematic": "<ul><li>Función</li><ul><li>Indicadores vida</li></ul><li>Ubicación</li><ul><li>Parte superior [Juego Principal]</li></ul><li>Cantidad</li><ul><li>Cuatro indicadores</li></ul><li>Actualización</li><ul><li>Al perder partida</li><li>Cambio apariencia uno de ellos</li></ul><li>Reinicio</li><ul><li>Al comenzar nueva partida</li><li>Restauración estado inicial</li></ul><li>Visibilidad</li><ul><li>Pantalla [Juego Principal]</li><li>Cuando juego se da por perdido</li></ul></ul>",
         "id_num": "D28"
     },
+    "broadcast_gamestart": {
+        "verbose": "Gestiona el inicio de la partida desde distintos puntos de la aplicación. Permite la transición hacia el [Juego Principal] desde el [Menú Principal] o desde la pantalla de [Fin del Juego].",
+        "schematic": "<ul><li>Gestiona inicio de la partida</li><ul><li>Desde distintos puntos de la aplicación</li><li>Transición hacia [Juego Principal]</li><ul><li>Desde [Menú Principal]</li><li>Desde pantalla de [Fin del Juego]</li></ul></ul></ul>",
+        "id_num": "BR1",
+        "nombre": "GameStart"
+    },
+    "broadcast_gameover": {
+        "verbose": "Gestiona la finalización de la partida al detectar el contacto del personaje con obstáculos o el borde de la pantalla. Activa la pantalla de [Fin del Juego] y detiene los elementos del [Juego Principal].",
+        "schematic": "<ul><li>Gestiona finalización de la partida</li><ul><li>Al detectar contacto del personaje</li><ul><li>Con obstáculos</li><li>Con borde de la pantalla</li></ul><li>Activa pantalla de [Fin del Juego]</li><li>Detiene elementos del [Juego Principal]</li></ul></ul>",
+        "id_num": "BR2",
+        "nombre": "gameover"
+    },
+    "broadcast_loss_life": {
+        "verbose": "Gestiona la pérdida de una oportunidad durante la partida. Coordina la actualización del sistema de vidas y la notificación visual correspondiente.",
+        "schematic": "<ul><li>Gestiona pérdida de una oportunidad</li><ul><li>Durante la partida</li></ul><li>Coordina actualización del sistema de vidas</li><li>Coordina notificación visual correspondiente</li></ul>",
+        "id_num": "BR3",
+        "nombre": "loss life"
+    },
+    "broadcast_update_hearts": {
+        "verbose": "Gestiona la actualización del indicador visual de vidas tras perder una oportunidad. Coordina el cambio de apariencia del corazón correspondiente.",
+        "schematic": "<ul><li>Gestiona actualización del indicador visual de vidas</li><ul><li>Tras perder una oportunidad</li></ul><li>Coordina cambio de apariencia</li><ul><li>Del corazón correspondiente</li></ul></ul>",
+        "id_num": "BR4",
+        "nombre": "update_hearts"
+    },
+    "broadcast_delete_hearts": {
+        "verbose": "Gestiona la eliminación de clones de corazones entre partidas. Prepara el sistema de vidas para una nueva configuración inicial.",
+        "schematic": "<ul><li>Gestiona eliminación de clones de corazones</li><ul><li>Entre partidas</li></ul><li>Prepara sistema de vidas</li><ul><li>Para nueva configuración inicial</li></ul></ul>",
+        "id_num": "BR5",
+        "nombre": "delete_hearts"
+    },
+    "broadcast_drawscore": {
+        "verbose": "Gestiona la visualización de la puntuación en pantalla. Coordina la actualización del marcador cuando el personaje supera obstáculos.",
+        "schematic": "<ul><li>Gestiona visualización de la puntuación</li><ul><li>En pantalla</li></ul><li>Coordina actualización del marcador</li><ul><li>Cuando el personaje supera obstáculos</li></ul></ul>",
+        "id_num": "BR6",
+        "nombre": "drawScore"
+    },
+    "broadcast_tim": {
+        "verbose": "Gestiona la transición temporal desde la [Introducción del Sistema] hacia el [Menú Principal]. Marca el punto de finalización de la secuencia de introducción.",
+        "schematic": "<ul><li>Gestiona transición temporal</li><ul><li>Desde [Introducción del Sistema]</li><li>Hacia [Menú Principal]</li></ul><li>Marca punto de finalización</li><ul><li>De la secuencia de introducción</li></ul></ul>",
+        "id_num": "BR7",
+        "nombre": "tim"
+    },
+    "broadcast_start": {
+        "verbose": "Gestiona la activación de los elementos del [Menú Principal] tras la conclusión de la [Introducción del Sistema]. Coordina la aparición de botones e imágenes promocionales.",
+        "schematic": "<ul><li>Gestiona activación de elementos del [Menú Principal]</li><ul><li>Tras conclusión de [Introducción del Sistema]</li></ul><li>Coordina aparición</li><ul><li>De botones</li><li>De imágenes promocionales</li></ul></ul>",
+        "id_num": "BR8",
+        "nombre": "start"
+    },
+    "broadcast_stop_game": {
+        "verbose": "Gestiona la parada de emergencia de los scripts del [Juego Principal]. Coordina la detención de movimientos y animaciones al concluir la partida.",
+        "schematic": "<ul><li>Gestiona parada de emergencia</li><ul><li>De los scripts del [Juego Principal]</li></ul><li>Coordina detención de movimientos y animaciones</li><ul><li>Al concluir la partida</li></ul></ul>",
+        "id_num": "BR9",
+        "nombre": "stop_game"
+    },
+    "broadcast_ad": {
+        "verbose": "Gestiona la sincronización del temporizador durante la [Introducción del Sistema]. Coordina el seguimiento del tiempo transcurrido para la secuencia de animación.",
+        "schematic": "<ul><li>Gestiona sincronización del temporizador</li><ul><li>Durante [Introducción del Sistema]</li></ul><li>Coordina seguimiento del tiempo transcurrido</li><ul><li>Para la secuencia de animación</li></ul></ul>",
+        "id_num": "BR10",
+        "nombre": "ad"
+    },
+    "broadcast_change_color": {
+        "verbose": "Gestiona la transición hacia la pantalla de [Personalización]. Coordina la aparición de los elementos de selección de color y la ocultación de los del [Menú Principal].",
+        "schematic": "<ul><li>Gestiona transición hacia pantalla de [Personalización]</li><li>Coordina aparición</li><ul><li>De elementos de selección de color</li></ul><li>Coordina ocultación</li><ul><li>De elementos del [Menú Principal]</li></ul></ul>",
+        "id_num": "BR11",
+        "nombre": "Change Color"
+    },
+    "broadcast_backchangecolor": {
+        "verbose": "Gestiona el retorno desde la pantalla de [Personalización] hacia el [Menú Principal]. Coordina la reaparición de los elementos del menú y la ocultación de los de selección de color.",
+        "schematic": "<ul><li>Gestiona retorno desde pantalla de [Personalización]</li><ul><li>Hacia [Menú Principal]</li></ul><li>Coordina reaparición</li><ul><li>De elementos del menú</li></ul><li>Coordina ocultación</li><ul><li>De elementos de selección de color</li></ul></ul>",
+        "id_num": "BR12",
+        "nombre": "backChangeColor"
+    },
+    "broadcast_rules": {
+        "verbose": "Gestiona la transición hacia la pantalla de [Reglas]. Coordina la aparición del contenido instructivo y la ocultación de los elementos del [Menú Principal].",
+        "schematic": "<ul><li>Gestiona transición hacia pantalla de [Reglas]</li><li>Coordina aparición</li><ul><li>Del contenido instructivo</li></ul><li>Coordina ocultación</li><ul><li>De elementos del [Menú Principal]</li></ul></ul>",
+        "id_num": "BR13",
+        "nombre": "rules"
+    },
+    "broadcast_backrules": {
+        "verbose": "Gestiona el retorno desde la pantalla de [Reglas] hacia el [Menú Principal]. Coordina la reaparición de los elementos del menú y la ocultación del contenido instructivo.",
+        "schematic": "<ul><li>Gestiona retorno desde pantalla de [Reglas]</li><ul><li>Hacia [Menú Principal]</li></ul><li>Coordina reaparición</li><ul><li>De elementos del menú</li></ul><li>Coordina ocultación</li><ul><li>Del contenido instructivo</li></ul></ul>",
+        "id_num": "BR14",
+        "nombre": "backRules"
+    },
+    "broadcast_yellow": {
+        "verbose": "Gestiona la selección específica del color amarillo en la pantalla de [Personalización]. Coordina la actualización de la apariencia del personaje principal.",
+        "schematic": "<ul><li>Gestiona selección específica del color amarillo</li><ul><li>En pantalla de [Personalización]</li></ul><li>Coordina actualización</li><ul><li>De la apariencia del personaje principal</li></ul></ul>",
+        "id_num": "BR15",
+        "nombre": "Yellow"
+    },
+    "broadcast_inicializate_hearts": {
+        "verbose": "Broadcast emitido durante el inicio de la partida que no es recibido por ningún script en el código actual. Broadcast huérfano sin receptor definido.",
+        "schematic": "<ul><li>Broadcast emitido durante inicio de la partida</li><ul><li>No es recibido por ningún script en el código actual</li></ul><li>Broadcast huérfano</li><ul><li>Sin receptor definido</li></ul></ul>",
+        "id_num": "BR16",
+        "nombre": "inicializate_hearts"
+    },
     "flappy_bird_script_1_1": {
         "verbose": "[E6] controla el salto del pájaro al pulsar tecla. Fija variable de impulso a 10, reproduce sonido de aleteo y espera condición de liberación de tecla. Coordina con [E15] duplicando la funcionalidad de salto. Afecta física de [D1] modificando su velocidad vertical contraída por gravedad [R36]. No gestiona colisiones ni envía señales broadcast. Su ejecución es reactiva a evento de teclado y no entra en bucles perpetuos. El sonido reproducido se detiene al iniciar nueva partida mediante [E1].",
         "schematic": "<ul><li>[E6] controla salto del pájaro por tecla</li><ul><li>Activación</li><ul><li>Pulsa tecla específica</li></ul><li>Acciones</li><ul><li>Fija variable de impulso a 10</li><li>Reproduce sonido de aleteo</li><li>Espera condición de liberación de tecla</li></ul><li>Coordinación</li><ul><li>Con [E15] duplicando funcionalidad de salto</li><li>Con [E1] que detiene sonido al reiniciar</li></ul><li>Efectos físicos</li><ul><li>Afecta [D1] modificando velocidad vertical</li><li>Contrarresta gravedad [R36]</li></ul><li>Limitaciones</li><ul><li>No gestiona colisiones</li><li>No envía señales broadcast</li><li>No entra en bucles perpetuos</li><li>Ejecución reactiva a evento de teclado</li></ul></ul></ul>",
@@ -590,38 +686,38 @@
         "id_num": "E82"
     },
     "change_color_button_script_1_1": {
-        "verbose": "[E83] muestra el botón de cambio de color al recibir señal de menú. Activa visibilidad de [D9] en pantalla de título. Coordina con [E84] que oculta al inicio y con [E87] [E88] que ocultan durante partida. Recibe activación desde [D4] [R3] o inicio. No envía señales broadcast ni modifica variables. Su ejecución es puntual y condicionada a estado de menú.",
-        "schematic": "<ul><li>[E83] muestra botón de cambio de color</li><ul><li>Activación</li><ul><li>Recibe señal de menú</li></ul><li>Acción</li><ul><li>Activa visibilidad de [D9]</li><li>En pantalla de título</li></ul><li>Coordinación</li><ul><li>Con [E84] que oculta al inicio</li><li>Con [E87] [E88] que ocultan en partida</li><li>Recibe activación desde [D4] [R3]</li><li>O desde inicio</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>No modifica variables</li><li>Ejecución puntual condicionada</li><li>A estado de menú</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Change Color Button] se muestra.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E83"
     },
     "change_color_button_script_2_2": {
-        "verbose": "[E84] oculta el botón de cambio de color al ejecutar el programa. Responde a bandera verde ocultando [D9] antes de mostrar elementos de menú. Coordina con [E83] que muestra por señal y con [E89] [E90] que también gestionan visibilidad. No envía señales broadcast ni modifica variables. Su ejecución es puntual y establece estado previo a la activación por [D4] [R3].",
-        "schematic": "<ul><li>[E84] oculta botón de cambio de color al inicio</li><ul><li>Activación</li><ul><li>Responde a bandera verde</li></ul><li>Acción</li><ul><li>Oculta [D9]</li><li>Antes de mostrar menú</li></ul><li>Coordinación</li><ul><li>Con [E83] que muestra por señal</li><li>Con [E89] [E90] que gestionan visibilidad</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>No modifica variables</li><li>Ejecución puntual</li><li>Estado previo a activación por [D4] [R3]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul>",
         "id_num": "E84"
     },
     "change_color_button_script_3_3": {
-        "verbose": "[E85] activa el selector de colores al hacer clic en el botón. Envía [R19] a [D11] para mostrar el picker y oculta [D9]. Coordina con [E86] que envía la misma señal sin clic y con [E83] [E89] que muestran el botón. No gestiona variables ni modifica posición. Su ejecución es reactiva a interacción del usuario y prepara la interfaz de selección cromática.",
-        "schematic": "<ul><li>[E85] activa selector de colores por clic</li><ul><li>Activación</li><ul><li>Clic en [D9]</li></ul><li>Acciones</li><ul><li>Envía [R19] a [D11]</li><li>Muestra el picker</li><li>Oculta [D9]</li></ul><li>Coordinación</li><ul><li>Con [E86] que envía sin clic</li><li>Con [E83] [E89] que muestran botón</li></ul><li>Limitaciones</li><ul><li>No gestiona variables</li><li>No modifica posición</li><li>Ejecución reactiva a usuario</li><li>Prepara interfaz de selección cromática</li></ul></ul></ul>",
+        "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Change Color Button]</li></ul><li>Acciones</li><ul><li>Emite [Change Color]</li><li>Oculta [Change Color Button]</li></ul></ul>",
         "id_num": "E85"
     },
     "change_color_button_script_4_4": {
-        "verbose": "[E87] oculta el botón de cambio de color al recibir señal de inicio de partida. Oculta [D9] cuando comienza el juego. Coordina con [E88] que también oculta y con [E83] [E89] que muestran en menú. Recibe disparo desde [D7] [R54] o señal GameStart. No gestiona variables ni envía señales adicionales. Su ejecución es puntual y condicionada a transición de estados.",
-        "schematic": "<ul><li>[E87] oculta botón por señal de inicio</li><ul><li>Activación</li><ul><li>Recibe señal de inicio de partida</li></ul><li>Acción</li><ul><li>Oculta [D9]</li><li>Cuando comienza juego</li></ul><li>Coordinación</li><ul><li>Con [E88] que también oculta</li><li>Con [E83] [E89] que muestran en menú</li><li>Recibe disparo desde [D7] [R54]</li><li>O señal GameStart</li></ul><li>Limitaciones</li><ul><li>No gestiona variables</li><li>No envía señales adicionales</li><li>Ejecución puntual condicionada</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E87"
     },
     "change_color_button_script_5_5": {
-        "verbose": "[E88] oculta el botón de cambio de color al recibir segunda señal de inicio. Oculta [D9] en transiciones adicionales de estado. Coordina con [E87] que oculta en inicio primario y con [E83] [E89] que muestran en reinicio. Recibe disparo desde [D7] [R54] o señales GameStart. No gestiona variables ni envía señales adicionales. Su ejecución es puntual y redundante con [E87].",
-        "schematic": "<ul><li>[E88] oculta botón por segunda señal</li><ul><li>Activación</li><ul><li>Recibe segunda señal de inicio</li></ul><li>Acción</li><ul><li>Oculta [D9]</li><li>En transiciones adicionales</li></ul><li>Coordinación</li><ul><li>Con [E87] que oculta en inicio primario</li><li>Con [E83] [E89] que muestran en reinicio</li><li>Recibe disparo desde [D7] [R54]</li><li>O señales GameStart</li></ul><li>Limitaciones</li><ul><li>No gestiona variables</li><li>No envía señales adicionales</li><li>Ejecución puntual</li><li>Redundante con [E87]</li></ul></ul></ul>",
+        "verbose": "Al recibir [rules], [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Recepción [rules]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E88"
     },
     "change_color_button_script_6_6": {
-        "verbose": "[E89] muestra el botón de cambio de color al recibir señal de menú. Activa visibilidad de [D9] en pantalla de título. Coordina con [E83] que muestra por otra vía y con [E87] [E88] que ocultan durante partida. Recibe activación desde [D4] [R3] o inicio. No envía señales broadcast. Su ejecución es puntual y condicionada a estado de menú.",
-        "schematic": "<ul><li>[E89] muestra botón por señal de menú</li><ul><li>Activación</li><ul><li>Recibe señal de menú</li></ul><li>Acción</li><ul><li>Activa visibilidad de [D9]</li><li>En pantalla de título</li></ul><li>Coordinación</li><ul><li>Con [E83] que muestra por otra vía</li><li>Con [E87] [E88] que ocultan en partida</li><li>Recibe activación desde [D4] [R3]</li><li>O desde inicio</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>Ejecución puntual condicionada</li><li>A estado de menú</li></ul></ul></ul>",
+        "verbose": "Al recibir [backRules], [Change Color Button] se muestra.",
+        "schematic": "<ul><li>Recepción [backRules]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E89"
     },
     "change_color_button_script_7_7": {
-        "verbose": "[E90] posiciona y muestra el botón de cambio de color en bucle perpetuo. Recibe señal, sitúa [D9] en (120,-100), muestra y mantiene bucle sin bloques visibles adicionales. Coordina con [E74] en [D7] que gestiona capas en bucle. No envía señales broadcast ni modifica variables. Su ejecución es continua y condicionada a recepción de señal.",
-        "schematic": "<ul><li>[E90] posiciona y muestra botón en bucle</li><ul><li>Activación</li><ul><li>Recibe señal broadcast específica</li></ul><li>Acciones</li><ul><li>Sitúa [D9] en (120,-100)</li><li>Muestra botón</li><li>Mantiene bucle perpetuo</li><li>Sin bloques visibles adicionales</li></ul><li>Coordinación</li><ul><li>Con [E74] en [D7]</li><li>Gestiona capas en bucle</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>No modifica variables</li><li>Ejecución continua condicionada</li></ul></ul></ul>",
+        "verbose": "Al recibir [start], [Change Color Button] se muestra. Se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [Change Color Button], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite para restaurar el disfraz original.",
+        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones</li><ul><li>Muestra [Change Color Button]</li><li>Posicionamiento coordenada inicial</li><li>Lleva a primer plano</li><li>Bucle continuo</li><ul><li>Detección paso del ratón sobre [Change Color Button]</li><li>Cambio de disfraz</li><li>Espera hasta que el ratón deje de estar sobre el sprite</li><li>Restauración disfraz original</li></ul></ul></ul></ul>",
         "id_num": "E90"
     },
     "flappybirdguy_script_1_1": {
