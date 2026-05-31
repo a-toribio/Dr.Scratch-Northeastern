@@ -60,7 +60,7 @@
     </div>
 
     <div id="view-district" style="display: none;">
-        <p>Has seleccionado el Sprite:</p>
+        <p id="selection-type-label">Has seleccionado el Sprite:</p>
         <h3 id="district-name-display" style="color: #3a85fc; border-left: 4px solid #3a85fc; padding-left: 10px;">NombreSprite</h3>
         
         <div id="ai-tabs-container">
@@ -229,7 +229,9 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <!--<a-entity id="leftHand" oculus-touch-controls="hand: left"> <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> </a-entity>-->
     </a-entity>
-
+    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1310084130/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
+      <div class="scratch-icon"></div>
+    </a>
   </a-scene>
   <style>
     .gitlab-corner-wrapper {
@@ -399,6 +401,36 @@
         background-color: #f0f0f0;
         border-radius: 3px;
     }
+    .scratch-floating-btn {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        z-index: 10000;
+        background-color: #ff8c00;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .scratch-floating-btn:hover {
+        transform: scale(1.08);
+        background-color: #e67e00;
+        color: white;
+    }
+    .scratch-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        background-image: url('https://scratch.mit.edu/favicon.ico');
+        background-size: cover;
+    }
   </style>
 
   <script>
@@ -566,8 +598,8 @@
                 referenceMap[projectData.id_num.toUpperCase()] = { type: 'city', data: projectData };
             }
 
-            if (projectData.virtual_nodes) {
-                projectData.virtual_nodes.forEach(broadcast => {
+            if (projectData.broadcast) {
+                projectData.broadcast.forEach(broadcast => {
                     if (broadcast.id_num) {
                         referenceMap[broadcast.id_num.toUpperCase()] = { type: 'broadcast', data: broadcast };
                     }
@@ -695,8 +727,10 @@
         pushToHistory('broadcast', broadcastData);
 
         // Reutilizamos el panel lateral de "Distrito" pero le cambiamos los títulos
-        ui.title.innerText = "Mensaje (Broadcast)";
+        ui.title.innerText = "Broadcast";
         ui.subtitle.innerText = "Definición del sistema";
+        let typeLabel = document.getElementById('selection-type-label');
+        if (typeLabel) typeLabel.innerText = "Has seleccionado el broadcast:";
         ui.districtName.innerText = broadcastData.id;
         
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
@@ -772,6 +806,12 @@
         
         ui.title.innerText = nodeType === 'city' ? "Proyecto Completo" : (nodeType === 'region' ? "Barrio Lógico" : "Distrito (Sprite)");
         ui.subtitle.innerText = nodeType === 'city' ? "Vista general (G1)" : (nodeType === 'region' ? "Agrupación de Sprites" : "Vista general del objeto");
+        let typeLabel = document.getElementById('selection-type-label');
+        if (typeLabel) {
+            if (nodeType === 'city') typeLabel.innerText = "Has seleccionado el Proyecto:";
+            else if (nodeType === 'region') typeLabel.innerText = "Has seleccionado el Barrio:";
+            else typeLabel.innerText = "Has seleccionado el Sprite:";
+        }
         ui.districtName.innerText = nodeData.id;
         
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');

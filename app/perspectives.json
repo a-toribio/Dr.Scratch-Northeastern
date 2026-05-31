@@ -686,58 +686,58 @@
         "id_num": "E82"
     },
     "change_color_button_script_1_1": {
-        "verbose": "Al recibir [backChangeColor], [Change Color Button] se muestra.",
-        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Change Color Button] se muestra. ",
+        "schematic": "<ul><li>Recepción [backChangeColor] </li><ul><li>Acción </li><ul><li>Muestra [Change Color Button] </li></ul></ul></ul>",
         "id_num": "E83"
     },
     "change_color_button_script_2_2": {
-        "verbose": "Al iniciar la aplicación, [Change Color Button] se oculta.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Change Color Button] se oculta. ",
+        "schematic": "<ul><li>Activación </li><ul><li>Inicio aplicación </li></ul><li>Acción </li><ul><li>Oculta [Change Color Button] </li></ul></ul>",
         "id_num": "E84"
     },
     "change_color_button_script_3_3": {
-        "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta.",
-        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Change Color Button]</li></ul><li>Acciones</li><ul><li>Emite [Change Color]</li><li>Oculta [Change Color Button]</li></ul></ul>",
+        "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta. ",
+        "schematic": "<ul><li>Activación </li><ul><li>Pulsar [Change Color Button] </li></ul><li>Acciones </li><ul><li>Emite [Change Color] </li><li>Oculta [Change Color Button] </li></ul></ul>",
         "id_num": "E85"
     },
     "change_color_button_script_4_4": {
-        "verbose": "Al recibir [GameStart], [Change Color Button] se oculta.",
-        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], [Change Color Button] se oculta. ",
+        "schematic": "<ul><li>Recepción [GameStart] </li><ul><li>Acción </li><ul><li>Oculta [Change Color Button] </li></ul></ul></ul>",
         "id_num": "E87"
     },
     "change_color_button_script_5_5": {
-        "verbose": "Al recibir [rules], [Change Color Button] se oculta.",
-        "schematic": "<ul><li>Recepción [rules]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
+        "verbose": "Al recibir [rules], [Change Color Button] se oculta. ",
+        "schematic": "<ul><li>Recepción [rules] </li><ul><li>Acción </li><ul><li>Oculta [Change Color Button] </li></ul></ul></ul>",
         "id_num": "E88"
     },
     "change_color_button_script_6_6": {
-        "verbose": "Al recibir [backRules], [Change Color Button] se muestra.",
-        "schematic": "<ul><li>Recepción [backRules]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backRules], [Change Color Button] se muestra. ",
+        "schematic": "<ul><li>Recepción [backRules] </li><ul><li>Acción </li><ul><li>Muestra [Change Color Button] </li></ul></ul></ul>",
         "id_num": "E89"
     },
     "change_color_button_script_7_7": {
-        "verbose": "Al recibir [start], [Change Color Button] se muestra. Se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [Change Color Button], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite para restaurar el disfraz original.",
-        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones</li><ul><li>Muestra [Change Color Button]</li><li>Posicionamiento coordenada inicial</li><li>Lleva a primer plano</li><li>Bucle continuo</li><ul><li>Detección paso del ratón sobre [Change Color Button]</li><li>Cambio de disfraz</li><li>Espera hasta que el ratón deje de estar sobre el sprite</li><li>Restauración disfraz original</li></ul></ul></ul></ul>",
+        "verbose": "Al recibir [start], [Change Color Button] se muestra.  Se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [Change Color Button], el cual lo hace cambiar de disfraz.Se espera hasta que el ratón deje de estar sobre el sprite. Posteriormente se restaura el disfraz original.",
+        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones iniciales</li><ul><li>Muestra [Change Color Button]</li><li>Posicionamiento coordenada inicial</li><li>Lleva a primer plano</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Change Color Button]</li><li>Cambio disfraz</li><li>Espera</li><li>Ratón deje de estar sobre sprite</li><li>Restauración disfraz original</li></ul></ul></ul>",
         "id_num": "E90"
     },
     "flappybirdguy_script_1_1": {
-        "verbose": "[E91] inicializa el personaje decorativo al ejecutar el programa. Responde a bandera verde ocultando [D10] y posicionándolo en (-117,-19). Coordina con [E92] que muestra por señal y con [E93] que oculta durante partida. No envía señales broadcast ni modifica variables. Su ejecución es puntual y establece estado previo a la activación por [D7] [R9].",
-        "schematic": "<ul><li>[E91] inicializa personaje decorativo</li><ul><li>Activación</li><ul><li>Responde a bandera verde</li></ul><li>Acciones</li><ul><li>Oculta [D10]</li><li>Posiciona en (-117,-19)</li></ul><li>Coordinación</li><ul><li>Con [E92] que muestra por señal</li><li>Con [E93] que oculta en partida</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>No modifica variables</li><li>Ejecución puntual</li><li>Estado previo a activación por [D7] [R9]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [flappybirdguy] se oculta.Se posiciona en la coordenada inicial.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Oculta [flappybirdguy]</li><li>Posicionamiento coordenada inicial</li></ul></ul>",
         "id_num": "E91"
     },
     "flappybirdguy_script_2_2": {
-        "verbose": "[E92] muestra el personaje decorativo al recibir señal de menú. Activa visibilidad de [D10] y gestiona capas superiores. Coordina con [E91] que oculta al inicio y con [E93] que oculta durante partida. Recibe activación desde [D4] [R3] o inicio. No envía señales broadcast. Su ejecución es puntual y condicionada a estado de menú.",
-        "schematic": "<ul><li>[E92] muestra personaje decorativo</li><ul><li>Activación</li><ul><li>Recibe señal de menú</li></ul><li>Acciones</li><ul><li>Activa visibilidad de [D10]</li><li>Gestiona capas superiores</li></ul><li>Coordinación</li><ul><li>Con [E91] que oculta al inicio</li><li>Con [E93] que oculta en partida</li><li>Recibe activación desde [D4] [R3]</li><li>O desde inicio</li></ul><li>Limitaciones</li><ul><li>No envía señales broadcast</li><li>Ejecución puntual condicionada</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [flappybirdguy] se muestra y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [flappybirdguy]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E92"
     },
     "flappybirdguy_script_3_3": {
-        "verbose": "[E93] oculta el personaje decorativo al recibir señal de inicio de partida. Oculta [D10] cuando comienza el juego. Coordina con [E91] que oculta al inicio y con [E92] que muestra en menú. Recibe disparo desde [D7] [R9] o señal GameStart. No gestiona variables ni envía señales adicionales. Su ejecución es puntual y condicionada a transición de estados.",
-        "schematic": "<ul><li>[E93] oculta personaje decorativo en partida</li><ul><li>Activación</li><ul><li>Recibe señal de inicio de partida</li></ul><li>Acción</li><ul><li>Oculta [D10]</li><li>Cuando comienza juego</li></ul><li>Coordinación</li><ul><li>Con [E91] que oculta al inicio</li><li>Con [E92] que muestra en menú</li><li>Recibe disparo desde [D7] [R9]</li><li>O señal GameStart</li></ul><li>Limitaciones</li><ul><li>No gestiona variables</li><li>No envía señales adicionales</li><li>Ejecución puntual condicionada</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [flappybirdguy] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [flappybirdguy]</li></ul></ul></ul>",
         "id_num": "E93"
     },
     "flappybirdguy_script_4_4": {
-        "verbose": "[E94] entra en bucle perpetuo desde el inicio del programa en [D10]. Responde a bandera verde manteniendo hilo activo constante sin bloques visibles. Coordina con [E12] en [D1] y [E100] en [D12] bucles similares. No gestiona variables, posición ni envía señales. Su función permanece indeterminada, actuando como reserva de procesamiento. No afecta directamente al flujo de juego.",
-        "schematic": "<ul><li>[E94] bucle perpetuo en personaje decorativo</li><ul><li>Activación</li><ul><li>Responde a bandera verde</li></ul><li>Comportamiento</li><ul><li>Mantiene bucle perpetuo</li><li>Sin bloques visibles</li><li>Hilo activo constante</li></ul><li>Coordinación</li><ul><li>Con [E12] en [D1]</li><li>Con [E100] en [D12]</li><li>Bucles similares</li></ul><li>Función</li><ul><li>Indeterminada en código</li><li>Reserva de procesamiento</li></ul><li>Limitaciones</li><ul><li>No gestiona variables</li><li>No gestiona posición</li><li>No envía señales</li><li>No afecta flujo de juego</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se evalúa [Color]. Se aplica el efecto de color correspondiente: 0 para Yellow, 25 para Green, 100 para Blue, 160 para Pink, 179 para Red, y 190 para cualquier otro valor.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Evaluación [Color]</li><li>Aplicación efecto color</li><ul><li>0 para Yellow</li><li>25 para Green</li><li>100 para Blue</li><li>160 para Pink</li><li>179 para Red</li><li>190 para cualquier otro valor</li></ul></ul></ul>",
         "id_num": "E94"
     },
     "color_picker_script_1_1": {
