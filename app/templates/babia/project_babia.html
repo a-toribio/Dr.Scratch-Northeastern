@@ -229,7 +229,7 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <!--<a-entity id="leftHand" oculus-touch-controls="hand: left"> <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> </a-entity>-->
     </a-entity>
-    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1310084130/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
+    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
       <div class="scratch-icon"></div>
     </a>
   </a-scene>
@@ -743,7 +743,7 @@
         }
 
         // Le avisamos al usuario de que esto no existe físicamente en el mapa 3D
-        ui.scriptList.innerHTML = "<li style='color:#666;'><em>Este es un mensaje interno (Señal) y no tiene representación física como edificio en la ciudad 3D.</em></li>";
+        ui.scriptList.innerHTML = "<li style='color:#666;'><em>No tiene representación física en la ciudad 3D.</em></li>";
         
         views.district.style.display = 'block';
     }
@@ -825,7 +825,7 @@
 
         ui.scriptList.innerHTML = "";
         if (nodeData.children && nodeData.children.length > 0) {
-            nodeData.children.forEach(child => {
+            nodeData.children.forEach((child, index) => {
                 let li = document.createElement('li');
                 
                 if (nodeType === 'city') {
@@ -833,15 +833,10 @@
                 } else if (nodeType === 'region') {
                     li.innerText = "Distrito (Sprite): " + child.id;
                 } else {
-                    let primerBloque = "Script";
-                    if (child.script_blocks) {
-                        let lineas = child.script_blocks.trim().split('\n');
-                        if (lineas.length > 0) {
-                            primerBloque = lineas[0].trim();
-                            if (primerBloque.length > 45) { primerBloque = primerBloque.substring(0, 42) + "..."; }
-                        }
-                    }
-                    let nombreEdificio = child.nombre_natural ? child.nombre_natural : (child.id_num ? "[" + child.id_num + "] " + primerBloque : "(" + primerBloque + ")");
+                    let cleanSpriteName = nodeData.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+                    let nombreGenerico = cleanSpriteName + " Script " + (index + 1);
+                    let nombreEdificio = child.nombre_natural ? child.nombre_natural : nombreGenerico;
+                    
                     li.innerText = nombreEdificio + " - " + child.Blocks + " bloques";
                 }
 
@@ -892,7 +887,12 @@
         // 3. Actualizamos los títulos
         ui.title.innerText = "Script Seleccionado";
         ui.subtitle.innerText = "Torre de código";
-        ui.scriptId.innerText = fullData.id_num ? fullData.id_num : (fullData.nombre_corto || fullData.id);
+
+        let cleanSpriteName = parentDistrict.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+        let scriptIndex = parentDistrict.children.findIndex(c => c.id === scriptData.id) + 1;
+        let nombreGenerico = cleanSpriteName + " Script " + scriptIndex;
+        let scriptTitle = fullData.nombre_natural ? fullData.nombre_natural : nombreGenerico;
+        ui.scriptId.innerText = scriptTitle;
         
         let verbosePlaceholder = document.getElementById('script-ai-verbose-placeholder');
         let schematicPlaceholder = document.getElementById('script-ai-schematic-placeholder');
