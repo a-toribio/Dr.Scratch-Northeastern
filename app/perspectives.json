@@ -691,268 +691,268 @@
         "id_num": "E81"
     },
     "playbutton_script_9_9": {
-        "verbose": "Al recibir [start], [playbutton] se muestra y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [playbutton], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite. Posteriormente se restaura el disfraz original.[cite: 10]",
-        "schematic": "<ul><li>Recepción [start][cite: 10]</li><ul><li>Acciones iniciales[cite: 10]</li><ul><li>Muestra [playbutton][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [playbutton][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Espera[cite: 10]</li><ul><li>Ratón deje de estar sobre sprite[cite: 10]</li></ul><li>Restauración disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [start], [playbutton] se muestra y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [playbutton], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite. Posteriormente se restaura el disfraz original.",
+        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones iniciales</li><ul><li>Muestra [playbutton]</li><li>Lleva a primer plano</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [playbutton]</li><li>Cambio disfraz</li><li>Espera</li><ul><li>Ratón deje de estar sobre sprite</li></ul><li>Restauración disfraz original</li></ul></ul></ul>",
         "id_num": "E74"
     },
     "flappy_bird_sign_script_1_1": {
-        "verbose": "Al recibir [Change Color], [Flappy Bird Sign] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Flappy Bird Sign] se oculta.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acción</li><ul><li>Oculta [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E75"
     },
     "flappy_bird_sign_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Flappy Bird Sign] se muestra.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Muestra [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Flappy Bird Sign] se muestra.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Muestra [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E76"
     },
     "flappy_bird_sign_script_3_3": {
-        "verbose": "Al recibir [GameStart], [Flappy Bird Sign] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [GameStart][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], [Flappy Bird Sign] se oculta.",
+        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acción</li><ul><li>Oculta [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E77"
     },
     "flappy_bird_sign_script_4_4": {
-        "verbose": "Al recibir [rules], [Flappy Bird Sign] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [rules][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [rules], [Flappy Bird Sign] se oculta.",
+        "schematic": "<ul><li>Recepción [rules]</li><ul><li>Acción</li><ul><li>Oculta [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E78"
     },
     "flappy_bird_sign_script_5_5": {
-        "verbose": "Al recibir [backRules], [Flappy Bird Sign] se muestra.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backRules][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Muestra [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backRules], [Flappy Bird Sign] se muestra.",
+        "schematic": "<ul><li>Recepción [backRules]</li><ul><li>Acción</li><ul><li>Muestra [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E79"
     },
     "flappy_bird_sign_script_6_6": {
-        "verbose": "Evento de inicio de la aplicación. Script residual sin utilidad[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Nota[cite: 10]</li><ul><li>Script residual[cite: 10]</li><li>Sin utilidad[cite: 10]</li></ul></ul>",
+        "verbose": "Evento de inicio de la aplicación. Script residual sin utilidad",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Nota</li><ul><li>Script residual</li><li>Sin utilidad</li></ul></ul>",
         "id_num": "E80"
     },
     "flappy_bird_sign_script_7_7": {
-        "verbose": "Al iniciar la aplicación, [Flappy Bird Sign] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Oculta [Flappy Bird Sign][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Flappy Bird Sign] se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acción</li><ul><li>Oculta [Flappy Bird Sign]</li></ul></ul>",
         "id_num": "E81"
     },
     "flappy_bird_sign_script_8_8": {
-        "verbose": "Al recibir [start], [Flappy Bird Sign] se posiciona en la coordenada inicial, se ajusta su nivel de superposición, se lleva al primer plano y se muestra.[cite: 10]",
-        "schematic": "<ul><li>Recepción [start][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Ajuste nivel superposición[cite: 10]</li><li>Lleva a primer plano[cite: 10]</li><li>Muestra [Flappy Bird Sign][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [start], [Flappy Bird Sign] se posiciona en la coordenada inicial, se ajusta su nivel de superposición, se lleva al primer plano y se muestra.",
+        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Ajuste nivel superposición</li><li>Lleva a primer plano</li><li>Muestra [Flappy Bird Sign]</li></ul></ul></ul>",
         "id_num": "E82"
     },
     "change_color_button_script_1_1": {
-        "verbose": "Al recibir [backChangeColor], [Change Color Button] se muestra.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Muestra [Change Color Button][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Change Color Button] se muestra.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E83"
     },
     "change_color_button_script_2_2": {
-        "verbose": "Al iniciar la aplicación, [Change Color Button] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Oculta [Change Color Button][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul>",
         "id_num": "E84"
     },
     "change_color_button_script_3_3": {
-        "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Change Color Button][cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Emite [Change Color][cite: 10]</li><li>Oculta [Change Color Button][cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Change Color Button]</li></ul><li>Acciones</li><ul><li>Emite [Change Color]</li><li>Oculta [Change Color Button]</li></ul></ul>",
         "id_num": "E85"
     },
     "change_color_button_script_4_4": {
-        "verbose": "Al recibir [GameStart], [Change Color Button] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [GameStart][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Change Color Button][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E87"
     },
     "change_color_button_script_5_5": {
-        "verbose": "Al recibir [rules], [Change Color Button] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [rules][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Change Color Button][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [rules], [Change Color Button] se oculta.",
+        "schematic": "<ul><li>Recepción [rules]</li><ul><li>Acción</li><ul><li>Oculta [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E88"
     },
     "change_color_button_script_6_6": {
-        "verbose": "Al recibir [backRules], [Change Color Button] se muestra.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backRules][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Muestra [Change Color Button][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backRules], [Change Color Button] se muestra.",
+        "schematic": "<ul><li>Recepción [backRules]</li><ul><li>Acción</li><ul><li>Muestra [Change Color Button]</li></ul></ul></ul>",
         "id_num": "E89"
     },
     "change_color_button_script_7_7": {
-        "verbose": "Al recibir [start], [Change Color Button] se muestra. Se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [Change Color Button], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite. Posteriormente se restaura el disfraz original.[cite: 10]",
-        "schematic": "<ul><li>Recepción [start][cite: 10]</li><ul><li>Acciones iniciales[cite: 10]</li><ul><li>Muestra [Change Color Button][cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Change Color Button][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Espera[cite: 10]</li><ul><li>Ratón deje de estar sobre sprite[cite: 10]</li></ul><li>Restauración disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [start], [Change Color Button] se muestra. Se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo, se detecta el paso del ratón sobre [Change Color Button], el cual lo hace cambiar de disfraz. Se espera hasta que el ratón deje de estar sobre el sprite. Posteriormente se restaura el disfraz original.",
+        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acciones iniciales</li><ul><li>Muestra [Change Color Button]</li><li>Posicionamiento coordenada inicial</li><li>Lleva a primer plano</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Change Color Button]</li><li>Cambio disfraz</li><li>Espera</li><ul><li>Ratón deje de estar sobre sprite</li></ul><li>Restauración disfraz original</li></ul></ul></ul>",
         "id_num": "E90"
     },
     "flappybirdguy_script_1_1": {
-        "verbose": "Al iniciar la aplicación, [flappybirdguy] se oculta. Se posiciona en la coordenada inicial.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Oculta [flappybirdguy][cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [flappybirdguy] se oculta. Se posiciona en la coordenada inicial.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Oculta [flappybirdguy]</li><li>Posicionamiento coordenada inicial</li></ul></ul>",
         "id_num": "E91"
     },
     "flappybirdguy_script_2_2": {
-        "verbose": "Al recibir [Change Color], [flappybirdguy] se muestra y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [flappybirdguy][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [flappybirdguy] se muestra y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [flappybirdguy]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E92"
     },
     "flappybirdguy_script_3_3": {
-        "verbose": "Al recibir [backChangeColor], [flappybirdguy] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [flappybirdguy][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [flappybirdguy] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [flappybirdguy]</li></ul></ul></ul>",
         "id_num": "E93"
     },
     "flappybirdguy_script_4_4": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se evalúa [Color]. Se aplica el efecto de color correspondiente: 0 para Yellow, 25 para Green, 100 para Blue, 160 para Pink, 179 para Red, y 190 para cualquier otro valor.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Evaluación [Color][cite: 10]</li><li>Aplicación efecto color[cite: 10]</li><ul><li>0 para Yellow[cite: 10]</li><li>25 para Green[cite: 10]</li><li>100 para Blue[cite: 10]</li><li>160 para Pink[cite: 10]</li><li>179 para Red[cite: 10]</li><li>190 para cualquier otro valor[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se evalúa [Color]. Se aplica el efecto de color correspondiente: 0 para Yellow, 25 para Green, 100 para Blue, 160 para Pink, 179 para Red, y 190 para cualquier otro valor.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Evaluación [Color]</li><li>Aplicación efecto color</li><ul><li>0 para Yellow</li><li>25 para Green</li><li>100 para Blue</li><li>160 para Pink</li><li>179 para Red</li><li>190 para cualquier otro valor</li></ul></ul></ul>",
         "id_num": "E94"
     },
     "color_picker_script_1_1": {
-        "verbose": "Al iniciar la aplicación, [Color Picker] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Color Picker][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Color Picker] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Oculta [Color Picker]</li></ul></ul>",
         "id_num": "E95"
     },
     "color_picker_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Color Picker] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Color Picker][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Color Picker] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Color Picker]</li></ul></ul></ul>",
         "id_num": "E96"
     },
     "color_picker_script_3_3": {
-        "verbose": "Al recibir [Change Color], [Color Picker] se muestra y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Color Picker][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Color Picker] se muestra y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Color Picker]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E97"
     },
     "yellow_script_1_1": {
-        "verbose": "Al iniciar la aplicación, se establece [Color] como Yellow. [Yellow] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Establece [Color] como Yellow[cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Yellow][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se establece [Color] como Yellow. [Yellow] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece [Color] como Yellow</li><li>Posicionamiento coordenada inicial</li><li>Oculta [Yellow]</li></ul></ul>",
         "id_num": "E98"
     },
     "yellow_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Yellow] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Yellow][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Yellow] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Yellow]</li></ul></ul></ul>",
         "id_num": "E99"
     },
     "yellow_script_3_3": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre el [Yellow], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Yellow][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre el [Yellow], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Yellow]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E100"
     },
     "yellow_script_4_4": {
-        "verbose": "Al recibir [Change Color], [Yellow] se muestra en primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Muestra [Yellow][cite: 10]</li><li>Posicionamiento[cite: 10]</li><ul><li>Primer plano[cite: 10]</li></ul></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Yellow] se muestra en primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acción</li><ul><li>Muestra [Yellow]</li><li>Posicionamiento</li><ul><li>Primer plano</li></ul></ul></ul></ul>",
         "id_num": "E101"
     },
     "yellow_script_5_5": {
-        "verbose": "Al pulsar [Yellow], se establece la variable [Color] a Yellow y se emite [Yellow].[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Yellow][cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Establece [Color] a Yellow[cite: 10]</li><li>Emite [Yellow][cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Yellow], se establece la variable [Color] a Yellow y se emite [Yellow].",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Yellow]</li></ul><li>Acciones</li><ul><li>Establece [Color] a Yellow</li><li>Emite [Yellow]</li></ul></ul>",
         "id_num": "E102"
     },
     "green_script_1_1": {
-        "verbose": "Al recibir [backChangeColor], [Green] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Green][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Green] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Green]</li></ul></ul></ul>",
         "id_num": "E104"
     },
     "green_script_2_2": {
-        "verbose": "Al recibir [Change Color], [Green] se muestra, y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Green][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Green] se muestra, y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Green]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E105"
     },
     "green_script_3_3": {
-        "verbose": "Al iniciar la aplicación, [Green] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Green][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Green] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Oculta [Green]</li></ul></ul>",
         "id_num": "E106"
     },
     "green_script_4_4": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre el [Green], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Green][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre el [Green], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Green]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E107"
     },
     "green_script_5_5": {
-        "verbose": "Al pulsar [Green], se establece [Color] a Green.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Green][cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Establece [Color] a Green[cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Green], se establece [Color] a Green.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Green]</li></ul><li>Acción</li><ul><li>Establece [Color] a Green</li></ul></ul>",
         "id_num": "E108"
     },
     "blue_script_1_1": {
-        "verbose": "Al recibir [backChangeColor], [Blue] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Blue][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Blue] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Blue]</li></ul></ul></ul>",
         "id_num": "E109"
     },
     "blue_script_2_2": {
-        "verbose": "Al recibir [Change Color], [Blue] se muestra, y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Blue][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Blue] se muestra, y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Blue]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E110"
     },
     "blue_script_3_3": {
-        "verbose": "Al iniciar la aplicación, [Blue] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Blue][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [Blue] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Oculta [Blue]</li></ul></ul>",
         "id_num": "E111"
     },
     "blue_script_4_4": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Blue], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Blue][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Blue], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Blue]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E112"
     },
     "blue_script_5_5": {
-        "verbose": "Al pulsar [Blue], se establece [Color] a Blue.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Blue][cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Establece [Color] a Blue[cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Blue], se establece [Color] a Blue.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Blue]</li></ul><li>Acción</li><ul><li>Establece [Color] a Blue</li></ul></ul>",
         "id_num": "E113"
     },
     "pink_script_1_1": {
-        "verbose": "Al iniciar la aplicación, se establece [Color] a Pink. [Pink] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Establece [Color] a Pink[cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Pink][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se establece [Color] a Pink. [Pink] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece [Color] a Pink</li><li>Posicionamiento coordenada inicial</li><li>Oculta [Pink]</li></ul></ul>",
         "id_num": "E114"
     },
     "pink_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Pink] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Pink][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Pink] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Pink]</li></ul></ul></ul>",
         "id_num": "E115"
     },
     "pink_script_3_3": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Pink], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Pink][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Pink], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Pink]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E116"
     },
     "pink_script_4_4": {
-        "verbose": "Al recibir [Change Color], [Pink] se muestra, y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Pink][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Pink] se muestra, y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Pink]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E117"
     },
     "pink_script_5_5": {
-        "verbose": "Al pulsar [Pink], se establece [Color] a Pink.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Pink][cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Establece [Color] a Pink[cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Pink], se establece [Color] a Pink.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Pink]</li></ul><li>Acción</li><ul><li>Establece [Color] a Pink</li></ul></ul>",
         "id_num": "E118"
     },
     "red_script_1_1": {
-        "verbose": "Al iniciar la aplicación, se establece [Color] a Red. [Red] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Establece [Color] a Red[cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Red][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se establece [Color] a Red. [Red] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece [Color] a Red</li><li>Posicionamiento coordenada inicial</li><li>Oculta [Red]</li></ul></ul>",
         "id_num": "E119"
     },
     "red_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Red] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Red][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Red] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Red]</li></ul></ul></ul>",
         "id_num": "E120"
     },
     "red_script_3_3": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Red], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Red][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Red], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Red]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E121"
     },
     "red_script_4_4": {
-        "verbose": "Al recibir [Change Color], [Red] se muestra, y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Red][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Red] se muestra, y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Red]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E122"
     },
     "red_script_5_5": {
-        "verbose": "Al pulsar [Red], se establece [Color] a Red.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Red][cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Establece [Color] a Red[cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Red], se establece [Color] a Red.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Red]</li></ul><li>Acción</li><ul><li>Establece [Color] a Red</li></ul></ul>",
         "id_num": "E123"
     },
     "orange_script_1_1": {
-        "verbose": "Al iniciar la aplicación, se establece [Color] a Orange. [Orange] se posiciona en la coordenada inicial y se oculta.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Acciones[cite: 10]</li><ul><li>Establece [Color] a Orange[cite: 10]</li><li>Posicionamiento coordenada inicial[cite: 10]</li><li>Oculta [Orange][cite: 10]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se establece [Color] a Orange. [Orange] se posiciona en la coordenada inicial y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece [Color] a Orange</li><li>Posicionamiento coordenada inicial</li><li>Oculta [Orange]</li></ul></ul>",
         "id_num": "E124"
     },
     "orange_script_2_2": {
-        "verbose": "Al recibir [backChangeColor], [Orange] se oculta.[cite: 10]",
-        "schematic": "<ul><li>Recepción [backChangeColor][cite: 10]</li><ul><li>Acción[cite: 10]</li><ul><li>Oculta [Orange][cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [backChangeColor], [Orange] se oculta.",
+        "schematic": "<ul><li>Recepción [backChangeColor]</li><ul><li>Acción</li><ul><li>Oculta [Orange]</li></ul></ul></ul>",
         "id_num": "E125"
     },
     "orange_script_3_3": {
-        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Orange], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Inicio aplicación[cite: 10]</li></ul><li>Bucle continuo[cite: 10]</li><ul><li>Detección ratón sobre [Orange][cite: 10]</li><li>Cambio disfraz[cite: 10]</li><li>Desplazamiento ligero[cite: 10]</li><ul><li>Indicación interactividad[cite: 10]</li></ul><li>Espera[cite: 10]</li><ul><li>Ratón salga[cite: 10]</li></ul><li>Restauración[cite: 10]</li><ul><li>Posición original[cite: 10]</li><li>Disfraz original[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al iniciar la aplicación, en bucle continuo se detecta el paso del ratón sobre [Orange], el cual lo hace cambiar de disfraz y desplazarse ligeramente para indicar interactividad. Se espera hasta que el ratón salga. Posteriormente se restauran la posición y el disfraz originales.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Bucle continuo</li><ul><li>Detección ratón sobre [Orange]</li><li>Cambio disfraz</li><li>Desplazamiento ligero</li><ul><li>Indicación interactividad</li></ul><li>Espera</li><ul><li>Ratón salga</li></ul><li>Restauración</li><ul><li>Posición original</li><li>Disfraz original</li></ul></ul></ul>",
         "id_num": "E126"
     },
     "orange_script_4_4": {
-        "verbose": "Al recibir [Change Color], [Orange] se muestra, y se lleva al primer plano.[cite: 10]",
-        "schematic": "<ul><li>Recepción [Change Color][cite: 10]</li><ul><li>Acciones[cite: 10]</li><ul><li>Muestra [Orange][cite: 10]</li><li>Lleva a primer plano[cite: 10]</li></ul></ul></ul>",
+        "verbose": "Al recibir [Change Color], [Orange] se muestra, y se lleva al primer plano.",
+        "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acciones</li><ul><li>Muestra [Orange]</li><li>Lleva a primer plano</li></ul></ul></ul>",
         "id_num": "E127"
     },
     "orange_script_5_5": {
-        "verbose": "Al pulsar [Orange], se establece [Color] a Orange.[cite: 10]",
-        "schematic": "<ul><li>Activación[cite: 10]</li><ul><li>Pulsar [Orange][cite: 10]</li></ul><li>Acción[cite: 10]</li><ul><li>Establece [Color] a Orange[cite: 10]</li></ul></ul>",
+        "verbose": "Al pulsar [Orange], se establece [Color] a Orange.",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Orange]</li></ul><li>Acción</li><ul><li>Establece [Color] a Orange</li></ul></ul>",
         "id_num": "E128"
     },
     "rules_button_script_1_1": {
