@@ -2022,6 +2022,21 @@ def format_babia_flat(d: dict) -> list:
                 "id_num": ai_data.get("id_num", ""),
                 "ai_connections": ai_data.get("conexiones", "")
             })
+    for key, data in FLAPPY_PERSPECTIVES.items():
+        if key.startswith('var_'):
+            flat_list.append({
+                "path": f"ScratchCity/Memoria_Global/Variables/{key}", # Creamos un barrio exclusivo
+                "id": key,
+                "nombre_corto": key.replace('var_', ''),
+                "area": 4,  # Tamaño pequeñito
+                "Blocks": 4,
+                "building_color": "#ffff00", # Color amarillo para distinguirlas
+                "script_blocks": "Bloque de datos de variable",
+                "ai_verbose": data.get("verbose", "Sin descripción."),
+                "ai_schematic": data.get("schematic", "Sin esquema."),
+                "id_num": "",
+                "ai_connections": ""
+            })
 
     return flat_list
 

@@ -1215,5 +1215,93 @@
         "verbose": "Al recibir [gameover], se eliminan todos los efectos gráficos y el sprite se oculta.",
         "schematic": "<ul><li>Recepción [gameover]</li><ul><li>Acciones</li><ul><li>Eliminan efectos gráficos</li><li>Oculta sprite</li></ul></ul></ul>",
         "id_num": "E182"
+    },
+    "var_lives": {
+        "verbose": "[Stage] al recibir [loss_life] decrementa lives en 1, y este valor es leído por [life] en su Script 5, donde compara la posición x del clon con el umbral calculado a partir de lives para determinar si debe cambiar al disfraz [dead]. [life] al recibir [GameStart] inicializa lives a 4, y este valor es leído por [life Script 3], donde determina cuántos clones de corazones se crean mediante un bucle repeat que itera lives veces.",
+        "schematic": "<ul><li>[Stage] al recibir [loss_life] decrementa lives en 1 </li><li>Leído por [life] en [life Script 5] </li><ul><li>Compara posición x del clon </li><li>Con umbral calculado desde lives </li><li>Determina cambio a disfraz [dead] </li></ul><li>[life] al recibir [GameStart] inicializa lives a 4 </li><li>Leído por [life Script 3] </li><ul><li>Determina cuántos clones de corazones se crean </li><li>Mediante bucle repeat </li><li>Itera lives veces </li></ul></ul>"
+    },
+    "var_isgameover": {
+        "verbose": "[Stage Script 2] al recibir [GameOver] establece isGameOver a true, y [Stage Script 3] y [Stage Script 6] al recibir [GameStart] lo establecen a false. Este valor es leído por [Stage Script 6] (control de música), por [secondPipe Script 2], [secondPipe Script 4] (detención de generación y movimiento), por [firstPipe Script 4] (detención de puntuación), y por [Flappy Bird Script 2] (determinación de fin de partida).",
+        "schematic": "<ul><li>[Stage Script 2] al recibir [GameOver] establece isGameOver a true </li><li>[Stage Script 3] al recibir [GameStart] establece isGameOver a false </li><li>[Stage Script 6] al recibir [GameStart] establece isGameOver a false </li><li>Leído por:</li><ul><li>[Stage Script 6] (control de música) </li><li>[secondPipe Script 2] (detención generación) </li><li>[secondPipe Script 4] (detención movimiento) </li><li>[firstPipe Script 4] (detención puntuación) </li><li>[Flappy Bird Script 2] (determinación fin de partida) </li></ul></ul>"
+    },
+    "var_isgamestart": {
+        "verbose": "[Stage Script 3] al recibir [GameStart] establece isGameStart a false, y [Stage Script 6] al recibir [GameStart] lo establece a true. No hay lecturas explícitas de esta variable.",
+        "schematic": "<ul><li>[Stage Script 3] al recibir [GameStart] establece isGameStart a false </li><li>[Stage Script 6] al recibir [GameStart] establece isGameStart a true </li><li>No hay lecturas explícitas de esta variable </li><li>Flujo potencialmente huérfano </li></ul>"
+    },
+    "var_score": {
+        "verbose": "[Flappy Bird] al recibir [GameStart] inicializa Score a 0 en [Flappy Bird Script 3]. [secondPipe Script 2] incrementa Score cuando el personaje pasa la posición x de la tubería. [firstPipe Script 4] hace lo mismo. Este valor es leído por [Text Engine Script 13] (mostrar puntuación actual) y [Text Engine Script 17] (comparar con récord alto).",
+        "schematic": "<ul><li>[Flappy Bird] al recibir [GameStart] inicializa Score a 0 </li><li>[secondPipe Script 2] incrementa Score cuando personaje pasa posición x de tubería </li><li>[firstPipe Script 4] incrementa Score cuando personaje pasa posición x de tubería </li><li>Leído por:</li><ul><li>[Text Engine Script 13] (mostrar puntuación actual) </li><li>[Text Engine Script 17] (comparar con récord alto) </li></ul></ul>"
+    },
+    "var_fallingspeed": {
+        "verbose": "[Flappy Bird Script 1], [Flappy Bird Script 9] y [Flappy Bird Script 10] al recibir pulsaciones de tecla [space] o [up arrow], o clic de ratón, establecen falling speed a 10. Al recibir [GameStart] en [Flappy Bird Script 3] lo inicializa a 0. Este valor es leído por [Flappy Bird Script 3] (cambio de posición y) y por [Flappy Bird Script 15] (determinación de ángulo de rotación).",
+        "schematic": "<ul><li>[Flappy Bird Script 1] al pulsar [space] establece falling speed a 10 </li><li>[Flappy Bird Script 9] al pulsar [up arrow] establece falling speed a 10 </li><li>[Flappy Bird Script 10] al clic de ratón establece falling speed a 10 </li><li>[Flappy Bird Script 3] al recibir [GameStart] inicializa falling speed a 0 </li><li>Leído por:</li><ul><li>[Flappy Bird Script 3] (cambio de posición y) </li><li>[Flappy Bird Script 15] (determinación ángulo de rotación) </li></ul></ul>"
+    },
+    "var_color": {
+        "verbose": "Los botones de color ([Yellow Script 5], [Green Script 5], etc.) al ser pulsados establecen Color a su respectivo valor. Este valor es leído por [Flappy Bird Script 6], donde compara Color con múltiples valores para aplicar el efecto de color correspondiente al disfraz del personaje, y por [flappybirdguy Script 4], donde realiza la misma comparación para actualizar la apariencia de referencia en la pantalla de [Personalización].",
+        "schematic": "<ul><li>Botones de color al ser pulsados establecen Color a su respectivo valor </li><li>Leído por [Flappy Bird Script 6]</li><ul><li>Compara Color con múltiples valores </li><li>Aplica efecto color correspondiente al disfraz del personaje </li></ul><li>Leído por [flappybirdguy Script 4]</li><ul><li>Realiza misma comparación </li><li>Actualiza apariencia de referencia en pantalla [Personalización] </li></ul></ul>"
+    },
+    "var_heartid": {
+        "verbose": "[life Script 1] al iniciar la aplicación inicializa heartID a 0. [life Script 2] al recibir [gamestart] reinicializa heartID a 0. [life Script 3] al iniciar como clon incrementa heartID en 1. Este valor es leído por [life Script 3], donde calcula la posición x del clon mediante la fórmula -220 + (heartID * 30) para distribuir los corazones horizontalmente en la parte superior de la pantalla.",
+        "schematic": "<ul><li>[life Script 1] al iniciar aplicación inicializa heartID a 0 </li><li>[life Script 2] al recibir [gamestart] reinicializa heartID a 0 </li><li>[life Script 3] al iniciar como clon incrementa heartID en 1 </li><li>Leído por [life Script 3]</li><ul><li>Calcula posición x del clon </li><li>Mediante fórmula -220 + (heartID * 30) </li><li>Distribuye corazones horizontalmente en parte superior de la pantalla </li></ul></ul>"
+    },
+    "var_heartcount": {
+        "verbose": "[life Script 2] al recibir [gamestart] incrementa heart_count en 1 por cada iteración del bucle de creación de clones. No se detectan lecturas explícitas de esta variable en la transcripción proporcionada.",
+        "schematic": "<ul><li>[life Script 2] al recibir [gamestart] incrementa heart_count en 1 </li><ul><li>Por cada iteración del bucle de creación de clones </li></ul><li>No se detectan lecturas explícitas </li><li>Flujo huérfano </li></ul>"
+    },
+    "var_hidh": {
+        "verbose": "[Text Engine Script 17] al ejecutar Update High Score compara Hidh con el valor de Score. Si Score es mayor, actualiza Hidh con Score y, inmediatamente después lee Hidh para mostrar el récord en pantalla mediante el motor de texto. Es una variable de nube que persiste entre sesiones de juego.",
+        "schematic": "<ul><li>Actualización condicional y visualización </li><li>[Text Engine Script 17] al ejecutar Update High Score</li><ul><li>Compara Hidh con Score </li><li>Si Score es mayor, actualiza Hidh con valor de Score </li><li>Inmediatamente después lee Hidh </li><li>Muestra récord en pantalla mediante motor de texto </li></ul><li>Variable de nube </li><li>Persiste entre sesiones de juego </li></ul>"
+    },
+    "var_victories": {
+        "verbose": "[Stage Script 7] al iniciar la aplicación incrementa victories en 1. No hay lecturas explícitas de esta variable.",
+        "schematic": "<ul><li>[Stage Script 7] al iniciar aplicación incrementa victories en 1 </li><li>No hay lecturas explícitas de esta variable </li><li>Flujo huérfano </li></ul>"
+    },
+    "var_timer2": {
+        "verbose": "[All In One! Script 2] al iniciar la aplicación inicializa timer2 a 0. [All In One! Script 8] al recibir [ad] incrementa timer2 en 1 cada segundo mediante un bucle forever. Este valor es leído por [All In One! Script 3], donde compara round(timer2) con 10 para determinar el momento de finalizar la secuencia de introducción.",
+        "schematic": "<ul><li>Condición de fin de introducción </li><li>[All In One! Script 2] al iniciar aplicación inicializa timer2 a 0 </li><li>[All In One! Script 8] al recibir [ad] incrementa timer2 en 1 </li><ul><li>Cada segundo </li><li>Mediante bucle forever </li></ul><li>Leído por [All In One! Script 3]</li><ul><li>Compara round(timer2) con 10 </li><li>Determina momento de finalizar secuencia de introducción </li></ul></ul>"
+    },
+    "var_a": {
+        "verbose": "[All In One! Script 7] al iniciar la aplicación establece Å a Logo. [All In One! Script 1] al iniciar como clon compara Å con múltiples valores (logo, nokori, fill in, lettering, covering, THE ENDER OF WORLDS) para determinar qué secuencia de animación ejecuta el clon. Cada valor de Å desencadena una rama de comportamiento diferente en la introducción del sistema.",
+        "schematic": "<ul><li>[All In One! Script 7] al iniciar aplicación establece Å a Logo </li><li>Leído por [All In One! Script 1]</li><ul><li>Al iniciar como clon </li><li>Compara Å con múltiples valores </li><li>Determina secuencia animación </li><li>Cada valor desencadena rama diferente en introducción del sistema </li></ul></ul>"
+    },
+    "var_wordlengths": {
+        "verbose": "[Text Engine Script 3] al ejecutar getWordLengths borra todos los elementos previos de wordLengths, añade un elemento vacío, y posteriormente reemplaza el último elemento sumando el ancho de cada letra procesada. Esta lista es leída por [Text Engine Script 4], donde compara la longitud acumulada de cada palabra con el espacio disponible entre las coordenadas x y x2 para determinar si debe realizar un salto de línea antes de imprimir la siguiente palabra.",
+        "schematic": "<ul><li>Cálculo de saltos de línea </li><li>[Text Engine Script 3] al ejecutar getWordLengths </li><ul><li>Borra todos los elementos previos de wordLengths </li><li>Añade un elemento vacío </li><li>Reemplaza último elemento sumando ancho de cada letra procesada </li></ul><li>Leído por [Text Engine Script 4] </li><ul><li>Compara longitud acumulada de cada palabra con espacio disponible entre coordenadas x y x2 </li><li>Determina si debe realizar salto de línea antes de imprimir siguiente palabra </li></ul></ul>"
+    },
+    "var_letterspots": {
+        "verbose": "[Text Engine Script 3] al ejecutar getWordLengths borra todos los elementos previos de letterSpots y añade el índice correspondiente a cada letra del string procesado. Esta lista es leída por [Text Engine Script 5], donde utiliza cada índice almacenado para acceder a la trayectoria vectorial de la letra correspondiente en la lista data y dibujarla mediante lápiz.",
+        "schematic": "<ul><li>Indexación de datos de letra </li><li>[Text Engine Script 3] al ejecutar getWordLengths </li><ul><li>Borra todos los elementos previos de letterSpots </li><li>Añade el índice correspondiente a cada letra del string procesado </li></ul><li>Leído por [Text Engine Script 5] </li><ul><li>Utiliza cada índice almacenado </li><li>Accede a trayectoria vectorial de la letra correspondiente en la lista data </li><li>Dibuja mediante lápiz </li></ul></ul>"
+    },
+    "var_words": {
+        "verbose": "[Text Engine Script 3] al ejecutar getWordLengths borra todos los elementos previos de words, añade un elemento vacío, y posteriormente reemplaza el último elemento concatenando cada letra del string procesado. Esta lista es leída por [Text Engine Script 4], donde itera sobre cada palabra para descomponerla en letras individuales y gestionar la impresión línea por línea.",
+        "schematic": "<ul><li>Iteración de impresión </li><li>[Text Engine Script 3] al ejecutar getWordLengths </li><ul><li>Borra todos los elementos previos de words </li><li>Añade un elemento vacío </li><li>Reemplaza último elemento concatenando cada letra del string procesado </li></ul><li>Leído por [Text Engine Script 4] </li><ul><li>Itera sobre cada palabra </li><li>Descompone en letras individuales </li><li>Gestiona impresión línea por línea </li></ul></ul>"
+    },
+    "var_data": {
+        "verbose": "data es una lista precargada que contiene la información vectorial de trazos para cada carácter del alfabeto. Es leída constantemente por [Text Engine Script 3] durante el cálculo de anchos de palabra, por [Text Engine Script 5] durante el dibujo de letras mediante lápiz, y por [Text Engine Script 6] durante la búsqueda de índices de caracteres. Sirve como base de datos de trayectorias que define la apariencia tipográfica del motor de texto.",
+        "schematic": "<ul><li>Base de trayectorias vectoriales </li><li>Lista precargada </li><ul><li>Contiene información vectorial de trazos para cada carácter del alfabeto </li></ul><li>Leída constantemente por: </li><ul><li>[Text Engine Script 3] durante cálculo de anchos de palabra </li><li>[Text Engine Script 5] durante dibujo de letras mediante lápiz </li><li>[Text Engine Script 6] durante búsqueda de índices de caracteres </li></ul><li>Función: Base de datos de trayectorias que define apariencia tipográfica del motor de texto </li></ul>"
+    },
+    "var_bold": {
+        "verbose": "[Text Engine Script 9] al ejecutar Bold establece bold al valor recibido. Este valor es leído por [Text Engine Script 5], donde se suma al grosor base del lápiz mediante la fórmula size + (bold * (size/2)) para aumentar el trazo de las letras impresas.",
+        "schematic": "<ul><li>Grosor de lápiz </li><li>[Text Engine Script 9] al ejecutar Bold establece bold al valor recibido </li><li>Leído por [Text Engine Script 5] </li><ul><li>Suma al grosor base del lápiz </li><li>Mediante fórmula size + (bold * (size / 2)) </li><li>Aumenta trazo de letras impresas </li></ul></ul>"
+    },
+    "var_italics": {
+        "verbose": "[Text Engine Script 10] al ejecutar Italics establece italics al valor recibido si está entre -11 y 11, o a 0 en caso contrario. Este valor es leído por [Text Engine Script 5], donde se divide por 4 y multiplica por la coordenada y del siguiente punto para inclinar los trazos de las letras impresas.",
+        "schematic": "<ul><li>Inclinación de trazos </li><li>[Text Engine Script 10] al ejecutar Italics establece italics al valor recibido </li><ul><li>Si está entre -11 y 11, o a 0 en caso contrario </li></ul><li>Leído por [Text Engine Script 5] </li><ul><li>Divide por 4 </li><li>Multiplica por coordenada y del siguiente punto </li><li>Inclina trazos de letras impresas </li></ul></ul>"
+    },
+    "var_underline": {
+        "verbose": "[Text Engine Script 11] al ejecutar Underline establece underline al valor recibido si es distinto de 0, o a 0 en caso contrario. Este valor es leído por [Text Engine Script 4], donde determina si debe dibujar una línea horizontal tras cada palabra impresa, y por [Text Engine Script 5], donde ajusta el grosor del lápiz y dibuja el subrayado individual de cada letra.",
+        "schematic": "<ul><li>Subrayado </li><li>[Text Engine Script 11] al ejecutar Underline establece underline al valor recibido </li><ul><li>Si es distinto de 0, o a 0 en caso contrario </li></ul><li>Leído por [Text Engine Script 4] </li><ul><li>Determina si debe dibujar línea horizontal tras cada palabra impresa </li></ul><li>Leído por [Text Engine Script 5] </li><ul><li>Ajusta grosor del lápiz </li><li>Dibuja subrayado individual de cada letra </li></ul></ul>"
+    },
+    "var_capslock": {
+        "verbose": "[Text Engine Script 12] al ejecutar Capslock establece capslock al valor recibido si está entre -1 y 3, o a 0 en caso contrario. Este valor es leído por [Text Engine Script 2], donde determina si invierte la detección de minúsculas, y por [Text Engine Script 3], donde ajusta el índice de acceso a data sumando 67 cuando capslock está activo para alternar entre mayúsculas y minúsculas.",
+        "schematic": "<ul><li>Inversión de mayúsculas/minúsculas </li><li>[Text Engine Script 12] al ejecutar Capslock establece capslock al valor recibido </li><ul><li>Si está entre -1 y 3, o a 0 en caso contrario </li></ul><li>Leído por [Text Engine Script 2] </li><ul><li>Determina si invierte detección de minúsculas </li></ul><li>Leído por [Text Engine Script 3] </li><ul><li>Ajusta índice de acceso a data sumando 67 cuando capslock está activo </li><li>Alterna entre mayúsculas y minúsculas </li></ul></ul>"
+    },
+    "var_lowercase?": {
+        "verbose": "[Text Engine Script 2] al ejecutar Check if letter is lowercase compara el número de disfraz con 1 y establece lowercase? a 100 en consecuencia, salvo que capslock esté activo donde invierte el valor. Este valor es leído por [Text Engine Script 3], donde se multiplica por 67 y se suma al índice a para ajustar la posición en data según sea la letra mayúscula o minúscula.",
+        "schematic": "<ul><li>Ajuste de índice </li><li>[Text Engine Script 2] al ejecutar Check if letter is lowercase </li><ul><li>Compara número de disfraz con 1 </li><li>Establece lowercase? a 100 en consecuencia </li><li>Salvo que capslock esté activo, donde invierte el valor </li></ul><li>Leído por [Text Engine Script 3] </li><ul><li>Multiplica por 67 </li><li>Suma al índice a </li><li>Ajusta posición en data según sea letra mayúscula o minúscula </li></ul></ul>"
+    },
+    "var_randomnumber": {
+        "verbose": "Cuando la variable randomnumber toma un valor entre 1 y 3 en [secondPipe Script 1], la aplicación configura el obstáculo con el disfraz [upperHole], [middlePipe] o [lowerHole], modificando la disposición del hueco por el que debe pasar [Flappy Bird]. Lo mismo ocurre en [firstPipe Script 1] para la primera tubería, generando variabilidad en el nivel cada vez que los obstáculos se reposicionan.",
+        "schematic": "<ul><li>Selección de disfraz </li><li>Al ejecutar random costume genera un valor aleatorio entre 1 y 3 </li><li>Almacena en randomnumber </li><li>Leído por los scripts de tuberías </li><ul><li>Si es 1 selecciona disfraz [upperHole] </li><li>Si es 2 selecciona disfraz [middlePipe] </li><li>Si es 3 selecciona disfraz [lowerHole] </li></ul><li>Determina configuración del obstáculo en cada aparición </li></ul>"
     }
 }

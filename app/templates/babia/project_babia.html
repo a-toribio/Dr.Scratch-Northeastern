@@ -240,6 +240,18 @@
     <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
       <div class="scratch-icon"></div>
     </a>
+    <div class="flow-panel" id="flow-control-panel">
+        <h3>Análisis de Flujo</h3>
+        <div class="legend-container">
+            <span class="legend-box" style="background-color: #ff8c00;"></span> Emisora<br>
+            <span class="legend-box" style="background-color: #00bfff; margin-top: 4px;"></span> Receptora<br>
+            <span class="legend-box" style="background-color: #ffff00; margin-top: 4px;"></span> Variable<br>
+            <span class="legend-box" style="background-color: #ffffff; margin-top: 4px;"></span> Sin relación
+        </div>
+        <div id="flow-panel-content">
+            <p style="font-size: 12px; color: #aaa;">Analizando bloques...</p>
+        </div>
+    </div>
   </a-scene>
   <style>
     .gitlab-corner-wrapper {
@@ -439,6 +451,30 @@
         background-image: url('https://scratch.mit.edu/favicon.ico');
         background-size: cover;
     }
+    .flow-panel {
+        position: fixed;
+        bottom: 80px; /* Para que quede justo encima del botón de Scratch */
+        left: 25px;
+        z-index: 10000;
+        background-color: rgba(25, 25, 30, 0.95);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+        max-height: 50vh;
+        overflow-y: auto;
+        min-width: 220px;
+        border: 1px solid #444;
+    }
+    .flow-panel h3 { margin-top: 0; margin-bottom: 10px; color: #ff8c00; font-size: 16px; border-bottom: 1px solid #555; padding-bottom: 5px;}
+    .flow-panel h4 { margin-top: 15px; margin-bottom: 8px; color: #3a85fc; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+    .flow-checkbox-label { display: block; margin-bottom: 6px; font-size: 13px; cursor: pointer; transition: color 0.2s;}
+    .flow-checkbox-label:hover { color: #ff8c00; }
+    .flow-checkbox-label input { margin-right: 8px; cursor: pointer;}
+    
+    .legend-box { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; vertical-align: middle;}
+    .legend-container { font-size: 11px; color: #ccc; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #444; }
   </style>
 
   <script>
@@ -665,7 +701,6 @@
             // B. Si NO es un código, buscamos por su nombre real
             if (!target) {
                 // Limpiamos el texto quitando tildes, espacios y pasándolo a minúsculas
-                // para que "[Menu Principal]" encuentre a "Menú Principal" sin problemas
                 let searchKey = cleanText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
 
                 for (let key in referenceMap) {
@@ -675,10 +710,19 @@
                     if (item.type === 'city' && (searchKey === 'scratchcity' || searchKey === 'ciudad_completa')) {
                         target = item; break;
                     }
-                    // Si es barrio o distrito
-                    if (item.type === 'district' || item.type === 'region'|| item.type === 'broadcast') {
+                    // Si es barrio, distrito o broadcast
+                    if (item.type === 'district' || item.type === 'region' || item.type === 'broadcast') {
                         let itemIdNormalized = item.data.id.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
                         if (itemIdNormalized === searchKey) {
+                            target = item; break;
+                        }
+                    }
+                    // Si es variable
+                    if (item.type === 'variable') {
+                        let varNameSinPrefijo = item.data.id.toLowerCase().replace(/^var_/, '');
+                        let varNameNormalized = varNameSinPrefijo.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
+                        
+                        if (varNameNormalized === searchKey || item.data.id.toLowerCase() === searchKey) {
                             target = item; break;
                         }
                     }
@@ -686,7 +730,16 @@
                     if (item.type === 'tower') {
                         let nomNat = (item.data.nombre_natural || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
                         let towerId = item.data.id.toLowerCase().replace(/ /g, '_');
-                        if (nomNat === searchKey || towerId === searchKey) {
+                        
+                        // EL TRUCO: Le quitamos el último "_numero" al ID de la torre para que encaje con el texto
+                        let towerIdWithoutSuffix = towerId.replace(/_\d+$/, ''); 
+
+                        // Otro truco más por si los espacios difieren ligeramente
+                        let searchKeyLimpia = searchKey.replace(/_/g, '');
+                        let towerIdLimpia = towerIdWithoutSuffix.replace(/_/g, '');
+
+                        // Comparamos usando las versiones limpias
+                        if (nomNat === searchKey || towerId === searchKey || towerIdWithoutSuffix === searchKey || towerIdLimpia === searchKeyLimpia) {
                             target = item; break;
                         }
                     }
@@ -694,20 +747,24 @@
             }
 
             // Si hemos encontrado el objeto en el mapa...
-            if (target && target.data.id_num) {
-                let refCode = target.data.id_num.toUpperCase();
-                let nombreReal = cleanText; // Por defecto dejamos el texto que has escrito
+            // MODIFICADO: Aceptamos target si es una torre (aunque no tenga código E/D), o si es variable
+            if (target && (target.data.id_num || target.type === 'variable' || target.type === 'tower')) {
+                
+                // Si no tiene código id_num, usamos su ID interno
+                let refCode = target.data.id_num ? target.data.id_num.toUpperCase() : target.data.id;
+                let nombreReal = cleanText; 
 
-                // Solo lo "renombramos" si el usuario usó la versión de código (ej. escribió [D4])
-                if (cleanText.toUpperCase() === refCode) {
+                if (cleanText.toUpperCase() === refCode.toUpperCase()) {
                     if (target.type === 'city') nombreReal = "Ciudad Completa";
                     else if (target.type === 'region') nombreReal = "Barrio: " + target.data.id;
                     else if (target.type === 'district') nombreReal = target.data.id;
                     else if (target.type === 'tower') nombreReal = target.data.nombre_natural || cleanText;
                     else if (target.type === 'broadcast') nombreReal = "Mensaje: " + target.data.id;
+                    else if (target.type === 'variable') nombreReal = "Variable: " + cleanText;
                 }
 
-                return `<span class="ai-ref-link" title="Ir a ${refCode}" onclick="navigateToReference('${refCode}')">[${nombreReal}]</span>`;
+                // Generamos el enlace azul
+                return `<span class="ai-ref-link" title="Ir a ${nombreReal}" onclick="window.navigateToReference('${refCode}')">[${nombreReal}]</span>`;
             }
 
             // Si no existe ni por código ni por nombre, se queda negro y normal
@@ -718,15 +775,39 @@
     }
 
     window.navigateToReference = function(refCode) {
-        let target = referenceMap[refCode];
+        // 1. Buscamos la referencia tal cual, o en mayúsculas por si acaso
+        let target = referenceMap[refCode] || referenceMap[refCode.toUpperCase()];
+        
         if (target) {
             if (target.type === 'city' || target.type === 'region' || target.type === 'district') {
                 showDistrictView(target.data);
-            } else if (target.type === 'tower') {
-                handleTowerData(target.data, target.parent);
+                
+            } else if (target.type === 'tower' || target.type === 'variable') {
+                
+                // MAGIA PARA VARIABLES: Le ponemos un título limpio antes de abrir el panel
+                if (target.type === 'variable') {
+                    let cleanName = target.data.id.replace('var_', '');
+                    target.data.nombre_natural = "Variable: [" + cleanName + "]";
+                }
+
+                // EL SALVAVIDAS MEJORADO: Le damos un array de 'children' para que findIndex no explote
+                let parentDistrict = target.parent;
+                if (!parentDistrict) {
+                    parentDistrict = { 
+                        id: "Memoria_Global", 
+                        node_type: "region",
+                        children: [target.data] // Metemos la variable como su único "hijo"
+                    };
+                }
+
+                // Abrimos el panel de la torre/variable con el padre seguro
+                handleTowerData(target.data, parentDistrict);
+                
             } else if (target.type === 'broadcast') {
                 showBroadcastView(target.data);
             }
+        } else {
+            console.warn("⚠️ No se pudo navegar a la referencia:", refCode);
         }
     };
 
@@ -915,7 +996,47 @@
         }
 
         if (connectionsPlaceholder) {
-            connectionsPlaceholder.innerHTML = linkifyReferences(fullData.ai_connections) || "<p>Este script no envía ni recibe señales registradas.</p>";
+            // 1. Cargamos el texto detallado del JSON (si lo hay)
+            let htmlConnections = fullData.ai_connections ? fullData.ai_connections : "";
+
+            // 2. Preguntamos al cerebro automático (flowData) qué hace esta torre en el código real
+            let receives = [];
+            let emits = [];
+            let usesVars = [];
+
+            if (typeof flowData !== 'undefined') {
+                Object.keys(flowData.broadcasts).forEach(bKey => {
+                    let bObj = flowData.broadcasts[bKey];
+                    if (bObj.receive.includes(scriptData.id)) receives.push(bObj.label);
+                    if (bObj.emit.includes(scriptData.id)) emits.push(bObj.label);
+                });
+
+                Object.keys(flowData.variables).forEach(vKey => {
+                    let vObj = flowData.variables[vKey];
+                    if (vObj.use.includes(scriptData.id)) usesVars.push(vObj.label);
+                });
+            }
+
+            // 3. Si recibe, emite o usa variables, generamos un resumen automático debajo
+            if (receives.length > 0 || emits.length > 0 || usesVars.length > 0) {
+                let autoHtml = "<div style='margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;'>";
+                if (emits.length > 0) {
+                    
+                }
+                if (receives.length > 0) {
+                    autoHtml += `<p style="margin: 3px 0;"><b>Recibe:</b> ${receives.map(b => `[${b}]`).join(', ')}</p>`;
+                }
+                if (usesVars.length > 0) {
+                    autoHtml += `<p style="margin: 3px 0;"><b>Usa variables:</b> ${usesVars.map(v => `[${v}]`).join(', ')}</p>`;
+                }
+                autoHtml += "</div>";
+
+                htmlConnections += autoHtml;
+            }
+            if (!htmlConnections) {
+                htmlConnections = "<p>Este script no envía ni recibe señales ni variables registradas.</p>";
+            }
+            connectionsPlaceholder.innerHTML = linkifyReferences(htmlConnections);
         }
 
         // 5. Botón de volver al distrito
@@ -951,6 +1072,210 @@
         document.getElementById(tabId).classList.add('active');
         btnElement.classList.add('active');
     }
+
+    // --- LÓGICA DEL PANEL DE DIRECTOR DE ORQUESTA ---
+    let flowData = { broadcasts: {}, variables: {} };
+    let originalTowerColors = {};
+
+    function extractFlowData() {
+        console.log("🚀 [Director] Iniciando extracción de flujo de datos...");
+        if (typeof projectFlat === 'undefined' || projectFlat.length === 0) return;
+
+        // Guardar los colores originales la primera vez
+        projectFlat.forEach(item => {
+            if (!originalTowerColors[item.id]) {
+                originalTowerColors[item.id] = item.building_color || '#888888';
+            }
+        });
+
+        // 1. Encontrar todos los nombres de variables definidos
+        let varNames = new Set(["lives", "ScrollX", "clone", "clone2", "Color", "tipo", "isGameOver"]); 
+        const definerRegex = /(?:set|change|show variable|hide variable)\s+\[([^\]]+?)(?: v)?\]/gi;
+        
+        projectFlat.forEach(item => {
+            if (!item.script_blocks) return;
+            let match;
+            while ((match = definerRegex.exec(item.script_blocks)) !== null) {
+                varNames.add(match[1].trim());
+            }
+        });
+
+        // 2. Extraer emisiones, recepciones (AHORA A PRUEBA DE BOMBAS)
+        // Atrapa corchetes [], paréntesis (), comillas "", ignora mayúsculas y el "and wait"
+        const emitRegex = /(?:broadcast|enviar)\s*[[({"]([^\])}"]+?)(?: v)?[\])}"]/gi;
+        const receiveRegex = /(?:when I receive|al recibir)\s*[[({"]([^\])}"]+?)(?: v)?[\])}"]/gi;
+
+        projectFlat.forEach(item => {
+            if (!item.script_blocks) return;
+            const text = item.script_blocks;
+            const towerId = item.id;
+
+            let match;
+            // Buscar emisiones
+            while ((match = emitRegex.exec(text)) !== null) {
+                let bNameRaw = match[1].trim();
+                let bName = bNameRaw.toLowerCase(); // Convertimos a minúscula para unificar
+                
+                if (!flowData.broadcasts[bName]) {
+                    flowData.broadcasts[bName] = { label: bNameRaw, emit: [], receive: [] };
+                }
+                if (!flowData.broadcasts[bName].emit.includes(towerId)) {
+                    flowData.broadcasts[bName].emit.push(towerId);
+                }
+            }
+
+            // Buscar recepciones
+            while ((match = receiveRegex.exec(text)) !== null) {
+                let bNameRaw = match[1].trim();
+                let bName = bNameRaw.toLowerCase(); // Convertimos a minúscula para unificar
+                
+                if (!flowData.broadcasts[bName]) {
+                    flowData.broadcasts[bName] = { label: bNameRaw, emit: [], receive: [] };
+                }
+                if (!flowData.broadcasts[bName].receive.includes(towerId)) {
+                    flowData.broadcasts[bName].receive.push(towerId);
+                }
+            }
+
+            // Buscar variables (ignorando mayúsculas)
+            varNames.forEach(v => {
+                let vLower = v.toLowerCase();
+                let textLower = text.toLowerCase();
+                let pattern1 = `[${vLower} v]`; let pattern2 = `(${vLower})`; let pattern3 = `[${vLower}]`; 
+                
+                if (textLower.includes(pattern1) || textLower.includes(pattern2) || textLower.includes(pattern3)) {
+                    if (!flowData.variables[v]) flowData.variables[v] = { label: v, use: [] };
+                    if (!flowData.variables[v].use.includes(towerId)) flowData.variables[v].use.push(towerId);
+                }
+            });
+        });
+
+        console.log("✅ [Director] Datos extraídos y unificados correctamente:", flowData);
+        buildFlowPanelUI();
+    }
+
+    function buildFlowPanelUI() {
+        let container = document.getElementById('flow-panel-content');
+        if (!container) return;
+
+        let html = '<h4>Señales (Broadcasts)</h4>';
+        Object.keys(flowData.broadcasts).sort().forEach(bKey => {
+            let bObj = flowData.broadcasts[bKey];
+            // Solo mostramos los broadcasts que realmente se usan
+            if (bObj.emit.length > 0 || bObj.receive.length > 0) {
+                html += `<label class="flow-checkbox-label"><input type="checkbox" class="flow-checkbox" value="b_${bKey}"> ${bObj.label}</label>`;
+            }
+        });
+
+        html += '<h4>Variables</h4>';
+        Object.keys(flowData.variables).sort().forEach(vKey => {
+            let vObj = flowData.variables[vKey];
+            if (vObj.use.length > 0) {
+                html += `<label class="flow-checkbox-label"><input type="checkbox" class="flow-checkbox" value="v_${vKey}"> ${vObj.label}</label>`;
+            }
+        });
+
+        container.innerHTML = html;
+
+        document.querySelectorAll('.flow-checkbox').forEach(cb => {
+            cb.addEventListener('change', updateFlowHighlight);
+        });
+    }
+
+    // FUNCIÓN DE RECARGA: Destruye y reconstruye la ciudad nativamente
+    function rebuildCity() {
+        // 1. Intentamos buscarla por todas las etiquetas típicas de BabiaXR y Dr. Scratch
+        let cityEl = document.querySelector('[babia-city], [babia-treecity], [babia], [codecity], [babia-queryjson], #city, #ScratchCity');
+        
+        // 2. PLAN B (Infalible): Si no la encuentra por nombre, buscamos un edificio cualquiera 
+        // y subimos por el "árbol genealógico" hasta dar con la placa base de la ciudad.
+        if (!cityEl) {
+            let firstBuilding = document.querySelector('a-box, a-cylinder');
+            if (firstBuilding) {
+                let current = firstBuilding;
+                // Subimos de padre en padre hasta llegar justo debajo del cielo (<a-scene>)
+                while (current.parentNode && current.parentNode.tagName && current.parentNode.tagName.toLowerCase() !== 'a-scene') {
+                    current = current.parentNode;
+                }
+                cityEl = current; // ¡Atrapada!
+            }
+        }
+
+        if (cityEl) {
+            console.log("♻️ [Director] ¡Ciudad encontrada! Recargando con los nuevos colores...");
+            let parent = cityEl.parentNode;
+            let clone = cityEl.cloneNode(false); // Clonamos solo el cascarón (Babia rellenará el interior)
+            
+            parent.removeChild(cityEl); // Demolemos la ciudad vieja
+            
+            // Pausa microscópica para vaciar memoria y construimos la nueva
+            setTimeout(() => {
+                parent.appendChild(clone); 
+            }, 50);
+        } else {
+            console.warn("⚠️ [Director] Sigo sin encontrar la ciudad. ¿Seguro que ha cargado el 3D?");
+        }
+    }
+
+    function updateFlowHighlight() {
+        let activeB = []; let activeV = [];
+        document.querySelectorAll('.flow-checkbox:checked').forEach(cb => {
+            if (cb.value.startsWith('b_')) activeB.push(cb.value.substring(2));
+            if (cb.value.startsWith('v_')) activeV.push(cb.value.substring(2));
+        });
+
+        // 1. Restaurar colores originales a TODOS los datos por defecto
+        projectFlat.forEach(item => {
+            item.building_color = originalTowerColors[item.id] || '#888888';
+        });
+
+        // 2. Si hay algo seleccionado, aplicar los colores directamente a los datos
+        if (activeB.length > 0 || activeV.length > 0) {
+            let targetColors = {}; 
+            
+            activeV.forEach(v => {
+                flowData.variables[v].use.forEach(id => targetColors[id] = '#ffff00'); // Amarillo
+            });
+
+            activeB.forEach(b => {
+                flowData.broadcasts[b].receive.forEach(id => targetColors[id] = '#00bfff'); // Cian 
+                flowData.broadcasts[b].emit.forEach(id => targetColors[id] = '#ff8c00');    // Naranja
+            });
+
+            projectFlat.forEach(item => {
+                if (targetColors[item.id]) {
+                    item.building_color = targetColors[item.id]; 
+                } else {
+                    item.building_color = '#ffffff'; // Gris muy clarito para las no relacionadas
+                }
+            });
+        }
+
+        // 3. Ejecutar la recarga para que Babia lea los nuevos colores
+        rebuildCity();
+    }
+
+    // Le damos 2 segundos iniciales para que cargue la interfaz antes de leer los bloques
+    setTimeout(extractFlowData, 2000);
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (typeof projectFlat !== 'undefined' && typeof referenceMap !== 'undefined') {
+                projectFlat.forEach(item => {
+                    // Si el "edificio" es una variable, lo registramos con tipo 'variable'
+                    if (item.id.startsWith('var_')) {
+                        // Lo guardamos en mayúsculas y en minúsculas por seguridad
+                        referenceMap[item.id.toUpperCase()] = { type: 'variable', data: item };
+                        referenceMap[item.id] = { type: 'variable', data: item }; 
+                    }
+                });
+                
+                // Si tienes alguna función que actualiza los paneles o renderiza el HTML, 
+                // puedes llamarla aquí para que refresque los enlaces, aunque al pinchar en 
+                // las torres directamente ya deberían salir los textos en azul.
+            }
+        }, 1500); // Esperamos 1.5s para asegurarnos de que referenceMap se ha creado
+    });
 
   </script>
 
