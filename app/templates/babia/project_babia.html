@@ -102,6 +102,7 @@
         <div class="tabs-header">
             <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detallada</button>
             <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Esquema</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-connections', this)">Conexiones</button>
         </div>
 
         <div id="tab-tower-verbose" class="tab-content tower-tab-content active">
@@ -115,6 +116,13 @@
             <p><strong>Resumen de lógica:</strong></p>
             <div id="script-ai-schematic-placeholder">
                 Sin esquema disponible.
+            </div>
+        </div>
+
+        <div id="tab-tower-connections" class="tab-content tower-tab-content">
+            <p><strong>Comunicaciones del script:</strong></p>
+            <div id="script-ai-connections-placeholder" style="margin-top: 10px;">
+                Sin conexiones registradas.
             </div>
         </div>
 
@@ -896,6 +904,7 @@
         
         let verbosePlaceholder = document.getElementById('script-ai-verbose-placeholder');
         let schematicPlaceholder = document.getElementById('script-ai-schematic-placeholder');
+        let connectionsPlaceholder = document.getElementById('script-ai-connections-placeholder');
 
         if (verbosePlaceholder) {
             verbosePlaceholder.innerHTML = linkifyReferences(fullData.ai_verbose) || "Análisis detallado no disponible para esta torre.";
@@ -903,6 +912,10 @@
         
         if (schematicPlaceholder) {
             schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Esquema no disponible para esta torre.</p>";
+        }
+
+        if (connectionsPlaceholder) {
+            connectionsPlaceholder.innerHTML = linkifyReferences(fullData.ai_connections) || "<p>Este script no envía ni recibe señales registradas.</p>";
         }
 
         // 5. Botón de volver al distrito

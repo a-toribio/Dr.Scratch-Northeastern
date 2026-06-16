@@ -1902,10 +1902,11 @@ def format_babia_dict(d: dict):
                 "id": unique_id,
                 "nombre_corto": script_key.lower(),
                 "area": tower_area, 
-                "Blocks": lines_of_code, # Esto define la altura visual
+                "Blocks": lines_of_code,
                 "building_color": colors[sprite_key][script_key],
                 "script_blocks": script_value,
-                "id_num": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("id_num", "")
+                "id_num": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("id_num", ""),
+                "ai_connections": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("conexiones", "")
             }
             
             script_children.append(script_data)
@@ -2018,7 +2019,8 @@ def format_babia_flat(d: dict) -> list:
                 "script_blocks": script_value,
                 "ai_verbose": ai_data["verbose"],
                 "ai_schematic": ai_data["schematic"],
-                "id_num": ai_data.get("id_num", "")
+                "id_num": ai_data.get("id_num", ""),
+                "ai_connections": ai_data.get("conexiones", "")
             })
 
     return flat_list

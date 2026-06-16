@@ -313,6 +313,7 @@
     "stage_script_6_6": {
         "verbose": "Script principal de control de partida. Se prepara el estado de [Juego Principal], muestra el fondo correspondiente, detiene sonidos anteriores e inicia la música de fondo. Se mantiene la reproducción musical mientras dura la partida, coordinando el ambiente sonoro del [Juego Principal]. Se emite [inicializate_hearts] para activar el sistema de vidas.",
         "schematic": "<ul><li>Función</li><ul><li>Control partida principal</li></ul><li>Preparación</li><ul><li>Estado [Juego Principal]</li><li>Fondo correspondiente</li><li>Detención sonidos anteriores</li><li>Inicio música fondo</li></ul><li>Mantenimiento</li><ul><li>Reproducción musical</li><li>Mientras dura partida</li><li>Coordinación ambiente sonoro [Juego Principal]</li></ul><li>Emisión</li><ul><li>[inicializate_hearts]</li><li>Activación sistema vidas</li></ul></ul>",
+        "conexiones": "<p><strong>[inicializate_hearts]</strong><br>[Stage] al iniciar el [Juego Principal] emite [inicializate_hearts].</p><ul><li><strong>Recibido por: X Ningún receptor en el código.</strong><br>El mensaje no es recibido por ningún sprite en la aplicación. El broadcast se envía sin receptores activos, quedando sin efecto en el estado del programa.<ul><li>Broadcast sin receptores activos</li></ul></li></ul>",
         "id_num": "E6"
     },
     "stage_script_7_7": {
@@ -323,6 +324,7 @@
     "stage_script_8_8": {
         "verbose": "Al perder una vida, lo que se traduce a recibir [loss_life], se decrementa [lives], es decir, se pierde una vida, y se notifica la actualización mediante el mensaje [update_hearts].",
         "schematic": "<ul><li>Recepción</li><ul><li>[loss_life]</li></ul><li>Acción</li><ul><li>Decremento [lives]</li><li>Pérdida una vida</li></ul><li>Notificación</li><ul><li>Emisión [update_hearts]</li><li>Actualización sistema vidas</li></ul></ul>",
+        "conexiones": "<p><strong>[update_hearts]</strong><br>[Stage] al recibir [loss_life] emite [update_hearts].</p><ul><li><strong>Recibido por [life Script 5]:</strong> Gestiona el cambio de disfraz del corazón correspondiente según su posición.<ul><li>Gestión de cambio de disfraz del corazón</li></ul></li></ul><p><strong>Variables Globales (Flujos de Datos)</strong><br>[Stage] al recibir [loss_life] decrementa la variable lives en 1.</p><ul><li><strong>Leído por [life Script 5]:</strong> Compara la posición x del clon con el umbral calculado a partir de lives para determinar si debe cambiar al disfraz [dead].<ul><li>Determina cambio a disfraz [dead]</li></ul></li></ul>",
         "id_num": "E8"
     },
     "flappy_bird_script_1_1": {
@@ -333,6 +335,7 @@
     "flappy_bird_script_2_2": {
         "verbose": "Al recibir [GameStart], [Flappy Bird] se posiciona en un punto inicial y se ajusta su tamaño. Se detecta continuamente el contacto con [firstPipe], [secondPipe] o el borde, [edge]. Al ocurrir tal contacto, se emite [loss_life], se detienen los demás scripts del sprite y se oculta. Posteriormente se reposiciona y se muestra de nuevo, o se emite [gameover] según corresponda.",
         "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Preparación</li><ul><li>Posicionamiento punto inicial</li><li>Ajuste tamaño</li></ul><li>Detección continua</li><ul><li>Contacto</li><ul><li>[firstPipe]</li><li>[secondPipe]</li><li>[edge]</li></ul></ul><li>Al ocurrir contacto</li><ul><li>Emisión [loss_life]</li><li>Detención demás scripts sprite</li><li>Ocultación</li><li>Reposición y muestra</li><li>O emisión [gameover]</li><li>Según corresponda</li></ul></ul></ul>",
+        "conexiones": "<p><strong>[gameover]</strong><br>[Flappy Bird] al detectar contacto con obstáculos o borde emite [gameover].</p><ul><li><strong>Recibido por [Game Over Script 1]:</strong> Lo hace mostrarse en primer plano con ajuste de superposición y detener los sonidos.<ul><li>Mostrarse en primer plano y detener sonidos</li></ul></li><li><strong>Recibido por [Game Over Script 2]:</strong> Detiene los demás scripts del sprite emitiendo [stop_game].<ul><li>Detener demás scripts del sprite</li></ul></li><li><strong>Recibido por [Flappy Bird Script 13]:</strong> Lo hace ocultarse y detener sus scripts.<ul><li>Ocultarse y detener sus scripts</li></ul></li><li><strong>Recibido por [secondPipe Script 11]:</strong> Lo hace ocultarse y detener sus scripts.<ul><li>Ocultarse y detener sus scripts</li></ul></li><li><strong>Recibido por [firstPipe Script 10]:</strong> Lo hace ocultarse, detener sus scripts y los sonidos.<ul><li>Ocultarse, detener sus scripts y sonidos</li></ul></li></ul><p><strong>[loss_life]</strong><br>[Flappy Bird] al detectar contacto con obstáculos o borde emite [loss_life].</p><ul><li><strong>Recibido por [Stage Script 8]:</strong> Gestiona la pérdida de vidas mediante [lives], emitiendo [update_hearts].<ul><li>Gestión de pérdida de vidas</li></ul></li><li><strong>Recibido por [life Script 5]:</strong> Gestiona el cambio de disfraz del corazón correspondiente según su posición.<ul><li>Gestión de cambio de disfraz del corazón</li></ul></li></ul>",
         "id_num": "E10"
     },
     "flappy_bird_script_3_3": {
@@ -413,6 +416,7 @@
     "secondpipe_script_2_2": {
         "verbose": "Al recibir [GameStart], se establece la variable [isGameOver] a false. [secondPipe] se posiciona en la coordenada inicial. En bucle continuo, se detecta si la posición horizontal ha pasado de ser mayor a menor que la de [Flappy Bird]. Al ocurrir, se incrementa [Score] y se emite [drawScore]. Se espera hasta que la condición deje de cumplirse.",
         "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Inicialización</li><ul><li>[isGameOver] = false</li></ul><li>Posicionamiento coordenada inicial</li><li>Bucle continuo</li><ul><li>Detección posición horizontal</li><li>Pasa de mayor a menor que [Flappy Bird]</li><li>Al ocurrir</li><ul><li>Incremento [Score]</li><li>Emisión [drawScore]</li></ul><li>Espera</li><ul><li>Condición deje de cumplirse</li></ul></ul></ul></ul>",
+        "conexiones": "<p><strong>[drawScore]</strong><br>[secondPipe] al detectar el paso de [Flappy Bird] emite [drawScore].</p><ul><li><strong>Recibido por [Text Engine Script 14]:</strong> Gestiona la visualización de la puntuación en pantalla.<ul><li>Gestión de visualización de puntuación</li></ul></li></ul>",
         "id_num": "E26"
     },
     "secondpipe_script_3_3": {
@@ -483,6 +487,7 @@
     "firstpipe_script_4_4": {
         "verbose": "Al recibir [GameStart], la variable [isGameOver] se establece a false. En bucle continuo, se detecta si la posición horizontal ha pasado de ser mayor a menor que la de [Flappy Bird]. Al ocurrir, se incrementa [Score] y se emite [drawScore]. Se espera hasta que la condición deje de cumplirse.",
         "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Inicialización</li><ul><li>[isGameOver] = false</li></ul><li>Bucle continuo</li><ul><li>Detección posición horizontal</li><li>Pasa de mayor a menor que [Flappy Bird]</li><li>Al ocurrir</li><ul><li>Incremento [Score]</li><li>Emisión [drawScore]</li></ul><li>Espera</li><ul><li>Condición deje de cumplirse</li></ul></ul></ul></ul>",
+        "conexiones": "<p><strong>[drawScore]</strong><br>[firstPipe] al detectar el paso de [Flappy Bird] emite [drawScore].</p><ul><li><strong>Recibido por [Text Engine Script 14]:</strong> Gestiona la visualización de la puntuación en pantalla.<ul><li>Gestión de visualización de puntuación</li></ul></li></ul>",
         "id_num": "E40"
     },
     "firstpipe_script_5_5": {
@@ -543,6 +548,7 @@
     "restart_button_script_5_5": {
         "verbose": "Al pulsar el [Restart Button], se emite [GameStart]. Inicia la transición desde la pantalla de [Fin del Juego] hacia la del [Juego Principal].",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Restart Button]</li></ul><li>Acción</li><ul><li>Emisión [GameStart]</li></ul><li>Función</li><ul><li>Inicia transición</li><li>Desde pantalla [Fin del Juego]</li><li>Hacia pantalla [Juego Principal]</li></ul></ul>",
+        "conexiones": "<p><strong>[GameStart]</strong><br>[Restart Button] al ser pulsado emite [GameStart].</p><ul><li><strong>Recibido por [Stage Script 3]:</strong> Transita la aplicación al estado de [Juego Principal] mediante fondo y variables.<ul><li>Transita a estado [Juego Principal]</li><li>Mediante fondo y variables</li></ul></li><li><strong>Recibido por [Flappy Bird Script 2]:</strong> Hace posicionarse en el punto inicial y detectar el contacto con otros sprites y el borde de la pantalla.<ul><li>Posicionamiento en punto inicial</li><li>Detección de contacto con sprites y borde</li></ul></li><li><strong>Recibido por [Flappy Bird Script 3]:</strong> Gestiona la lógica de la puntuación y la velocidad vertical.<ul><li>Gestión lógica de puntuación y velocidad vertical</li></ul></li><li><strong>Recibido por [Flappy Bird Script 7]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Flappy Bird Script 10]:</strong> Gestiona la lógica de la velocidad y el sonido a través de la detección de clic de ratón.<ul><li>Gestión lógica de velocidad y sonido</li></ul></li><li><strong>Recibido por [Flappy Bird Script 15]:</strong> Gestiona la orientación visual del sprite según el movimiento vertical.<ul><li>Gestión de orientación visual según movimiento</li></ul></li><li><strong>Recibido por [secondPipe Script 2]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [secondPipe Script 3]:</strong> Establece la posición del obstáculo según el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [secondPipe Script 4]:</strong> Gestiona el desplazamiento horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [secondPipe Script 8]:</strong> Lo hace mostrarse en primer plano con ajuste de superposición.<ul><li>Mostrarse en primer plano con ajuste de superposición</li></ul></li><li><strong>Recibido por [firstPipe Script 2]:</strong> Gestiona el desplazamiento en el eje horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [firstPipe Script 3]:</strong> Establece la posición del obstáculo en el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [firstPipe Script 4]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [firstPipe Script 5]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [firstPipe Script 7]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [ground Script 2]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [ground2 Script 3]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Game Over Script 4]:</strong> Hace ocultarse para dar paso al [Juego Principal].<ul><li>Ocultarse para dar paso a [Juego Principal]</li></ul></li></ul>",
         "id_num": "E52"
     },
     "text_engine_script_1_1": {
@@ -653,6 +659,7 @@
     "playbutton_script_1_1": {
         "verbose": "[playbutton] al ser pulsado emite [GameStart], el cual inicia el [Juego Principal].",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [playbutton]</li></ul><li>Acción</li><ul><li>Emite [GameStart]</li><li>Inicia [Juego Principal]</li></ul></ul>",
+        "conexiones": "<p><strong>[GameStart]</strong><br>[playbutton] al ser pulsado emite [GameStart].</p><ul><li><strong>Recibido por [Flappy Bird Script 2]:</strong> Hace posicionarse en el punto inicial y detectar el contacto con otros sprites y el borde de la pantalla.<ul><li>Posicionamiento en punto inicial</li><li>Detección de contacto con sprites y borde</li></ul></li><li><strong>Recibido por [Flappy Bird Script 3]:</strong> Gestiona la lógica de la puntuación y la velocidad en el eje vertical.<ul><li>Gestión lógica de puntuación y velocidad</li></ul></li><li><strong>Recibido por [Flappy Bird Script 7]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Flappy Bird Script 10]:</strong> Gestiona la lógica de la velocidad y el sonido a través de la detección de clic de ratón.<ul><li>Gestión lógica de velocidad y sonido</li></ul></li><li><strong>Recibido por [Flappy Bird Script 15]:</strong> Gestiona la orientación visual del sprite según el movimiento en el eje vertical.<ul><li>Gestión de orientación visual según movimiento</li></ul></li><li><strong>Recibido por [secondPipe Script 2]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [secondPipe Script 3]:</strong> Establece la posición del obstáculo según el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li></ul>",
         "id_num": "E74"
     },
     "playbutton_script_2_2": {
@@ -748,6 +755,7 @@
     "change_color_button_script_3_3": {
         "verbose": "Al pulsar [Change Color Button], se emite [Change Color] y [Change Color Button] se oculta.",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Change Color Button]</li></ul><li>Acciones</li><ul><li>Emite [Change Color]</li><li>Oculta [Change Color Button]</li></ul></ul>",
+        "conexiones": "<p><strong>[Change Color]</strong><br>[Change Color Button] al ser pulsado emite [Change Color].</p><ul><li><strong>Recibido por [flappybirdguy Script 2]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Color Picker Script 3]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Yellow Script 4]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Green Script 2]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Blue Script 2]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Pink Script 4]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Red Script 4]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Orange Script 4]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Title Script 2]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Flappy Bird Sign Script 1]:</strong> Lo hace ocultarse.<ul><li>Ocultarse</li></ul></li></ul>",
         "id_num": "E85"
     },
     "change_color_button_script_4_4": {
@@ -828,6 +836,7 @@
     "yellow_script_5_5": {
         "verbose": "Al pulsar [Yellow], se establece la variable [Color] a Yellow y se emite [Yellow].",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Yellow]</li></ul><li>Acciones</li><ul><li>Establece [Color] a Yellow</li><li>Emite [Yellow]</li></ul></ul>",
+        "conexiones": "<p><strong>[Yellow]</strong><br>[Yellow] al ser pulsado emite [Yellow].</p><ul><li><strong>Recibido por [flappybirdguy Script 4]:</strong> Establece el color del personaje a amarillo para actualizar la apariencia en la pantalla de [Personalización].<ul><li>Establecer color a amarillo</li></ul></li></ul>",
         "id_num": "E102"
     },
     "green_script_1_1": {
@@ -963,6 +972,7 @@
     "rules_button_script_2_2": {
         "verbose": "Al recibir [Change Color], [Rules_Button] se oculta.",
         "schematic": "<ul><li>Recepción [Change Color]</li><ul><li>Acción</li><ul><li>Oculta [Rules_Button]</li></ul></ul></ul>",
+        "conexiones": "<p><strong>[rules]</strong><br>[Rules_Button] al ser pulsado emite [rules].</p><ul><li><strong>Recibido por [Back Button2 Script 2]:</strong> Muestra el sprite para formar parte de la pantalla de [Reglas].<ul><li>Mostrar sprite</li></ul></li><li><strong>Recibido por [Rules Script 2]:</strong> Muestra el sprite para formar parte de la pantalla de [Reglas].<ul><li>Mostrar sprite</li></ul></li><li><strong>Recibido por [Flappy Bird Sign Script 4]:</strong> Oculta el sprite para salir del [Menú Principal].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Rules_Button Script 3]:</strong> Oculta el sprite para salir del [Menú Principal].<ul><li>Ocultar sprite</li></ul></li></ul>",
         "id_num": "E130"
     },
     "rules_button_script_3_3": {
@@ -1003,6 +1013,7 @@
     "back_button_script_1_1": {
         "verbose": "Al pulsar [Back Button], se emite [backChangeColor] y [Back Button] se oculta.",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Back Button]</li></ul><li>Acciones</li><ul><li>Emite [backChangeColor]</li><li>Oculta [Back Button]</li></ul></ul>",
+        "conexiones": "<p><strong>[backChangeColor]</strong><br>[Back Button] al ser pulsado emite [backChangeColor].</p><ul><li><strong>Recibido por [Change Color Button Script 1]:</strong> Se muestra en pantalla para formar parte de la pantalla de [Personalización].<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [flappybirdguy Script 3]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Color Picker Script 2]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Yellow Script 2]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Green Script 1]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Blue Script 1]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Pink Script 2]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Red Script 2]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Orange Script 2]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Title Script 3]:</strong> Oculta el sprite para salir de la pantalla de [Personalización].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Flappy Bird Sign Script 2]:</strong> Muestra el sprite para volver al [Menú Principal].<ul><li>Mostrar sprite</li></ul></li><li><strong>Recibido por [Rules_Button Script 4]:</strong> Muestra el sprite para volver al [Menú Principal].<ul><li>Mostrar sprite</li></ul></li></ul>",
         "id_num": "E139"
     },
     "back_button_script_2_2": {
@@ -1033,6 +1044,7 @@
     "back_button2_script_1_1": {
         "verbose": "Al pulsar [Back Button2], se emite [backRules] y [Back Button2] se oculta.",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Back Button2]</li></ul><li>Acciones</li><ul><li>Emite [backRules]</li><li>Oculta [Back Button2]</li></ul></ul>",
+        "conexiones": "<p><strong>[backRules]</strong><br>[Back Button2] al ser pulsado emite [backRules].</p><ul><li><strong>Recibido por [Rules Script 3]:</strong> Oculta el sprite para salir de la pantalla de [Reglas].<ul><li>Ocultar sprite</li></ul></li><li><strong>Recibido por [Rules_Button Script 8]:</strong> Muestra el sprite para formar parte del [Menú Principal].<ul><li>Mostrar sprite</li></ul></li><li><strong>Recibido por [Flappy Bird Sign Script 5]:</strong> Muestra el sprite para formar parte del [Menú Principal].<ul><li>Mostrar sprite</li></ul></li></ul>",
         "id_num": "E146"
     },
     "back_button2_script_2_2": {
@@ -1098,6 +1110,7 @@
     "game_over_script_2_2": {
         "verbose": "Al iniciar la aplicación, [Game Over] se posiciona en la coordenada inicial, se lleva al fondo y se oculta.",
         "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Lleva al fondo</li><li>Oculta [Game Over]</li></ul></ul>",
+        "conexiones": "<p><strong>[stop_game]</strong><br>[Game Over] al concluir la partida emite [stop_game].</p><ul><li><strong>Recibido por [ground Script 4]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [ground2 Script 5]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [Flappy Bird Script 16]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [secondPipe Script 12]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [firstPipe Script 11]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li></ul>",
         "id_num": "E160"
     },
     "game_over_script_3_3": {
@@ -1153,6 +1166,7 @@
     "101508108-flappy_bird.1910x1000_script_3_3": {
         "verbose": "Al recibir [tim], [101508108-flappy_bird.1910x1000] se lleva al primer plano, se muestra y, en un bucle que se repite 50 veces, disminuye progresivamente su posición en Y y su efecto de desvanecimiento, haciéndose más visible mientras desciende. Al finalizar el bucle, se posiciona en la coordenada inicial, espera 1 segundo, emite la señal [start], cambia de disfraz y se oculta.",
         "schematic": "<ul><li>Recepción [tim]</li><ul><li>Acciones iniciales</li><ul><li>Lleva a primer plano</li><li>Muestra [101508108-flappy_bird.1910x1000]</li></ul><li>Bucle (50 repeticiones)</li><ul><li>Disminuye posición Y</li><li>Disminuye efecto desvanecimiento</li></ul><li>Acciones finales</li><ul><li>Posicionamiento coordenada inicial</li><li>Espera 1 segundo</li><li>Emite [start]</li><li>Cambia disfraz</li><li>Oculta sprite</li></ul></ul></ul>",
+        "conexiones": "<p><strong>[start]</strong><br>[101508108-flappy_bird.1910x1000] al concluir la animación de introducción emite [start].</p><ul><li><strong>Recibido por [Flappy Bird Title Page Script 3]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [playbutton Script 9]:</strong> Lo hace mostrarse en primer plano para que el usuario pueda interactuar con él.<ul><li>Mostrarse en primer plano para interacción</li></ul></li><li><strong>Recibido por [Change Color Button Script 7]:</strong> Lo hace mostrarse en primer plano para que el usuario pueda interactuar con él.<ul><li>Mostrarse en primer plano para interacción</li></ul></li><li><strong>Recibido por [Flappy Bird Sign Script 8]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [Rules_Button Script 9]:</strong> Lo hace mostrarse en primer plano para que el usuario pueda interactuar con él.<ul><li>Mostrarse en primer plano para interacción</li></ul></li></ul>",
         "id_num": "E171"
     },
     "all_in_one!_script_1_1": {
@@ -1168,6 +1182,7 @@
     "all_in_one!_script_3_3": {
         "verbose": "Script de definición de bloque final [end]. Espera hasta que la variable scrollX sea mayor que -30, tras lo cual reduce gradualmente su tamaño, se oculta y elimina el clon actual.",
         "schematic": "<ul><li>Definición</li><ul><li>Bloque final [end]</li></ul><li>Acciones</li><ul><li>Espera (scrollX > -30)</li><li>Reduce tamaño gradualmente</li><li>Oculta sprite</li><li>Elimina clon actual</li></ul></ul>",
+        "conexiones": "<p><strong>[ad]</strong><br>[All In One!] al iniciar la animación de introducción emite [ad].</p><ul><li><strong>Recibido por [All In One! Script 8]:</strong> Gestiona el temporizador de la secuencia.<ul><li>Gestión del temporizador de la secuencia</li></ul></li></ul>",
         "id_num": "E173"
     },
     "all_in_one!_script_4_4": {
@@ -1188,6 +1203,7 @@
     "all_in_one!_script_7_7": {
         "verbose": "Al iniciar la aplicación, se establece tipo en Logo, se crea un clon del sprite [All In One!], se emite la señal [ad] y el sistema espera 10 segundos.",
         "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece tipo = Logo</li><li>Crea clon de [All In One!]</li><li>Emite señal [ad]</li><li>Espera 10 segundos</li></ul></ul>",
+        "conexiones": "<p><strong>[ad]</strong><br>[All In One!] al iniciar la animación de introducción emite [ad].</p><ul><li><strong>Recibido por [All In One! Script 8]:</strong> Gestiona el temporizador de la secuencia.<ul><li>Gestión del temporizador de la secuencia</li></ul></li></ul>",
         "id_num": "E179"
     },
     "all_in_one!_script_8_8": {
