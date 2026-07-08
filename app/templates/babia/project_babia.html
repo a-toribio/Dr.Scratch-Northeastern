@@ -28,7 +28,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       var treeEl = document.getElementById('tree');
       if (treeEl) {
-        treeEl.setAttribute('babia-treebuilder', 'data', JSON.stringify(projectFlat));
+        var ciudadLimpia = projectFlat.filter(function(item) {
+            return !item.path.includes("Memoria_Global");
+        });
+        treeEl.setAttribute('babia-treebuilder', 'data', JSON.stringify(ciudadLimpia));
         treeEl.setAttribute('babia-treebuilder', 'field', 'path');
         treeEl.setAttribute('babia-treebuilder', 'split_by', '/');
       }
@@ -157,13 +160,14 @@
                     let idCaja = caja.id || "";
                     
                     if (idCaja.endsWith('ScratchCity')) {
-                      let colorBase = "#98e690";
+                      let colorBase = "#388E3C"; // Verde más oscuro para la base gigante
                       caja.setAttribute('color', colorBase);
                       caja.setAttribute('babiaxrfirstcolor', colorBase);
                     } 
-                    else if (idCaja.includes('script')) {
+                    // Añadimos 'var_' para que también pinte los edificios de las variables
+                    else if (idCaja.includes('script') || idCaja.includes('var_')) {
                         projectFlat.forEach(item => {
-                          let scriptId = item.id; // Usamos el ID directo del script
+                          let scriptId = item.id; 
                           if (idCaja.includes(scriptId)) {
                               caja.setAttribute('color', item.building_color);
                               caja.setAttribute('babiaxrfirstcolor', item.building_color);
@@ -171,7 +175,24 @@
                         });
                     }
                     else if (idCaja.startsWith('boat-')) {
-                        let colorVerde = "#bdefb7";
+                        // TRUCO SEGURO: Contamos las barras '/' para saber la profundidad
+                        let numeroDeBarras = (idCaja.match(/\//g) || []).length;
+                        
+                        let colorVerde = "#bdefb7"; // Original por si acaso
+                        
+                        if (numeroDeBarras === 1) {
+                            // Tiene 1 barra -> Es un Barrio Lógico (Junta Municipal)
+                            colorVerde = "#4CAF50"; 
+                        } else if (numeroDeBarras === 2) {
+                            // Tiene 2 barras -> Es un Distrito (Sprite)
+                            colorVerde = "#A5D6A7"; // Verde muy clarito para contrastar
+                        }
+
+                        // Si es el barrio extra de las variables, lo ponemos amarillo/mostaza
+                        if (idCaja.includes("Memoria_Global")) {
+                            colorVerde = "#FFD54F";
+                        }
+
                         caja.setAttribute('color', colorVerde);
                         caja.setAttribute('babiaxrfirstcolor', colorVerde);
                     }
@@ -698,7 +719,7 @@
             // A. Intentamos buscar si el texto es un código exacto (ej: D4, B1, G1)
             let target = referenceMap[upperText];
 
-            // B. Si NO es un código, buscamos por su nombre real
+            // B. Si no es un código, buscamos por su nombre real
             if (!target) {
                 // Limpiamos el texto quitando tildes, espacios y pasándolo a minúsculas
                 let searchKey = cleanText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
@@ -731,7 +752,6 @@
                         let nomNat = (item.data.nombre_natural || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
                         let towerId = item.data.id.toLowerCase().replace(/ /g, '_');
                         
-                        // EL TRUCO: Le quitamos el último "_numero" al ID de la torre para que encaje con el texto
                         let towerIdWithoutSuffix = towerId.replace(/_\d+$/, ''); 
 
                         // Otro truco más por si los espacios difieren ligeramente
@@ -746,8 +766,6 @@
                 }
             }
 
-            // Si hemos encontrado el objeto en el mapa...
-            // MODIFICADO: Aceptamos target si es una torre (aunque no tenga código E/D), o si es variable
             if (target && (target.data.id_num || target.type === 'variable' || target.type === 'tower')) {
                 
                 // Si no tiene código id_num, usamos su ID interno
@@ -771,7 +789,7 @@
             return match; 
         });
         
-        return text; 
+        return text;
     }
 
     window.navigateToReference = function(refCode) {
@@ -783,31 +801,28 @@
                 showDistrictView(target.data);
                 
             } else if (target.type === 'tower' || target.type === 'variable') {
-                
-                // MAGIA PARA VARIABLES: Le ponemos un título limpio antes de abrir el panel
+
                 if (target.type === 'variable') {
                     let cleanName = target.data.id.replace('var_', '');
                     target.data.nombre_natural = "Variable: [" + cleanName + "]";
                 }
 
-                // EL SALVAVIDAS MEJORADO: Le damos un array de 'children' para que findIndex no explote
                 let parentDistrict = target.parent;
                 if (!parentDistrict) {
                     parentDistrict = { 
                         id: "Memoria_Global", 
                         node_type: "region",
-                        children: [target.data] // Metemos la variable como su único "hijo"
+                        children: [target.data]
                     };
                 }
 
-                // Abrimos el panel de la torre/variable con el padre seguro
                 handleTowerData(target.data, parentDistrict);
                 
             } else if (target.type === 'broadcast') {
                 showBroadcastView(target.data);
             }
         } else {
-            console.warn("⚠️ No se pudo navegar a la referencia:", refCode);
+            console.warn("No se pudo navegar a la referencia:", refCode);
         }
     };
 
@@ -856,7 +871,6 @@
 
                 let variants = [checkId, cleanId, baseId, baseId.replace(/_/g, ' '), baseId.replace(/ /g, '_')];
 
-                // NUEVO BUCLE PARA 3 NIVELES
                 for (let region of projectData.children) {
                     if (variants.includes(region.id) || variants.includes(region.id.replace(/ /g, '_'))) {
                         return { type: 'region', data: region };
@@ -1073,7 +1087,6 @@
         btnElement.classList.add('active');
     }
 
-    // --- LÓGICA DEL PANEL DE DIRECTOR DE ORQUESTA ---
     let flowData = { broadcasts: {}, variables: {} };
     let originalTowerColors = {};
 
@@ -1150,7 +1163,7 @@
             });
         });
 
-        console.log("✅ [Director] Datos extraídos y unificados correctamente:", flowData);
+        console.log("Datos extraídos y unificados correctamente:", flowData);
         buildFlowPanelUI();
     }
 
@@ -1182,38 +1195,32 @@
         });
     }
 
-    // FUNCIÓN DE RECARGA: Destruye y reconstruye la ciudad nativamente
     function rebuildCity() {
-        // 1. Intentamos buscarla por todas las etiquetas típicas de BabiaXR y Dr. Scratch
         let cityEl = document.querySelector('[babia-city], [babia-treecity], [babia], [codecity], [babia-queryjson], #city, #ScratchCity');
         
-        // 2. PLAN B (Infalible): Si no la encuentra por nombre, buscamos un edificio cualquiera 
-        // y subimos por el "árbol genealógico" hasta dar con la placa base de la ciudad.
         if (!cityEl) {
             let firstBuilding = document.querySelector('a-box, a-cylinder');
             if (firstBuilding) {
                 let current = firstBuilding;
-                // Subimos de padre en padre hasta llegar justo debajo del cielo (<a-scene>)
                 while (current.parentNode && current.parentNode.tagName && current.parentNode.tagName.toLowerCase() !== 'a-scene') {
                     current = current.parentNode;
                 }
-                cityEl = current; // ¡Atrapada!
+                cityEl = current;
             }
         }
 
         if (cityEl) {
-            console.log("♻️ [Director] ¡Ciudad encontrada! Recargando con los nuevos colores...");
+            console.log("Recargando con los nuevos colores...");
             let parent = cityEl.parentNode;
-            let clone = cityEl.cloneNode(false); // Clonamos solo el cascarón (Babia rellenará el interior)
+            let clone = cityEl.cloneNode(false);
             
-            parent.removeChild(cityEl); // Demolemos la ciudad vieja
+            parent.removeChild(cityEl);
             
-            // Pausa microscópica para vaciar memoria y construimos la nueva
             setTimeout(() => {
                 parent.appendChild(clone); 
             }, 50);
         } else {
-            console.warn("⚠️ [Director] Sigo sin encontrar la ciudad. ¿Seguro que ha cargado el 3D?");
+            console.warn("Sigo sin encontrar la ciudad. ¿Seguro que ha cargado el 3D?");
         }
     }
 
