@@ -1844,7 +1844,7 @@ def format_babia_dict(d: dict):
         for script_key, script_value in script_dicc.items():
             colors[sprite_name][script_key] = '#3a85fc' # Azul para código muerto
 
-    city_ai_data = FLAPPY_PERSPECTIVES.get("scratchcity", {
+    city_ai_data = FLAPPY_PERSPECTIVES.get("stage", {
         "verbose": "Vista general del proyecto no disponible.",
         "schematic": "<p>Sin esquema global.</p>",
         "id_num": "G1"
@@ -1852,7 +1852,7 @@ def format_babia_dict(d: dict):
 
     # Estructura base de la ciudad
     data = {
-        "id": "ScratchCity",
+        "id": "Stage",
         "children": [],
         "area": 0,
         "ai_verbose": city_ai_data.get("verbose", ""),
@@ -2010,7 +2010,7 @@ def format_babia_flat(d: dict) -> list:
             })
 
             flat_list.append({
-                "path": f"ScratchCity/{safe_region}/{safe_sprite}/{unique_id}",
+                "path": f"Stage/{safe_region}/{safe_sprite}/{unique_id}",
                 "id": unique_id,
                 "nombre_corto": script_key.lower(),
                 "area": tower_area,
@@ -2025,7 +2025,7 @@ def format_babia_flat(d: dict) -> list:
     for key, data in FLAPPY_PERSPECTIVES.items():
         if key.startswith('var_'):
             flat_list.append({
-                "path": f"ScratchCity/Memoria_Global/Variables/{key}", # Creamos un barrio exclusivo
+                "path": f"Stage/Memoria_Global/Variables/{key}", # Creamos un barrio exclusivo
                 "id": key,
                 "nombre_corto": key.replace('var_', ''),
                 "area": 4,  # Tamaño pequeñito

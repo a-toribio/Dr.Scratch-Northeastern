@@ -159,7 +159,7 @@
                 cajas.forEach(caja => {
                     let idCaja = caja.id || "";
                     
-                    if (idCaja.endsWith('ScratchCity')) {
+                    if (idCaja.endsWith('Stage')) {
                       let colorBase = "#388E3C"; // Verde más oscuro para la base gigante
                       caja.setAttribute('color', colorBase);
                       caja.setAttribute('babiaxrfirstcolor', colorBase);
@@ -728,7 +728,7 @@
                     let item = referenceMap[key];
 
                     // Si es ciudad
-                    if (item.type === 'city' && (searchKey === 'scratchcity' || searchKey === 'ciudad_completa')) {
+                    if (item.type === 'city' && (searchKey === 'stage' || searchKey === 'ciudad_completa')) {
                         target = item; break;
                     }
                     // Si es barrio, distrito o broadcast
@@ -865,7 +865,7 @@
                 let parts = cleanId.split('/');
                 let baseId = parts[parts.length - 1]; 
                 
-                if (checkId.endsWith('ScratchCity') || checkId === 'boat-ScratchCity' || baseId === 'ScratchCity') {
+                if (checkId.endsWith('Stage') || checkId === 'boat-Stage' || baseId === 'Stage') {
                     return { type: 'city', data: projectData }; 
                 }
 
@@ -904,7 +904,7 @@
 
         // Detectar en qué nivel estamos
         let nodeType = 'district';
-        if (nodeData.id === "ScratchCity") nodeType = 'city';
+        if (nodeData.id === "Stage") nodeType = 'city';
         else if (nodeData.node_type === "Region") nodeType = 'region';
         
         ui.title.innerText = nodeType === 'city' ? "Proyecto Completo" : (nodeType === 'region' ? "Barrio Lógico" : "Distrito (Sprite)");
