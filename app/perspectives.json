@@ -1119,8 +1119,8 @@
         "id_num": "E161"
     },
     "ground_script_1_1": {
-        "verbose": "Al iniciar la aplicación, [ground] se lleva al fondo, se posiciona en la coordenada inicial, se muestra un instante y se oculta. Posteriormente, inicia un bucle perpetuo en el que, mediante las variables ScrollX y clone, calcula y asigna repetidamente la coordenada horizontal (X) de [ground].",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones iniciales</li><ul><li>Lleva [ground] al fondo</li><li>Posicionamiento coordenada inicial</li><li>Muestra un instante</li><li>Oculta [ground]</li></ul><li>Bucle perpetuo</li><ul><li>Cálculo coordenada horizontal (X)</li><ul><li>Uso variables ScrollX y clone</li></ul><li>Asignación coordenada X</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [ground] se muestra, se oculta inmediatamente, se posiciona en la coordenada inicial y se lleva al primer plano. En bucle continuo se desplaza hacia la izquierda. Al alcanzar el límite izquierdo, se reposiciona en la coordenada inicial derecha.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones iniciales</li><ul><li>Muestra [ground]</li><li>Oculta [ground]</li><li>Posicionamiento coordenada inicial</li><li>Lleva a primer plano</li></ul><li>Bucle continuo</li><ul><li>Desplazamiento hacia la izquierda</li><li>Si alcanza límite izquierdo</li><ul><li>Reposiciona en coordenada inicial derecha</li></ul></ul></ul>",
         "id_num": "E162"
     },
     "ground_script_2_2": {
@@ -1133,9 +1133,14 @@
         "schematic": "<ul><li>Recepción [gameover]</li><ul><li>Acción</li><ul><li>Oculta [ground]</li></ul></ul></ul>",
         "id_num": "E164"
     },
+    "ground_script_4_4": {
+        "verbose": "Al recibir [stop_game], se detienen los demás scripts del sprite.",
+        "schematic": "<ul><li>Recepción [stop_game]</li><ul><li>Acción</li><ul><li>Detiene otros scripts del sprite</li></ul></ul></ul>",
+        "id_num": "E183"
+    },
     "ground2_script_1_1": {
-        "verbose": "Al iniciar la aplicación, [ground2] se lleva al fondo, se posiciona en la coordenada inicial, se muestra un instante y se oculta. Posteriormente, inicia un bucle perpetuo en el que, mediante las variables ScrollX y clone2, calcula y asigna repetidamente la coordenada horizontal (X) de [ground2].",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones iniciales</li><ul><li>Lleva [ground2] al fondo</li><li>Posicionamiento coordenada inicial</li><li>Muestra un instante</li><li>Oculta [ground2]</li></ul><li>Bucle perpetuo</li><ul><li>Cálculo coordenada horizontal (X)</li><ul><li>Uso variables ScrollX y clone2</li></ul><li>Asignación coordenada X</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, [ground2] se posiciona en la coordenada inicial derecha, se lleva al primer plano, se muestra y se oculta inmediatamente. En bucle continuo se desplaza hacia la izquierda. Al alcanzar el límite izquierdo, se reposiciona en la coordenada inicial derecha.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones iniciales</li><ul><li>Posicionamiento coordenada inicial derecha</li><li>Lleva a primer plano</li><li>Muestra [ground2]</li><li>Oculta [ground2]</li></ul><li>Bucle continuo</li><ul><li>Desplazamiento hacia la izquierda</li><li>Si alcanza límite izquierdo</li><ul><li>Reposiciona en coordenada inicial derecha</li></ul></ul></ul>",
         "id_num": "E165"
     },
     "ground2_script_2_2": {
@@ -1175,18 +1180,18 @@
         "id_num": "E175"
     },
     "all_in_one!_script_2_2": {
-        "verbose": "Al iniciar la aplicación, se limpia todo lo dibujado en la pantalla, se establece tipo en 0, se posiciona [All In One!] en la coordenada inicial y se oculta.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Limpia dibujos pantalla</li><li>Establece tipo = 0</li><li>Posicionamiento coordenada inicial</li><li>Oculta [All In One!]</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se borran los trazos de lápiz, se establece [timer2] a 0, se posiciona en el centro del escenario y se oculta.",
+        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Borra trazos lápiz</li><li>Establece [timer2] a 0</li><li>Posicionamiento coordenada inicial</li><li>Oculta [All In One!]</li></ul></ul>",
         "id_num": "E174"
     },
     "all_in_one!_script_3_3": {
-        "verbose": "Script de definición de bloque final [end]. Espera hasta que la variable scrollX sea mayor que -30, tras lo cual reduce gradualmente su tamaño, se oculta y elimina el clon actual.",
-        "schematic": "<ul><li>Definición</li><ul><li>Bloque final [end]</li></ul><li>Acciones</li><ul><li>Espera (scrollX > -30)</li><li>Reduce tamaño gradualmente</li><li>Oculta sprite</li><li>Elimina clon actual</li></ul></ul>",
+        "verbose": "Se espera hasta que [timer2] alcance el valor 10, se envía a un nivel de superposición muy bajo, se emite [tim], se oculta y se elimina el clon.",
+        "schematic": "<ul><li>Condición</li><ul><li>[timer2] = 10</li></ul><li>Acciones</li><ul><li>Envía a nivel de superposición muy bajo</li><li>Emite [tim]</li><li>Oculta [All In One!]</li><li>Elimina clon</li></ul></ul>",
         "conexiones": "<p><strong>[ad]</strong><br>[All In One!] al iniciar la animación de introducción emite [ad].</p><ul><li><strong>Recibido por [All In One! Script 8]:</strong> Gestiona el temporizador de la secuencia.<ul><li>Gestión del temporizador de la secuencia</li></ul></li></ul>",
         "id_num": "E173"
     },
     "all_in_one!_script_4_4": {
-        "verbose": "Al recibir [start], no ocurre nada ya que es un script residual y no contiene bloques en su interior.",
+        "verbose": "Se recibe el mensaje [intro]. Script residual sin utilidad.",
         "schematic": "<ul><li>Recepción [start]</li><ul><li>Acción</li><ul><li>Ninguna</li></ul><li>Nota</li><ul><li>Script residual sin bloques interiores</li></ul></ul></ul>",
         "id_num": "E176"
     },
