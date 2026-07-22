@@ -1175,50 +1175,55 @@
         "id_num": "E171"
     },
     "all_in_one!_script_1_1": {
-        "verbose": "Al iniciar el sprite como un clon, si la variable tipo es igual a Logo, el clon gira para orientarse correctamente, se posiciona en la coordenada inicial y fija su nivel de desvanecimiento al 100%.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio como clon</li></ul><li>Condición</li><ul><li>Variable tipo = Logo</li></ul><li>Acciones</li><ul><li>Orientación del clon</li><li>Posicionamiento coordenada inicial</li><li>Fija desvanecimiento al 100%</li></ul></ul>",
+        "verbose": "Al iniciarse como clon, se evalúa la variable [Å] para determinar qué secuencia de animación ejecutar. Cada valor de [Å] activa una fase diferente de la introducción con efectos visuales, cambios de disfraz y movimientos específicos. Algunas fases crean clones adicionales para continuar la secuencia.",
+        "schematic": "<ul><li><strong>Activación:</strong> Iniciarse como clon</li><li><strong>Evaluación [Å]:</strong><ul><li>Determinación secuencia animación</li><li>Cada valor activa fase diferente:<ul><li>Efectos visuales</li><li>Cambios disfraz</li><li>Movimientos específicos</li></ul></li></ul></li><li><strong>Algunas fases crean clones adicionales:</strong> Continuación secuencia</li></ul>",
         "id_num": "E175"
     },
     "all_in_one!_script_2_2": {
         "verbose": "Al iniciar la aplicación, se borran los trazos de lápiz, se establece [timer2] a 0, se posiciona en el centro del escenario y se oculta.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Borra trazos lápiz</li><li>Establece [timer2] a 0</li><li>Posicionamiento coordenada inicial</li><li>Oculta [All In One!]</li></ul></ul>",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acciones:</strong><ul><li>Borrado trazos lápiz</li><li>Establece [timer2] a 0</li><li>Posicionamiento centro escenario</li><li>Oculta</li></ul></li></ul>",
         "id_num": "E174"
     },
     "all_in_one!_script_3_3": {
         "verbose": "Se espera hasta que [timer2] alcance el valor 10, se envía a un nivel de superposición muy bajo, se emite [tim], se oculta y se elimina el clon.",
-        "schematic": "<ul><li>Condición</li><ul><li>[timer2] = 10</li></ul><li>Acciones</li><ul><li>Envía a nivel de superposición muy bajo</li><li>Emite [tim]</li><li>Oculta [All In One!]</li><li>Elimina clon</li></ul></ul>",
+        "schematic": "<ul><li><strong>Espera:</strong> [timer2] alcance valor 10</li><li><strong>Acciones:</strong><ul><li>Envío nivel superposición muy bajo</li><li>Emisión [tim]</li><li>Oculta</li><li>Eliminación clon</li></ul></li></ul>",
         "conexiones": "<p><strong>[ad]</strong><br>[All In One!] al iniciar la animación de introducción emite [ad].</p><ul><li><strong>Recibido por [All In One! Script 8]:</strong> Gestiona el temporizador de la secuencia.<ul><li>Gestión del temporizador de la secuencia</li></ul></li></ul>",
         "id_num": "E173"
     },
     "all_in_one!_script_4_4": {
         "verbose": "Se recibe el mensaje [intro]. Script residual sin utilidad.",
-        "schematic": "<ul><li>Recepción [start]</li><ul><li>Acción</li><ul><li>Ninguna</li></ul><li>Nota</li><ul><li>Script residual sin bloques interiores</li></ul></ul></ul>",
+        "schematic": "<ul><li><strong>Recepción:</strong> [intro]</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
         "id_num": "E176"
     },
     "all_in_one!_script_5_5": {
-        "verbose": "Al recibir [GameStart], no ocurre nada ya que es un script residual y no contiene bloques en su interior.",
-        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acción</li><ul><li>Ninguna</li></ul><li>Nota</li><ul><li>Script residual sin bloques interiores</li></ul></ul></ul>",
+        "verbose": "Al recibir [intro], no se ejecuta ninguna acción visible. Script residual sin utilidad.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [intro]</li><li><strong>Nota:</strong> Script residual, sin acción visible, sin utilidad</li></ul>",
         "id_num": "E177"
     },
     "all_in_one!_script_6_6": {
-        "verbose": "Al iniciar la aplicación, se reproduce un sonido. Se inicia un bucle de repetición de 20 ciclos que reproduce un segundo sonido en cada iteración. A continuación, el sistema espera 8 segundos, seguido de otro bucle de 100 iteraciones en el que también se reproduce el primer sonido en cada ciclo.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones iniciales</li><ul><li>Reproduce sonido 1</li></ul><li>Bucle 1 (20 repeticiones)</li><ul><li>Reproduce sonido 2</li></ul><li>Pausa</li><ul><li>Espera 8 segundos</li></ul><li>Bucle 2 (100 repeticiones)</li><ul><li>Reproduce sonido 1</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se inicia la reproducción de música con entrada gradual de volumen durante 20 pasos, seguida de una espera de 8 segundos y salida gradual durante 100 pasos.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Reproducción música:</strong><ul><li>Entrada gradual volumen: 20 pasos</li><li>Espera: 8 segundos</li><li>Salida gradual: 100 pasos</li></ul></li></ul>",
         "id_num": "E178"
     },
     "all_in_one!_script_7_7": {
-        "verbose": "Al iniciar la aplicación, se establece tipo en Logo, se crea un clon del sprite [All In One!], se emite la señal [ad] y el sistema espera 10 segundos.",
-        "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Establece tipo = Logo</li><li>Crea clon de [All In One!]</li><li>Emite señal [ad]</li><li>Espera 10 segundos</li></ul></ul>",
+        "verbose": "Al iniciar la aplicación, se establece [Å] a \"Logo\", se crea un clon y se emite [ad]. Se espera 10 segundos.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acciones:</strong><ul><li>Establece [Å] a \"Logo\"</li><li>Creación clon</li><li>Emisión [ad]</li><li>Espera: 10 segundos</li></ul></li></ul>",
         "conexiones": "<p><strong>[ad]</strong><br>[All In One!] al iniciar la animación de introducción emite [ad].</p><ul><li><strong>Recibido por [All In One! Script 8]:</strong> Gestiona el temporizador de la secuencia.<ul><li>Gestión del temporizador de la secuencia</li></ul></li></ul>",
         "id_num": "E179"
     },
     "all_in_one!_script_8_8": {
-        "verbose": "Al recibir [GameStart], se establece tipo en 0. Posteriormente inicia un bucle que detiene todos los sonidos.",
-        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Acciones</li><ul><li>Establece tipo = 0</li><li>Bucle</li><ul><li>Detiene todos los sonidos</li></ul></ul></ul></ul>",
+        "verbose": "Al recibir [ad], se establece [timer2] a 0. En bucle continuo, se incrementa [timer2] cada segundo.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [ad]</li><li><strong>Inicialización:</strong> Establece [timer2] a 0</li><li><strong>Bucle continuo:</strong> Incremento [timer2] cada segundo</li></ul>",
         "id_num": "E181"
     },
     "all_in_one!_script_9_9": {
-        "verbose": "Al recibir [gameover], se eliminan todos los efectos gráficos y el sprite se oculta.",
-        "schematic": "<ul><li>Recepción [gameover]</li><ul><li>Acciones</li><ul><li>Eliminan efectos gráficos</li><li>Oculta sprite</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], se eliminan los efectos gráficos, se oculta y en bucle continuo se envía a un nivel de superposición más bajo.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [GameStart]</li><li><strong>Acciones iniciales:</strong> Eliminación efectos gráficos, Oculta</li><li><strong>Bucle continuo:</strong> Envío nivel superposición más bajo</li></ul>",
+        "id_num": "E182"
+    },
+    "all_in_one!_script_10_10": {
+        "verbose": "Al iniciar la aplicación, se cambia al disfraz [ghost_nonexistent]. Script residual sin utilidad.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acción:</strong> Cambio disfraz [ghost_nonexistent]</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
         "id_num": "E182"
     },
     "var_lives": {
