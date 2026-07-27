@@ -911,9 +911,9 @@
         ui.subtitle.innerText = nodeType === 'city' ? "General View (G1)" : (nodeType === 'region' ? "Sprite Grouping" : "General View of the Object");
         let typeLabel = document.getElementById('selection-type-label');
         if (typeLabel) {
-            if (nodeType === 'city') typeLabel.innerText = "Has seleccionado el Proyecto:";
+            if (nodeType === 'city') typeLabel.innerText = "Project selected:";
             else if (nodeType === 'region') typeLabel.innerText = "Neighborhood selected:";
-            else typeLabel.innerText = "Has seleccionado el Sprite:";
+            else typeLabel.innerText = "Sprite selected:";
         }
         ui.districtName.innerText = nodeData.id;
         
