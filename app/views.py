@@ -1792,6 +1792,7 @@ def get_babia(request):
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
+                        # 'urlProject': 'https://scratch.mit.edu/projects/1350338475/'}
                         'urlProject': 'https://scratch.mit.edu/projects/1315956606/'}
                         # 'urlProject': 'https://scratch.mit.edu/projects/290030950/'}
     fake_request.GET = SimpleNamespace()
@@ -1820,12 +1821,12 @@ import random, math
 
 def get_region_for_sprite(sprite_name):
     regions = {
-        "Juego Principal": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
+        "Main Game": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
         "Control del Juego": ["stage", "game over", "restart button", "life"], 
         "Puntuación": ["text engine"],
-        "Menú Principal": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
-        "Personalizacion": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
-        "Reglas": ["rules_button", "rules", "back button2"],
+        "Main Menu": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
+        "Customization": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
+        "Rules": ["rules_button", "rules", "back button2"],
         "Introducción del Sistema": ["101508108-flappy_bird.1910x1000", "all in one!"]
     }
     for region_name, sprites in regions.items():
@@ -1932,13 +1933,13 @@ def format_babia_dict(d: dict):
         region_name = get_region_for_sprite(sprite_key)
         if region_name not in regions_dict:
             safe_region_keys = {
-                "Juego Principal": "juego_principal",
+                "Main Game": "main_game",
                 "Control del Juego": "control_del_juego",
                 "Puntuación": "puntuacion",
-                "Menú Principal": "menu_principal",
+                "Main Menu": "main_menu",
                 "Fin del Juego": "fin_del_juego",
-                "Personalizacion": "personalizacion",
-                "Reglas": "reglas",
+                "Customization": "customization",
+                "Rules": "Rules",
                 "Introducción del Sistema": "introduccion_del_sistema"
             }
 

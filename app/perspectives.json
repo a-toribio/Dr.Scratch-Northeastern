@@ -4,7 +4,7 @@
         "schematic": "<ul><li>Clon de Flappy Bird con múltiples estados: inicio, juego y game over</li><li>Pantalla de inicio con título [D6] y botón play [D7]</li><ul><li>Juego principal: [D1] salta con tecla y evita tubos [D2] y [D3] que se desplazan</li><li>Sistema de puntuación mediante dibujo con lápiz [D5]</li><li>Selector de color [D9] que cambia apariencia de [D1] mediante variables [R20] a [R25]</li></ul><li>Pantalla de reglas [D21] con botón de acceso [D18]</li><li>Pantalla de game over [D23] con botón de reinicio [D4]</li><li>Colisiones entre [D1] y [D2], [D3], [D24] [D25] finalizan la partida</li><li>Variables [R33] y [R34] controlan el flujo entre estados</li><li>Puntuación máxima almacenada en [R37] y mostrada por [D5]</li><li>[D1] gestiona el personaje principal del juego</li><ul><li>Al iniciar con bandera verde se posiciona en (-150,0) [E11] y queda oculto en tamaño reducido [E14]</li></ul><li>Cuando comienza la partida [E9] se muestra [E13], se sitúa en posición inicial, resetea variables y entra en bucle perpetuo</li><li>Responde a pulsaciones de tecla [E6] [E15] aplicando impulso y reproduciendo sonido</li><li>Detecta colisiones con [D2], [D3], [D24] y [D25] que activan [E8] enviando [R1] a [D23] y deteniendo el juego</li><li>Mantiene orientación fija [E19] y gestión de capas [E18]</li><li>Recibe señales de [D4] [R3], [D7] [R9] y [D23] [R69] para reinicio o game</li></ul>",
         "id_num": "G1"
     },
-    "juego_principal": {
+    "main_game": {
         "verbose": "[Flappy Bird] se mueve verticalmente simulando gravedad y respondiendo a entradas del usuario. [firstPipe] y [secondPipe] se desplazan horizontalmente y detectan el paso de [Flappy Bird] para incrementar la puntuación, que se muestra mediante [Text Engine]. Las colisiones con obstáculos, como las pipes y el suelo, [ground] y [ground2], hacen que el juego se dé por perdido.",
         "schematic": "<ul><li>[Flappy Bird]</li><ul><li>Movimiento vertical (simulación gravedad)</li><li>Respuesta a entradas usuario</li></ul><li>[firstPipe]</li><ul><li>Desplazamiento horizontal</li><li>Detección paso [Flappy Bird]</li><li>Incremento puntuación</li></ul><li>[secondPipe]</li><ul><li>Desplazamiento horizontal</li><li>Detección paso [Flappy Bird]</li><li>Incremento puntuación</li></ul><li>[Text Engine]</li><ul><li>Visualización puntuación</li></ul><li>[ground]</li><ul><li>Colisión con [Flappy Bird]</li><li>Pérdida partida</li></ul><li>[ground2]</li><ul><li>Colisión con [Flappy Bird]</li><li>Pérdida partida</li></ul></ul>",
         "id_num": "B1"
@@ -19,9 +19,9 @@
         "schematic": "<ul><li>Gestión visualización puntuación</li><ul><li>Motor texto [Text Engine]</li><li>Composición caracteres individuales en pantalla</li></ul><li>Recepción [drawScore]</li><ul><li>Muestra puntuación actual</li><li>Muestra récord máximo</li><li>Posiciones fijas escenario</li></ul><li>Técnica</li><ul><li>Lápiz para dibujar letras vectoriales</li><li>Cálculo anchos palabra</li><li>Salto de línea</li><li>Formato tipográfico</li><li>Empleo práctico: valores numéricos simples</li></ul><li>Gestión borrado pantalla</li><ul><li>Al concluir partida</li></ul></ul>",
         "id_num": "B3"
     },
-    "menu_principal": {
-        "verbose": "El programa presenta una pantalla de inicio con el título del juego, una imagen promocional y un botón para comenzar la partida. Gestiona la visibilidad de estos elementos según la fase, mostrándolos al arrancar y ocultándolos al iniciar la partida o al acceder a otras secciones. Permite el acceso a las opciones de personalización y reglas desde esta pantalla inicial, coordinando la transición hacia el [Juego Principal] o las demás áreas del programa.",
-        "schematic": "<ul><li>Pantalla inicio</li><ul><li>Título juego</li><li>Imagen promocional</li><li>Botón comenzar partida</li></ul><li>Gestión visibilidad elementos</li><ul><li>Mostrar al arrancar</li><li>Ocultar al iniciar partida</li><li>Ocultar al acceder otras secciones</li></ul><li>Acceso opciones</li><ul><li>Personalización</li><li>Reglas</li></ul><li>Coordinación transición</li><ul><li>Hacia [Juego Principal]</li><li>Hacia demás áreas programa</li></ul></ul>",
+    "main_menu": {
+        "verbose": "The program features a startup screen with the game's title, a promotional image, and a button to start the game. It manages the visibility of these elements depending on the phase, displaying them at startup and hiding them when the game begins or when accessing other sections. It allows access to customization options and rules from this startup screen, coordinating the transition to the [Main Game] or other areas of the program.",
+        "schematic": "<ul><li>Startup Screen</li><ul><li>Game Title</li><li>Promotional Image</li><li>Start Game Button</li></ul><li>Visibility Management</li><ul><li>Display at Startup</li><li>Hide when Game Starts</li><li>Hide when Accessing Other Sections</li></ul><li>Access to Options</li><ul><li>Customization</li><li>Rules</li></ul><li>Transition Coordination</li><ul><li>Towards [Main Game]</li><li>Towards Other Areas of the Program</li></ul></ul>",
         "id_num": "B4"
     },
     "fin_del_juego": {
@@ -29,7 +29,7 @@
         "schematic": "<ul><li>Presenta: Pantalla conclusión</li><li>Muestra: [Game Over]</li><ul><li>Mensaje fin juego</li></ul><li>Muestra: [life]</li><ul><li>Intentos restantes</li></ul><li>Muestra: [Restart Button]</li><ul><li>Volver a jugar</li></ul><li>Oculta: Elementos partida activa</li><li>Aparecen: Controles reinicio</li><ul><li>Iniciar nueva partida</li><li>Revisar rendimiento</li></ul></ul>",
         "id_num": "B5"
     },
-    "personalizacion": {
+    "customization": {
         "verbose": "En el programa se puede modificar la apariencia del personaje desde una pantalla de selección de color, al que se llega desde un botón de acceso desde el [Menú Principal]. Hay un [Title] identificativo, una imagen de referencia del personaje [flappybirdguy] y un conjunto de opciones de color interactivas, Yellow, Green, Blue, Pink, Red y Orange, sobre un sprite llamado [Color Picker]. Incluye un [Back Button] de retroceso para volver al menú. Al seleccionar un color, se actualiza la apariencia de [Flappy Bird] en el [Juego Principal] y almacena la elección para futuras partidas.",
         "schematic": "<ul><li>Modificación apariencia personaje</li><ul><li>Pantalla selección color</li><li>Acceso desde botón [Menú Principal]</li></ul><li>Elementos pantalla</li><ul><li>[Title] identificativo</li><li>Imagen referencia [flappybirdguy]</li><li>Opciones color interactivas</li><ul><li>Yellow, Green, Blue, Pink, Red, Orange</li></ul><li>Sprite [Color Picker]</li></ul><li>[Back Button]</li><ul><li>Retroceso a menú</li></ul><li>Selección color</li><ul><li>Actualización apariencia [Flappy Bird] en [Juego Principal]</li><li>Almacenamiento elección para futuras partidas</li></ul></ul>",
         "id_num": "B6"
@@ -101,7 +101,7 @@
     },
     "color_picker": {
         "verbose": "Presenta un indicador visual en la pantalla de [Personalización] que contiene un tablero con los colores para seleccionar. Aparece al entrar en esta sección y se oculta al volver al [Menú Principal]. Su principal utilidad es la retroalimentación visual de la selección de apariencia.",
-        "schematic": "<ul><li>Función</li><ul><li>Indicador visual [Personalización]</li></ul><li>Contenido</li><ul><li>Tablero colores seleccionables</li></ul><li>Aparición</li><ul><li>Al entrar sección [Personalización]</li></ul><li>Ocultación</li><ul><li>Al volver [Menú Principal]</li></ul><li>Utilidad</li><ul><li>Retroalimentación visual selección apariencia</li></ul></ul>",
+        "schematic": "<ul><li><strong>Feature:</strong> Visual indicator [Customization]</li><li><strong>Content:</strong> Selectable color palette</li><li><strong>Display:</strong> Upon entering the [Customization] section</li><li><strong>Hiding:</strong> Upon returning to the [Main Menu]</li><li><strong>Utility:</strong> Visual feedback on selection appearance</li></ul>",
         "id_num": "D11"
     },
     "yellow": {
@@ -149,7 +149,7 @@
         "schematic": "<ul><li>Función</li><ul><li>Retroceso a [Menú Principal]</li></ul><li>Ubicación</li><ul><li>Pantalla [Reglas]</li><li>Única pantalla aparición</li></ul><li>Acción</li><ul><li>Volver al pulsar</li></ul><li>Interactividad</li><ul><li>Cambio apariencia al pasar cursor</li></ul><li>Ocultación</li><ul><li>Demás secciones programa</li></ul></ul>",
         "id_num": "D20"
     },
-    "rules": {
+    "Rules": {
         "verbose": "Presenta el contenido de las instrucciones del juego en la pantalla [Reglas]. Aparece al entrar en esta sección y se oculta al volver al [Menú Principal]. Presenta la información en una posición central del escenario.",
         "schematic": "<ul><li>Función</li><ul><li>Presentar contenido instrucciones juego</li></ul><li>Ubicación</li><ul><li>Pantalla [Reglas]</li></ul><li>Aparición</li><ul><li>Al entrar sección [Reglas]</li></ul><li>Ocultación</li><ul><li>Al volver [Menú Principal]</li></ul><li>Posición</li><ul><li>Central escenario</li></ul></ul>",
         "id_num": "D21"
@@ -269,7 +269,7 @@
     },
     "broadcast_backrules": {
         "verbose": "Gestiona el retorno desde la pantalla de [Reglas] hacia el [Menú Principal]. Coordina la reaparición de los elementos del menú y la ocultación del contenido instructivo.",
-        "schematic": "<ul><li>Gestiona retorno desde pantalla de [Reglas]</li><ul><li>Hacia [Menú Principal]</li></ul><li>Coordina reaparición</li><ul><li>De elementos del menú</li></ul><li>Coordina ocultación</li><ul><li>Del contenido instructivo</li></ul></ul>",
+        "schematic": "<ul><li>Manage return from the [Rules] screen</li><ul><li>Back to [Main Menu]</li></ul><li>Coordinate reappearance</li><ul><li>Of menu items</li></ul><li>Coordinate hiding</li><ul><li>Of instructional content</li></ul></ul>",
         "id_num": "BR14",
         "nombre": "backRules"
     },
@@ -526,7 +526,7 @@
         "id_num": "E47"
     },
     "restart_button_script_1_1": {
-        "verbose": "Al recibir [GameOver], se detienen los sonidos y [Restart Button] se muestra en pantalla, se posiciona en primer plano y se ajusta su nivel de superposición. En bucle continuo, se detecta el clic del ratón sobre el sprite, cambiando su apariencia al pasar el cursor.",
+        "verbose": "When [GameOver] is received, the sounds stop and [Restart Button] is displayed on the screen; it is brought to the foreground and its opacity is adjusted. In a continuous loop, a mouse click on the sprite is detected, changing its appearance when the cursor hovers over it.",
         "schematic": "<ul><li>Recepción [GameOver]</li><ul><li>Acciones iniciales</li><ul><li>Detención sonidos</li><li>Muestra [Restart Button]</li><li>Posicionamiento primer plano</li><li>Ajuste nivel superposición</li></ul><li>Bucle continuo</li><ul><li>Detección clic ratón sobre sprite</li><li>Cambio apariencia al pasar cursor</li></ul></ul></ul>",
         "id_num": "E48"
     },

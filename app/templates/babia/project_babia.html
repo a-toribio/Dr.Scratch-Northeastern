@@ -53,8 +53,8 @@
     
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px;">
         <div style="flex-grow: 1;">
-            <h2 id="panel-title" style="margin: 0; color: #333; font-size: 1.5em;">Selecciona un elemento</h2>
-            <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Haz clic en el suelo o en una torre</span>
+            <h2 id="panel-title" style="margin: 0; color: #333; font-size: 1.5em;">Select an item</h2>
+            <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Click on the ground or a tower</span>
         </div>
         <div id="nav-history-buttons" style="display: flex; gap: 5px; flex-shrink: 0;">
             <button id="btn-back" onclick="goBack()" disabled style="cursor: pointer; padding: 6px 12px; background: #3a85fc; color: white; border: none; border-radius: 4px; font-weight: bold; opacity: 0.5; font-size: 16px;">&larr;</button>
@@ -68,20 +68,20 @@
         
         <div id="ai-tabs-container">
             <div class="tabs-header">
-                <button class="tab-btn active" onclick="openTab('tab-verbose', this)">Detallada</button>
-                <button class="tab-btn" onclick="openTab('tab-schematic', this)">Esquema</button>
-                <button class="tab-btn" onclick="openTab('tab-diagram', this)">Diagrama</button>
+                <button class="tab-btn active" onclick="openTab('tab-verbose', this)">Detailed</button>
+                <button class="tab-btn" onclick="openTab('tab-schematic', this)">Schematic</button>
+                <button class="tab-btn" onclick="openTab('tab-diagram', this)">Diagram</button>
             </div>
 
             <div id="tab-verbose" class="tab-content active">
-                <strong>Descripción completa:</strong>
+                <strong>Complete Description:</strong>
                 <p id="ia-verbose-placeholder" style="color: #000000;">
-                    Explicación verbosa.
+                    Verbose explanation.
                 </p>
             </div>
 
             <div id="tab-schematic" class="tab-content">
-                <p>Resumen esquemático del distrito/sprite:</p>
+                <p>Schematic summary of the district/sprite:</p>
                 </ul>
             </div>
 
@@ -93,46 +93,46 @@
         </div>
         <hr style="margin: 20px 0; border: 1px solid #eee;">
 
-        <p><strong>Torres de Código (Scripts):</strong></p>
+        <p><strong>Code Towers (Scripts):</strong></p>
         <ul id="district-scripts-list" style="padding-left: 20px; overflow-y: auto; max-height: 200px;">
             </ul>
     </div>
 
     <div id="view-description" style="display: none;">
-        <h3>Información del Script</h3>
+        <h3>Script information</h3>
         <p><strong>ID:</strong> <span id="script-id-display" style="color: #3a85fc; font-weight: bold;"></span></p>
         
         <div class="tabs-header">
-            <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detallada</button>
-            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Esquema</button>
-            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-connections', this)">Conexiones</button>
+            <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detailed</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Schematic</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-connections', this)">Connections</button>
         </div>
 
         <div id="tab-tower-verbose" class="tab-content tower-tab-content active">
-            <strong>Descripción completa:</strong>
+            <strong>Complete Description:</strong>
             <p id="script-ai-verbose-placeholder" style="color: #333; margin-top: 10px;">
-                Cargando análisis...
+                Loading analysis...
             </p>
         </div>
 
         <div id="tab-tower-schematic" class="tab-content tower-tab-content">
-            <p><strong>Resumen de lógica:</strong></p>
+            <p><strong>Logic Summary:</strong></p>
             <div id="script-ai-schematic-placeholder">
-                Sin esquema disponible.
+                No schematic available.
             </div>
         </div>
 
         <div id="tab-tower-connections" class="tab-content tower-tab-content">
-            <p><strong>Comunicaciones del script:</strong></p>
+            <p><strong>Script Communications:</strong></p>
             <div id="script-ai-connections-placeholder" style="margin-top: 10px;">
-                Sin conexiones registradas.
+                No connections registered.
             </div>
         </div>
 
         <hr style="margin: 20px 0; border: 1px solid #eee;">
 
         <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer; border: none; border-radius: 5px;">
-            Ver Bloques de Código
+            View Code Blocks
         </button>
     </div>
 
@@ -141,7 +141,7 @@
         <pre id="script_blocks" class="blocks"></pre>
         
         <button onclick="hideCodeView()" class="button" style="background-color: #666; color: white; margin-top: 10px;">
-            Ocultar Código
+            Hide Code
         </button>
     </div>
 
@@ -258,19 +258,19 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <!--<a-entity id="leftHand" oculus-touch-controls="hand: left"> <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> </a-entity>-->
     </a-entity>
-    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
+    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="View original project in Scratch">
       <div class="scratch-icon"></div>
     </a>
     <div class="flow-panel" id="flow-control-panel">
-        <h3>Análisis de Flujo</h3>
+        <h3>Flow Analysis</h3>
         <div class="legend-container">
-            <span class="legend-box" style="background-color: #ff8c00;"></span> Emisora<br>
-            <span class="legend-box" style="background-color: #00bfff; margin-top: 4px;"></span> Receptora<br>
+            <span class="legend-box" style="background-color: #ff8c00;"></span> Emitter<br>
+            <span class="legend-box" style="background-color: #00bfff; margin-top: 4px;"></span> Receiver<br>
             <span class="legend-box" style="background-color: #ffff00; margin-top: 4px;"></span> Variable<br>
-            <span class="legend-box" style="background-color: #ffffff; margin-top: 4px;"></span> Sin relación
+            <span class="legend-box" style="background-color: #ffffff; margin-top: 4px;"></span> No Relationship
         </div>
         <div id="flow-panel-content">
-            <p style="font-size: 12px; color: #aaa;">Analizando bloques...</p>
+            <p style="font-size: 12px; color: #aaa;">Analyzing blocks...</p>
         </div>
     </div>
   </a-scene>
@@ -832,9 +832,9 @@
 
         // Reutilizamos el panel lateral de "Distrito" pero le cambiamos los títulos
         ui.title.innerText = "Broadcast";
-        ui.subtitle.innerText = "Definición del sistema";
+        ui.subtitle.innerText = "System definition";
         let typeLabel = document.getElementById('selection-type-label');
-        if (typeLabel) typeLabel.innerText = "Has seleccionado el broadcast:";
+        if (typeLabel) typeLabel.innerText = "Broadcast selected:";
         ui.districtName.innerText = broadcastData.id;
         
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
@@ -843,11 +843,11 @@
         }
         let schematicTab = document.getElementById('tab-schematic');
         if(schematicTab) {
-            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(broadcastData.ai_schematic || "<p>Esquema no disponible.</p>");
+            schematicTab.innerHTML = "<p><strong>Schematic summary:</strong></p>" + linkifyReferences(broadcastData.ai_schematic || "<p>Schematic not available.</p>");
         }
 
         // Le avisamos al usuario de que esto no existe físicamente en el mapa 3D
-        ui.scriptList.innerHTML = "<li style='color:#666;'><em>No tiene representación física en la ciudad 3D.</em></li>";
+        ui.scriptList.innerHTML = "<li style='color:#666;'><em>Has no physical representation in the 3D city.</em></li>";
         
         views.district.style.display = 'block';
     }
@@ -907,12 +907,12 @@
         if (nodeData.id === "Stage") nodeType = 'city';
         else if (nodeData.node_type === "Region") nodeType = 'region';
         
-        ui.title.innerText = nodeType === 'city' ? "Proyecto Completo" : (nodeType === 'region' ? "Barrio Lógico" : "Distrito (Sprite)");
-        ui.subtitle.innerText = nodeType === 'city' ? "Vista general (G1)" : (nodeType === 'region' ? "Agrupación de Sprites" : "Vista general del objeto");
+        ui.title.innerText = nodeType === 'city' ? "Complete Project" : (nodeType === 'region' ? "Logical Neighborhood" : "District (Sprite)");
+        ui.subtitle.innerText = nodeType === 'city' ? "General View (G1)" : (nodeType === 'region' ? "Sprite Grouping" : "General View of the Object");
         let typeLabel = document.getElementById('selection-type-label');
         if (typeLabel) {
             if (nodeType === 'city') typeLabel.innerText = "Has seleccionado el Proyecto:";
-            else if (nodeType === 'region') typeLabel.innerText = "Has seleccionado el Barrio:";
+            else if (nodeType === 'region') typeLabel.innerText = "Neighborhood selected:";
             else typeLabel.innerText = "Has seleccionado el Sprite:";
         }
         ui.districtName.innerText = nodeData.id;
@@ -923,7 +923,7 @@
         }
         let schematicTab = document.getElementById('tab-schematic');
         if(schematicTab) {
-            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(nodeData.ai_schematic || "<p>Esquema no disponible.</p>");
+            schematicTab.innerHTML = "<p><strong>Schematic summary:</strong></p>" + linkifyReferences(nodeData.ai_schematic || "<p>Schematic not available.</p>");
         }
 
         ui.scriptList.innerHTML = "";
@@ -980,16 +980,13 @@
 
         pushToHistory('tower', scriptData, parentDistrict);
         
-        // 1. Buscamos el objeto completo de la torre en tus datos aplanados (donde viene la info de la IA)
         let fullData = projectFlat.find(item => item.id === scriptData.id) || scriptData;
 
-        // 2. Preparamos el código de bloques
         currentRawCode = fullData.script_blocks || "";
         ui.codeBlock.innerText = currentRawCode; 
 
-        // 3. Actualizamos los títulos
-        ui.title.innerText = "Script Seleccionado";
-        ui.subtitle.innerText = "Torre de código";
+        ui.title.innerText = "Selected Script";
+        ui.subtitle.innerText = "Code Tower";
 
         let cleanSpriteName = parentDistrict.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
         let scriptIndex = parentDistrict.children.findIndex(c => c.id === scriptData.id) + 1;
@@ -1002,11 +999,11 @@
         let connectionsPlaceholder = document.getElementById('script-ai-connections-placeholder');
 
         if (verbosePlaceholder) {
-            verbosePlaceholder.innerHTML = linkifyReferences(fullData.ai_verbose) || "Análisis detallado no disponible para esta torre.";
+            verbosePlaceholder.innerHTML = linkifyReferences(fullData.ai_verbose) || "Detailed analysis not available for this tower.";
         }
         
         if (schematicPlaceholder) {
-            schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Esquema no disponible para esta torre.</p>";
+            schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Schematic not available for this tower.</p>";
         }
 
         if (connectionsPlaceholder) {
@@ -1171,7 +1168,7 @@
         let container = document.getElementById('flow-panel-content');
         if (!container) return;
 
-        let html = '<h4>Señales (Broadcasts)</h4>';
+        let html = '<h4>Broadcasts</h4>';
         Object.keys(flowData.broadcasts).sort().forEach(bKey => {
             let bObj = flowData.broadcasts[bKey];
             // Solo mostramos los broadcasts que realmente se usan
