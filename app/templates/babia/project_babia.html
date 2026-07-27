@@ -907,12 +907,12 @@
         if (nodeData.id === "Stage") nodeType = 'city';
         else if (nodeData.node_type === "Region") nodeType = 'region';
         
-        ui.title.innerText = nodeType === 'city' ? "Complete Project" : (nodeType === 'region' ? "Logical Neighborhood" : "District (Sprite)");
+        ui.title.innerText = nodeType === 'city' ? "Complete Project" : (nodeType === 'region' ? "District" : "Neighborhood (Sprite)");
         ui.subtitle.innerText = nodeType === 'city' ? "General View (G1)" : (nodeType === 'region' ? "Sprite Grouping" : "General View of the Object");
         let typeLabel = document.getElementById('selection-type-label');
         if (typeLabel) {
             if (nodeType === 'city') typeLabel.innerText = "Project selected:";
-            else if (nodeType === 'region') typeLabel.innerText = "Neighborhood selected:";
+            else if (nodeType === 'region') typeLabel.innerText = "District selected:";
             else typeLabel.innerText = "Sprite selected:";
         }
         ui.districtName.innerText = nodeData.id;
@@ -932,9 +932,9 @@
                 let li = document.createElement('li');
                 
                 if (nodeType === 'city') {
-                    li.innerText = "Barrio: " + child.id;
+                    li.innerText = "District: " + child.id;
                 } else if (nodeType === 'region') {
-                    li.innerText = "Distrito (Sprite): " + child.id;
+                    li.innerText = "Neighborhood (Sprite): " + child.id;
                 } else {
                     let cleanSpriteName = nodeData.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
                     let nombreGenerico = cleanSpriteName + " Script " + (index + 1);
