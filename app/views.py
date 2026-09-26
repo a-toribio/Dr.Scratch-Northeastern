@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-# -*- coding: utf-8 -*-
-
+import math
+import random
 import os
 import ast
 import json
@@ -12,11 +10,11 @@ from django.http import HttpResponseRedirect, HttpResponse, FileResponse, Http40
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
-from django.contrib.auth import logout, login, authenticate,get_user_model
+from django.contrib.auth import logout, login, authenticate, get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils import timezone
 from django.db.models import Avg
 from django.contrib.auth.models import User
@@ -63,16 +61,15 @@ import logging
 import coloredlogs
 
 
-# Celery imports
 from .tasks import init_batch_dispatcher
 
-# Analyzer imports
+
 from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
 
-# Translations imports
+
 from .translation import skills_translation
 
-# Recomender System imports
+
 from .recomender import RecomenderSystem
 
 logger = logging.getLogger(__name__)
@@ -82,7 +79,7 @@ supported_languages = ['es', 'ca', 'gl', 'pt']
 
 def load_flappy_perspectives():
     """Carga las explicaciones de la IA desde el archivo JSON externo."""
-    # Busca el archivo en la misma carpeta donde está este views.py
+
     file_path = os.path.join(os.path.dirname(__file__), 'perspectives.json')
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -90,6 +87,7 @@ def load_flappy_perspectives():
     except Exception as e:
         logger.error(f"Error cargando explicaciones.json: {e}")
         return {}
+
 
 FLAPPY_PERSPECTIVES = load_flappy_perspectives()
 
@@ -121,29 +119,36 @@ def contest(request):
 def collaborators(request):
     return render(request, 'main/collaborators.html')
 
+
 def rubric_creator_students(request):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator-students.html')
+
 
 def rubric_creator_teachers(request):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator-teachers.html')
 
+
 def rubric_creator(request):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator-teachers.html')
+
 
 def upload_personalized(request, skill_points=None):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-uploader.html')
 
+
 def compare_uploader(request):
     user = str(identify_user_type(request))
     return render(request, user + '/compare-uploader.html')
 
+
 def base32_to_str(base32_str: str) -> str:
     value = int(base32_str, 32)
     return str(value).zfill(9)
+
 
 def calc_eta(num_projects: int) -> str:
     """
@@ -159,7 +164,7 @@ def calc_eta(num_projects: int) -> str:
     eta_m = (mean_tm % 3600) // 60
     eta_s = (mean_tm % 60)
 
-    eta_format = f'{int(eta_h)}h: {int(eta_m)}min: {round(eta_s,2)}s'
+    eta_format = f'{int(eta_h)}h: {int(eta_m)}min: {round(eta_s, 2)}s'
     return eta_format
 
 
@@ -175,7 +180,6 @@ def show_dashboard(request, skill_points=None):
         user = str(identify_user_type(request))
         print("Mode:", request.POST)
 
-        # Aquí es donde se construye el diccionario 'd'
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
 
         print("Context Dictionary (antes de acceder a d[0]):")
@@ -185,41 +189,36 @@ def show_dashboard(request, skill_points=None):
             print("Error: El diccionario 'd' no tiene la estructura esperada.")
             return render(request, 'error/error.html', {'error': 'Invalid data structure for analysis results'})
 
-        analysis_results_for_template = d[0]  # Renombrar para claridad
+        analysis_results_for_template = d[0]
 
         if analysis_results_for_template is None:
-            messages.error(request, 'An error occurred during project analysis. The analysis failed to return data.')
-            return redirect('/') 
+            messages.error(
+                request, 'An error occurred during project analysis. The analysis failed to return data.')
+            return redirect('/')
 
         print("Skill rubric:")
         print(skill_rubric)
-
-        #print("Datos que se pasarán a la plantilla (analysis_results_for_template):")
-        #print(analysis_results_for_template)
 
         if analysis_results_for_template.get('multiproject'):
             context = {
                 'ETA': calc_eta(analysis_results_for_template['num_projects'])
             }
-            #print("Renderizando dashboard-bulk-landing.html con contexto:", context)
+
             return render(request, user + '/dashboard-bulk-landing.html', context)
 
         elif analysis_results_for_template.get('Error') and analysis_results_for_template.get(
-                'Error') != "None":  # Comprobar que 'Error' existe y no es "None"
-            print(f"Renderizando error.html con error: {analysis_results_for_template.get('Error')}")  # Traza
+                'Error') != "None":
+            print(
+                f"Renderizando error.html con error: {analysis_results_for_template.get('Error')}")
             return render(request, 'error/error.html', {'error': analysis_results_for_template.get('Error')})
         else:
             context_to_render = d[0]
-            #print(
-             #   f"Renderizando para dashboard_mode: {analysis_results_for_template.get('dashboard_mode')} con contexto:",
-              #  context_to_render)  # Traza
 
             if analysis_results_for_template.get('dashboard_mode') == 'Default':
                 print("ENTRANDO 1")
                 return render(request, user + '/dashboard-default.html', analysis_results_for_template)
             elif analysis_results_for_template.get('dashboard_mode') == 'Personalized':
-                # Para dashboard-personal.html, que usa {% with analysis_data=dict_metrics.0 %}
-                # el contexto debe ser {'dict_metrics': d}
+
                 print("ENTRANDO 2")
                 return render(request, user + '/dashboard-personal.html', {'dict_metrics': analysis_results_for_template})
             elif analysis_results_for_template.get('dashboard_mode') == 'Recommender':
@@ -228,9 +227,10 @@ def show_dashboard(request, skill_points=None):
             elif analysis_results_for_template.get('dashboard_mode') == 'Comparison':
                 print("ENTRANDO 4")
                 return render(request, user + '/dashboard-compare.html',
-                              context_to_render)  # Asumiendo que d es el contexto correcto para comparación
+                              context_to_render)
     else:
         return HttpResponseRedirect('/')
+
 
 @csrf_exempt
 def get_recommender(request, skill_points=None):
@@ -256,6 +256,7 @@ def get_recommender(request, skill_points=None):
     else:
         return HttpResponseRedirect('/')
 
+
 def batch(request, csv_identifier):
     user = str(identify_user_type(request))
     csv = get_object_or_404(BatchCSV, id=csv_identifier)
@@ -276,14 +277,14 @@ def batch(request, csv_identifier):
         'Motion operators': [csv.motion_operators, csv.max_motion_operators],
         'Mastery': csv.mastery
     }
-    
+
     context = {
         'summary': summary,
         'csv_filepath': csv_filepath
     }
 
     return render(request, user + '/dashboard-bulk.html', context)
-    
+
 
 def process_contact_form(request):
     if request.method == 'POST':
@@ -293,13 +294,13 @@ def process_contact_form(request):
             'contact_text': 'Please, fill the text area.'
         }
         recaptcha_response = request.POST.get('g-recaptcha-response')
-        
+
         for field, error_message in required_fields.items():
             if not request.POST.get(field, ''):
                 messages.error(request, error_message)
                 request.session['form_data'] = request.POST
                 return HttpResponseRedirect('/contact')
-        
+
         if recaptcha_response:
             secret_key = settings.RECAPTCHA_PRIVATE_KEY
             response = requests.post('https://www.google.com/recaptcha/api/siteverify', {
@@ -320,16 +321,17 @@ def process_contact_form(request):
                 Media: {contact_media}
                 '''
 
-                # Asunto del correo electrónico
                 subject = '[CONTACT FORM]'
 
-                email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
+                email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [
+                                     'drscratch@gsyc.urjc.es'])
                 if contact_media:
-                    email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
+                    email.attach(
+                        contact_media.name, contact_media.read(), contact_media.content_type)
 
                 email.send()
-                # Renderizar la plantilla de respuesta
-                return HttpResponseRedirect('/')    
+
+                return HttpResponseRedirect('/')
         else:
             messages.error(request, 'Please, fill the captcha first.')
             return HttpResponseRedirect('/contact')
@@ -338,18 +340,19 @@ def process_contact_form(request):
 
 
 def generate_rubric(skill_points: str) -> dict:
-    mastery = ['Abstraction', 'Parallelization', 'Logic', 'Synchronization', 
+    mastery = ['Abstraction', 'Parallelization', 'Logic', 'Synchronization',
                'FlowControl', 'UserInteractivity', 'DataRepresentation',
                'MathOperators', 'MotionOperators']
-       
+
     skill_rubric = {}
     if skill_points != '':
         for skill_name, points in zip(mastery, skill_points):
-            skill_rubric[skill_name] = int(points)   
+            skill_rubric[skill_name] = int(points)
     else:
         for skill_name in mastery:
-            skill_rubric[skill_name] = 4 # Falta añadir Finesse           
-    return skill_rubric  
+            skill_rubric[skill_name] = 4
+    return skill_rubric
+
 
 def calc_num_projects(batch_path: str) -> int:
     num_projects = 0
@@ -357,9 +360,11 @@ def calc_num_projects(batch_path: str) -> int:
         for file in files:
             num_projects += 1
     return num_projects
-    
+
+
 def extract_batch_projects(projects_file: object, project_name: uuid.UUID) -> int:
-    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime(
+        "%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     base_dir = os.getcwd()
 
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -370,10 +375,12 @@ def extract_batch_projects(projects_file: object, project_name: uuid.UUID) -> in
             for chunk in projects_file.chunks():
                 temp_file.write(chunk)
 
-            temp_extraction =  os.path.join(base_dir, 'uploads', 'batch_mode', unique_id)
+            temp_extraction = os.path.join(
+                base_dir, 'uploads', 'batch_mode', unique_id)
             with ZipFile(temp_file, 'r') as zip_ref:
                 zip_ref.extractall(temp_extraction)
     return temp_extraction
+
 
 def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     dict_metrics = {}
@@ -394,46 +401,48 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
                 dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
                 return dict_metrics
-            dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
+            dict_metrics[project_counter] = analysis_by_upload(
+                request, skill_points, zip_file)
         elif '_url_recom' in request.POST:
             url = request.POST.get('urlProject_recom',)
             if url != None:
-                dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
+                dict_metrics[project_counter] = analysis_by_url(
+                    request, url, skill_points)
             else:
-                dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
+                dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
         elif '_url' in request.POST:
             form = UrlForm(request.POST)
             if form.is_valid():
                 url = form.cleaned_data['urlProject']
-                dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
+                dict_metrics[project_counter] = analysis_by_url(
+                    request, url, skill_points)
             else:
-                dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
+                dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
         elif '_urls' in request.POST:
             projects_file = request.FILES['urlsFile']
             batch_id = str(uuid.uuid4())
 
-            if projects_file.content_type.endswith('zip') == False: 
-                # List of urls
+            if projects_file.content_type.endswith('zip') == False:
+
                 projects = projects_file.readlines()
                 num_projects = len(projects)
             else:
-                # Str with temp path of projects
+
                 projects_path = extract_batch_projects(projects_file, batch_id)
                 num_projects = calc_num_projects(projects_path)
                 projects = projects_path
-    
+
             request_data = {
                 'POST': {
-                    'urlsFile': projects, # list of URLs (bytes) or path (str)
+                    'urlsFile': projects,
                     'dashboard_mode': 'Default',
                     'email': request.POST['batch-email'],
-                    'batch_id': batch_id, # str(uuid.uuid4())
-                    'extracted_path_for_cleanup': projects_path if isinstance(projects, str) else None, # str or None
+                    'batch_id': batch_id,
+                    'extracted_path_for_cleanup': projects_path if isinstance(projects, str) else None,
                     'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 }
             }
             init_batch_dispatcher.delay(request_data, skill_points)
-
 
             dict_metrics[project_counter] = {
                 'multiproject': True,
@@ -465,11 +474,13 @@ def identify_user_type(request) -> str:
 
     return user
 
+
 def identify_admin(user_type):
     is_admin = 0
     if (user_type == 'superuser' or user_type == 'staff'):
         is_admin = 1
     return is_admin
+
 
 def learn(request, category, page):
     """
@@ -496,6 +507,7 @@ def learn(request, category, page):
     else:
         return render(request, page_path)
 
+
 def contact(request):
     """
     Shows contact form
@@ -503,9 +515,9 @@ def contact(request):
     user = "main"
     captcha_pubkey = settings.RECAPTCHA_PUBLIC_KEY
     context = {
-        'captcha_pubkey' : captcha_pubkey
+        'captcha_pubkey': captcha_pubkey
     }
-    return render(request, user + '/contact-form.html', context) 
+    return render(request, user + '/contact-form.html', context)
 
 
 def download_certificate(request):
@@ -515,10 +527,11 @@ def download_certificate(request):
 
     if request.method == "POST":
         filename = request.POST["filename"]
-        # Encode to make sure that cotains utf-8 chars
-        filename = unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore')
-        # Decode again for manipulate the str
-        filename = filename.decode('utf-8') 
+
+        filename = unicodedata.normalize(
+            'NFKD', filename).encode('ascii', 'ignore')
+
+        filename = filename.decode('utf-8')
         filename = clean_filename(filename)
         print("Filename: ", filename)
         level = request.POST["level"]
@@ -529,12 +542,12 @@ def download_certificate(request):
         else:
             language = 'en'
 
-        
         generate_certificate(filename, level, language)
-        path_to_file = os.path.dirname(os.path.dirname(__file__)) + "/app/certificate/output.pdf"
-        
+        path_to_file = os.path.dirname(os.path.dirname(
+            __file__)) + "/app/certificate/output.pdf"
+
         with open(path_to_file, 'rb') as pdf_file:
-           pdf_data = pdf_file.read()
+            pdf_data = pdf_file.read()
 
         response = HttpResponse(pdf_data, content_type='application/pdf')
         try:
@@ -546,7 +559,8 @@ def download_certificate(request):
         return response
     else:
         return HttpResponseRedirect('/')
-    
+
+
 def clean_filename(filename):
     """
     Clean filename, necessary for .sb3 upload
@@ -558,6 +572,7 @@ def clean_filename(filename):
         filename = re.sub(';', '', filename)
     return filename
 
+
 def is_supported_language(lenguage_code):
     suported = 0
     for i in supported_languages:
@@ -565,11 +580,12 @@ def is_supported_language(lenguage_code):
             suported = 1
     return suported
 
+
 def search_email(request):
     if request.is_ajax():
         user = Organization.objects.filter(email=request.GET['email'])
         if user:
-            return HttpResponse(json.dumps({"exist": "yes"}), content_type ='application/json')
+            return HttpResponse(json.dumps({"exist": "yes"}), content_type='application/json')
 
 
 def search_username(request):
@@ -589,25 +605,24 @@ def search_hashkey(request):
 def plugin(request, urlProject):
     user = None
     id_project = return_scratch_project_identifier(urlProject)
-    
+
     d = generator_dic(request, id_project)
-    #Find if any error has occurred
+
     if d['Error'] == 'analyzing':
         return render(request, user + '/error_analyzing.html')
 
     elif d['Error'] == 'MultiValueDict':
         error = True
-        return render(request, user + '/main.html', {'error':error})
+        return render(request, user + '/main.html', {'error': error})
 
     elif d['Error'] == 'id_error':
         id_error = True
-        return render(request, user + '/main.html', {'id_error':id_error})
+        return render(request, user + '/main.html', {'id_error': id_error})
 
     elif d['Error'] == 'no_exists':
         no_exists = True
-        return render(request, user + '/main.html', {'no_exists':no_exists})
+        return render(request, user + '/main.html', {'no_exists': no_exists})
 
-    #Show the dashboard according the CT level
     else:
         user = "main"
         base_dir = os.getcwd()
@@ -618,7 +633,7 @@ def plugin(request, urlProject):
             return render(request, user + '/dashboard-developing.html', d)
 
         else:
-            return render(request, user + '/dashboard-basic.html', d) 
+            return render(request, user + '/dashboard-basic.html', d)
 
 
 def blocks(request):
@@ -647,7 +662,7 @@ def organization_hash(request):
             form.save()
             return HttpResponseRedirect('/organization_hash')
     elif request.method == 'GET':
-        return render(request, 'organization/organization-hash.html') 
+        return render(request, 'organization/organization-hash.html')
 
     else:
         return HttpResponseRedirect('/')
@@ -670,75 +685,73 @@ def sign_up_organization(request):
             password = form.cleaned_data['password']
             hashkey = form.cleaned_data['hashkey']
 
-            #Checking the validity into the dbdata contents.
-            #They will be refused if they already exist.
-            #If they exist an error message will be shown.
-            if User.objects.filter(username = username):
-                #This name already exists
+            if User.objects.filter(username=username):
+
                 flag_name = 1
                 return render(request, 'error/sign-up.html',
-                                          {'flagName':flag_name,
-                                           'flagEmail':flag_email,
-                                           'flagHash':flag_hash,
-                                           'flagForm':flag_form,
-                                           'flagOrganization':flag_organization})
+                              {'flagName': flag_name,
+                               'flagEmail': flag_email,
+                               'flagHash': flag_hash,
+                               'flagForm': flag_form,
+                               'flagOrganization': flag_organization})
 
-            elif User.objects.filter(email = email):
-                #This email already exists
+            elif User.objects.filter(email=email):
+
                 flag_email = 1
                 return render(request, 'error/sign-up.html',
-                                        {'flagName':flag_name,
-                                        'flagEmail':flag_email,
-                                        'flagHash':flag_hash,
-                                        'flagForm':flag_form,
-                                        'flagOrganization':flag_organization})
+                              {'flagName': flag_name,
+                               'flagEmail': flag_email,
+                               'flagHash': flag_hash,
+                               'flagForm': flag_form,
+                               'flagOrganization': flag_organization})
 
-            if (OrganizationHash.objects.filter(hashkey = hashkey)):
-                organizationHashkey = OrganizationHash.objects.get(hashkey=hashkey)
-                organization = Organization.objects.create_user(username = username, 
-                                                            email=email, 
-                                                            password=password, 
-                                                            hashkey=hashkey)
+            if (OrganizationHash.objects.filter(hashkey=hashkey)):
+                organizationHashkey = OrganizationHash.objects.get(
+                    hashkey=hashkey)
+                organization = Organization.objects.create_user(username=username,
+                                                                email=email,
+                                                                password=password,
+                                                                hashkey=hashkey)
                 organizationHashkey.delete()
-                organization = authenticate(username=username, password=password)
-                user=Organization.objects.get(email=email)
+                organization = authenticate(
+                    username=username, password=password)
+                user = Organization.objects.get(email=email)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
-                token=default_token_generator.make_token(user)
+                token = default_token_generator.make_token(user)
                 c = {
-                        'email':email,
-                        'uid':uid,
-                        'token':token}
+                    'email': email,
+                    'uid': uid,
+                    'token': token}
 
-                body = render_to_string("organization/email-sign-up.html",c)
+                body = render_to_string("organization/email-sign-up.html", c)
                 subject = "Welcome to Dr. Scratch for organizations"
-                sender ="no-reply@drscratch.org"
+                sender = "no-reply@drscratch.org"
                 to = [email]
-                email = EmailMessage(subject,body,sender,to)
-                #email.attach_file("static/app/images/logo_main.png")
+                email = EmailMessage(subject, body, sender, to)
+
                 email.send()
                 login(request, organization)
                 return HttpResponseRedirect('/organization/' + organization.username)
 
             else:
-                #Doesn't exist this hash
+
                 flag_hash = 1
 
                 return render(request, 'error/sign-up.html',
-                                  {'flagName':flag_name,
-                                   'flagEmail':flag_email,
-                                   'flagHash':flag_hash,
-                                   'flagForm':flag_form,
-                                   'flagOrganization':flag_organization})
-
+                              {'flagName': flag_name,
+                               'flagEmail': flag_email,
+                               'flagHash': flag_hash,
+                               'flagForm': flag_form,
+                               'flagOrganization': flag_organization})
 
         else:
             flag_form = 1
             return render(request, 'error/sign-up.html',
-                  {'flagName':flag_name,
-                   'flagEmail':flag_email,
-                   'flagHash':flag_hash,
-                   'flagForm':flag_form,
-                   'flagOrganization':flag_organization})
+                          {'flagName': flag_name,
+                           'flagEmail': flag_email,
+                           'flagHash': flag_hash,
+                           'flagForm': flag_form,
+                           'flagOrganization': flag_organization})
 
     elif request.method == 'GET':
         if request.user.is_authenticated:
@@ -787,11 +800,11 @@ def organization(request, name):
         if request.user.is_authenticated:
             username = request.user.username
             if username == name:
-                if Organization.objects.filter(username = username):
+                if Organization.objects.filter(username=username):
                     user = Organization.objects.get(username=username)
                     img = user.img
-                    dic={'username':username,
-                    "img":str(img)}
+                    dic = {'username': username,
+                           "img": str(img)}
 
                     return render(request, 'organization/main.html', dic)
 
@@ -800,7 +813,7 @@ def organization(request, name):
                     return HttpResponseRedirect("/organization")
 
             else:
-                #logout(request)
+
                 return render(request, 'organization/organization.html')
 
         return render(request, 'organization/organization.html')
@@ -826,7 +839,7 @@ def stats(request, username):
     date_joined = user.date_joined
     end = datetime.today()
     end = date(end.year, end.month, end.day)
-    start = date(date_joined.year, date_joined.month,date_joined.day)
+    start = date(date_joined.year, date_joined.month, date_joined.day)
     date_list = date_range(start, end)
     daily_score = []
     mydates = []
@@ -841,7 +854,7 @@ def stats(request, username):
 
     for n in daily_score:
         if n is None:
-            daily_score[daily_score.index(n)]=0
+            daily_score[daily_score.index(n)] = 0
 
     if flag_organization:
         f = File.objects.filter(organization=username)
@@ -849,7 +862,6 @@ def stats(request, username):
         f = File.objects.filter(coder=username)
     if f:
 
-        #If the org has analyzed projects
         Parallelism = f.aggregate(Avg("Parallelism"))
         Parallelism = int(Parallelism["Parallelism__avg"])
         abstraction = f.aggregate(Avg("abstraction"))
@@ -875,36 +887,33 @@ def stats(request, username):
         initialization = int(initialization["initialization__avg"])
     else:
 
-        #If the org hasn't analyzed projects yet
-        Parallelism,abstraction,logic=[0],[0],[0]
-        synchronization,flowControl,userInteractivity=[0],[0],[0]
-        dataRepresentation,deadCode,duplicateScript=[0],[0],[0]
-        spriteNaming,initialization =[0],[0]
+        Parallelism, abstraction, logic = [0], [0], [0]
+        synchronization, flowControl, userInteractivity = [0], [0], [0]
+        dataRepresentation, deadCode, duplicateScript = [0], [0], [0]
+        spriteNaming, initialization = [0], [0]
 
-    #Saving data in the dictionary
     dic = {
-        "date":mydates,
+        "date": mydates,
         "username": username,
         "img": user.img,
-        "daily_score":daily_score,
-        "skillRate":{"Parallelism":Parallelism,
-                 "abstraction":abstraction,
-                 "logic": logic,
-                 "synchronization":synchronization,
-                 "flowControl":flowControl,
-                 "userInteractivity":userInteractivity,
-                 "dataRepresentation":dataRepresentation},
-                 "codeSmellRate":{"deadCode":deadCode,
-        "duplicateScript":duplicateScript,
-        "spriteNaming":spriteNaming,
-        "initialization":initialization }}
+        "daily_score": daily_score,
+        "skillRate": {"Parallelism": Parallelism,
+                      "abstraction": abstraction,
+                      "logic": logic,
+                      "synchronization": synchronization,
+                      "flowControl": flowControl,
+                      "userInteractivity": userInteractivity,
+                      "dataRepresentation": dataRepresentation},
+        "codeSmellRate": {"deadCode": deadCode,
+                          "duplicateScript": duplicateScript,
+                          "spriteNaming": spriteNaming,
+                          "initialization": initialization}}
 
     return render(request, page + '/stats.html', dic)
 
 
-def account_settings(request,username):
+def account_settings(request, username):
     """Allow to Coders and Organizations change the image and password"""
-
 
     base_dir = os.getcwd()
     if base_dir == "/":
@@ -920,7 +929,6 @@ def account_settings(request,username):
 
     if request.method == "POST":
 
-        #Saving image in DB
         user.img = request.FILES["img"]
         os.chdir(base_dir+"/static/img")
         user.img.name = str(user.img)
@@ -932,8 +940,8 @@ def account_settings(request,username):
         user.save()
 
     dic = {
-    "username": username,
-    "img": user.img
+        "username": username,
+        "img": user.img
     }
 
     return render(request, page + '/settings.html', dic)
@@ -946,7 +954,7 @@ def downloads(request, username, filename=""):
 
     flagOrganization = 0
     flagCoder = 0
-    #segmentation
+
     if Organization.objects.filter(username=username):
         flagOrganization = 1
         user = Organization.objects.get(username=username)
@@ -960,7 +968,6 @@ def downloads(request, username, filename=""):
     elif flagCoder:
         csv = CSVs.objects.all().filter(coder=username)
         page = 'coder'
-    #LIFO to show the files.CSV
 
     csv_len = len(csv)
     lower = 0
@@ -969,41 +976,43 @@ def downloads(request, username, filename=""):
 
     if csv_len > 10:
         for n in range((csv_len/10)+1):
-            list_csv[str(n)]= csv[lower:upper-1]
+            list_csv[str(n)] = csv[lower:upper-1]
             lower = upper
             upper = upper + 10
 
-
         dic = {
-        "username": username,
-        "img": user.img,
-        "csv": list_csv,
-        "flag": 1
+            "username": username,
+            "img": user.img,
+            "csv": list_csv,
+            "flag": 1
         }
     else:
         dic = {
-        "username": username,
-        "img": user.img,
-        "csv": csv,
-        "flag": 0
+            "username": username,
+            "img": user.img,
+            "csv": csv,
+            "flag": 0
         }
 
     if request.method == "POST":
-        #Downloading CSV
+
         filename = request.POST.get("csv", "")
         safe_filename = os.path.basename(filename)
-        csv_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csvs/Dr.Scratch")
+        csv_directory = os.path.join(os.path.dirname(
+            os.path.dirname(__file__)), "csvs/Dr.Scratch")
         path_to_file = os.path.join(csv_directory, safe_filename)
-        # Ensure that the path exists, to avoid injection-attacks
+
         if not os.path.exists(path_to_file) or not validate_csv(path_to_file):
             return HttpResponse("Invalid CSV file", status=400)
         with open(path_to_file, 'rb') as csv_data:
             response = HttpResponse(csv_data, content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(safe_filename)
+            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(
+                safe_filename)
             return response
     return render(request, page + '/downloads.html', dic)
 
-def validate_csv(csv_file_path: str)-> bool:
+
+def validate_csv(csv_file_path: str) -> bool:
     is_valid_file = os.path.isfile(csv_file_path)
     is_csv_file = csv_file_path.endswith('.csv')
     return is_valid_file and is_csv_file
@@ -1014,17 +1023,17 @@ def analyze_csv(request):
     Analyze files.CSV with a list of projects to analyze them at a time
     """
 
-    if request.method =='POST':
+    if request.method == 'POST':
         if "_upload" in request.POST:
-            #Analize CSV file
+
             csv_data = 0
             flag_csv = False
             file = request.FILES['csvFile']
-            file_name = request.user.username + "_" + str(datetime.now()) + \
-                        ".csv"# file.name.encode('utf-8')
-            dir_csvs = os.path.dirname(os.path.dirname(__file__)) + \
-                        "/csvs/" + file_name
-            #Save file .csv
+            file_name = request.user.username + \
+                "_" + str(datetime.now()) + ".csv"
+            dir_csvs = os.path.dirname(
+                os.path.dirname(__file__)) + "/csvs/" + file_name
+
             with open(dir_csvs, 'wb+') as destination:
                 for chunk in file.chunks():
                     destination.write(chunk)
@@ -1034,12 +1043,11 @@ def analyze_csv(request):
                 type_csv = ""
                 username = request.user.username
 
-                #Check doesn't exist any old project.json
                 try:
                     os.remove(dir_zips + "project.json")
                 except:
                     print("No existe")
-                
+
                 if row == 2:
                     type_csv = "2_row"
                     code = line.split(",")[0]
@@ -1055,7 +1063,8 @@ def analyze_csv(request):
                         elif slashNum == 5:
                             id_project = url.split('/')[-2]
                     try:
-                        path_project, file = send_request_getsb3(id_project, username, method)
+                        path_project, file = send_request_getsb3(
+                            id_project, username, method)
                         d = analyze_project(request, path_project, file)
                     except:
                         d = ["Error analyzing project", url]
@@ -1081,7 +1090,8 @@ def analyze_csv(request):
                         elif slashNum == 5:
                             id_project = url.split('/')[-2]
                     try:
-                        path_project, file = send_request_getsb3(id_project, username, method)
+                        path_project, file = send_request_getsb3(
+                            id_project, username, method)
                         d = analyze_project(request, path_project, file)
                     except:
                         d = ["Error analyzing project", url]
@@ -1091,55 +1101,52 @@ def analyze_csv(request):
                     except:
                         print("No existe")
 
-
                     dic = {}
                     dic[url] = d
                     dictionary.update(dic)
 
             csv_data = generate_csv(request, dictionary, file_name, type_csv)
 
-            #segmentation
-            if Organization.objects.filter(username = username):
-                csv_save = CSVs(filename = file_name, 
-                                    directory = csv_data, 
-                                    organization = username)
-                
+            if Organization.objects.filter(username=username):
+                csv_save = CSVs(filename=file_name,
+                                directory=csv_data,
+                                organization=username)
+
                 page = 'organization'
-            elif Coder.objects.filter(username = username):
-                csv_save = CSVs(filename = file_name, 
-                                    directory = csv_data, 
-                                    coder = username)
+            elif Coder.objects.filter(username=username):
+                csv_save = CSVs(filename=file_name,
+                                directory=csv_data,
+                                coder=username)
                 page = 'coder'
             csv_save.save()
 
             return HttpResponseRedirect('/' + page + "/downloads/" + username)
 
         elif "_download" in request.POST:
-            #Export a CSV File
 
             if request.user.is_authenticated:
                 username = request.user.username
             csv = CSVs.objects.latest('date')
 
-            path_to_file = os.path.dirname(os.path.dirname(__file__)) + \
-                            "/csvs/Dr.Scratch/" + csv.filename
+            path_to_file = os.path.dirname(os.path.dirname(
+                __file__)) + "/csvs/Dr.Scratch/" + csv.filename
             csv_data = open(path_to_file, 'r')
             response = HttpResponse(csv_data, content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(csv.filename)
+            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(
+                csv.filename)
             return response
 
     else:
         return HttpResponseRedirect("/organization")
 
 
-#_________________________GENERATOR CSV FOR ORGANIZATION____________________________#
-
 def generate_csv(request, dictionary, filename, type_csv):
     """
     Generate a csv file
     """
 
-    csv_directory = os.path.dirname(os.path.dirname(__file__)) + "/csvs/Dr.Scratch/"
+    csv_directory = os.path.dirname(
+        os.path.dirname(__file__)) + "/csvs/Dr.Scratch/"
     csv_data = csv_directory + filename
     writer = csv.writer(open(csv_data, "wb"))
     dic = org.translate_ct_skills(request.LANGUAGE_CODE)
@@ -1149,7 +1156,7 @@ def generate_csv(request, dictionary, filename, type_csv):
                         dic["abstraction"], dic["Parallelization"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
-                        dic["dup_scripts"],dic["sprite_naming"],
+                        dic["dup_scripts"], dic["sprite_naming"],
                         dic["dead_code"], dic["attr_init"]])
 
     elif type_csv == "1_row":
@@ -1157,7 +1164,7 @@ def generate_csv(request, dictionary, filename, type_csv):
                         dic["abstraction"], dic["Parallelism"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
-                        dic["dup_scripts"],dic["sprite_naming"],
+                        dic["dup_scripts"], dic["sprite_naming"],
                         dic["dead_code"], dic["attr_init"]])
 
     for key, value in dictionary.items():
@@ -1172,7 +1179,7 @@ def generate_csv(request, dictionary, filename, type_csv):
                     writer.writerow([row1, row2, dic["error"]])
                 elif type_csv == "1_row":
                     row1 = key.split(",")[0]
-                    writer.writerow([row1,dic["error"]])
+                    writer.writerow([row1, dic["error"]])
         except:
             total = 0
             row1 = key.split(",")[0]
@@ -1201,7 +1208,7 @@ def generate_csv(request, dictionary, filename, type_csv):
             for key, value in value.items():
                 if key == "mastery":
                     for key, subvalue in value.items():
-                        if key!="maxi" and key!="points":
+                        if key != "maxi" and key != "points":
                             if key == dic["Parallelism"]:
                                 row5 = subvalue
                             elif key == dic["abstraction"]:
@@ -1219,11 +1226,11 @@ def generate_csv(request, dictionary, filename, type_csv):
                             total = total + subvalue
                     row3 = total
             if type_csv == "2_row":
-                writer.writerow([row1,row2,row3,row4,row5,row6,row7,row8,
-                            row9,row10,row11,row12,row13,row14])
+                writer.writerow([row1, row2, row3, row4, row5, row6, row7, row8,
+                                 row9, row10, row11, row12, row13, row14])
             elif type_csv == "1_row":
-                writer.writerow([row1,row3,row4,row5,row6,row7,row8,
-                                row9,row10,row11,row12,row13,row14])
+                writer.writerow([row1, row3, row4, row5, row6, row7, row8,
+                                row9, row10, row11, row12, row13, row14])
     return csv_data
 
 
@@ -1240,7 +1247,6 @@ def coder_hash(request):
 
 def sign_up_coder(request):
     """Method which allow to sign up coders"""
-
 
     flagCoder = 1
     flagHash = 0
@@ -1260,90 +1266,61 @@ def sign_up_coder(request):
             birthmonth = form.cleaned_data['birthmonth']
             birthyear = form.cleaned_data['birthyear']
             gender = form.cleaned_data['gender']
-            #gender_other = form.cleaned_data['gender_other']
-            country = form.cleaned_data['country']
-            
-            #Checking the validity into the dbdata contents.
-            #They will be refused if they already exist.
-            #If they exist an error message will be shown.
-            if User.objects.filter(username = username):
-                #This name already exists
-                flagName = 1
-                #return render_to_response("error/sign-up.html",
-                #                          {'flagName':flagName,
-                #                           'flagEmail':flagEmail,
-                #                           'flagHash':flagHash,
-                #                           'flagForm':flagForm,
-                #                           'flagCoder':flagCoder},
-                #                          context_instance = RC(request))
-                return render(request, 'error/sign-up.html', {'flagName':flagName,
-                                                              'flagEmail':flagEmail,
-                                                              'flagHash':flagHash,
-                                                              'flagForm':flagForm,
-                                                              'flagCoder':flagCoder})
 
-            elif User.objects.filter(email = email):
-                #This email already exists
+            country = form.cleaned_data['country']
+
+            if User.objects.filter(username=username):
+
+                flagName = 1
+
+                return render(request, 'error/sign-up.html', {'flagName': flagName,
+                                                              'flagEmail': flagEmail,
+                                                              'flagHash': flagHash,
+                                                              'flagForm': flagForm,
+                                                              'flagCoder': flagCoder})
+
+            elif User.objects.filter(email=email):
+
                 flagEmail = 1
-                #return render_to_response("error/sign-up.html",
-                #                        {'flagName':flagName,
-                #                        'flagEmail':flagEmail,
-                #                        'flagHash':flagHash,
-                #                        'flagForm':flagForm,
-                #                        'flagCoder':flagCoder},
-                #                        context_instance = RC(request))
-                return render(request, 'error/sign-up.html', {'flagName':flagName,
-                                                              'flagEmail':flagEmail,
-                                                              'flagHash':flagHash,
-                                                              'flagForm':flagForm,
-                                                              'flagCoder':flagCoder})
+
+                return render(request, 'error/sign-up.html', {'flagName': flagName,
+                                                              'flagEmail': flagEmail,
+                                                              'flagHash': flagHash,
+                                                              'flagForm': flagForm,
+                                                              'flagCoder': flagCoder})
             elif (email != email_confirm):
                 flagWrongEmail = 1
-                #return render_to_response("error/sign-up.html",
-                #        {'flagName':flagName,
-                #        'flagEmail':flagEmail,
-                #        'flagHash':flagHash,
-                #        'flagForm':flagForm,
-                #        'flagCoder':flagCoder,
-                #        'flagWrongEmail': flagWrongEmail},
-                #        context_instance = RC(request))
-                return render(request, 'error/sign-up.html', {'flagName':flagName,
-                                                              'flagEmail':flagEmail,
-                                                              'flagHash':flagHash,
-                                                              'flagForm':flagForm,
-                                                              'flagCoder':flagCoder,
+
+                return render(request, 'error/sign-up.html', {'flagName': flagName,
+                                                              'flagEmail': flagEmail,
+                                                              'flagHash': flagHash,
+                                                              'flagForm': flagForm,
+                                                              'flagCoder': flagCoder,
                                                               'flagWrongEmail': flagWrongEmail})
 
             elif (password != password_confirm):
                 flagWrongPassword = 1
-                #return render_to_response("error/sign-up.html",
-                #        {'flagName':flagName,
-                #        'flagEmail':flagEmail,
-                #        'flagHash':flagHash,
-                #        'flagForm':flagForm,
-                #        'flagCoder':flagCoder,
-                #        'flagWrongPassword':flagWrongPassword},
-                #        context_instance = RC(request))
-                return render(request, 'error/sign-up.html', {'flagName':flagName,
-                                                              'flagEmail':flagEmail,
-                                                              'flagHash':flagHash,
-                                                              'flagForm':flagForm,
-                                                              'flagCoder':flagCoder,
+
+                return render(request, 'error/sign-up.html', {'flagName': flagName,
+                                                              'flagEmail': flagEmail,
+                                                              'flagHash': flagHash,
+                                                              'flagForm': flagForm,
+                                                              'flagCoder': flagCoder,
                                                               'flagWrongPassword': flagWrongPassword})
 
             else:
-                coder = Coder.objects.create_user(username = username,
-                                    email=email, password=password,
-                                    birthmonth = birthmonth, 
-                                    birthyear = birthyear,
-                                    gender = gender,
-                                    #gender_other = gender_other,
-                                    country = country)
+                coder = Coder.objects.create_user(username=username,
+                                                  email=email, password=password,
+                                                  birthmonth=birthmonth,
+                                                  birthyear=birthyear,
+                                                  gender=gender,
+
+                                                  country=country)
 
                 coder = authenticate(username=username, password=password)
                 user = Coder.objects.get(email=email)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
-                token=default_token_generator.make_token(user)
+                token = default_token_generator.make_token(user)
                 """
                 c = {
                         'email':email,
@@ -1362,48 +1339,35 @@ def sign_up_coder(request):
 
         else:
             flagForm = 1
-            #return render_to_response("error/sign-up.html",
-            #      {'flagName':flagName,
-            #       'flagEmail':flagEmail,
-            #       'flagHash':flagHash,
-            #       'flagForm':flagForm},
-            #      context_instance = RC(request))
-            return render(request, 'error/sign-up.html', {'flagName':flagName,
-                                                          'flagEmail':flagEmail,
-                                                          'flagHash':flagHash,
-                                                          'flagForm':flagForm})
+
+            return render(request, 'error/sign-up.html', {'flagName': flagName,
+                                                          'flagEmail': flagEmail,
+                                                          'flagHash': flagHash,
+                                                          'flagForm': flagForm})
 
     elif request.method == 'GET':
         if request.user.is_authenticated:
             return HttpResponseRedirect('/coder/' + request.user.username)
         else:
-            #return render_to_response("main/main.html", 
-            #        context_instance = RC(request))
+
             return render(request, 'main/main.html')
 
-
-
-#_________________________ TO SHOW USER'S DASHBOARD ___________#
 
 def coder(request, name):
     """Shows the main page of coders"""
 
-
     if (request.method == 'GET') or (request.method == 'POST'):
         if request.user.is_authenticated:
             username = request.user.username
-            
+
             if username == name:
-                
-                if Coder.objects.filter(username = username):
+
+                if Coder.objects.filter(username=username):
                     user = Coder.objects.get(username=username)
                     img = user.img
-                    dic={'username':username,
-                    "img":str(img)}
+                    dic = {'username': username,
+                           "img": str(img)}
 
-                    #return render_to_response("coder/main.html",
-                    #                            dic,
-                    #                            context_instance = RC(request))
                     return render(request, 'coder/main.html', dic)
                 else:
                     logout(request)
@@ -1415,7 +1379,6 @@ def coder(request, name):
 
 def login_coder(request):
     """Log in app to user"""
-
 
     if request.method == 'POST':
         flagCoder = 0
@@ -1433,10 +1396,7 @@ def login_coder(request):
             else:
                 flag = True
                 flagCoder = 1
-                #return render_to_response("sign-password/user-doesnt-exist.html",
-                #                            {'flag': flag,
-                #                             'flagCoder': flagCoder},
-                #                            context_instance=RC(request))
+
                 return render(request, 'sign-password/user-doesnt-exist.html', {'flag': flag, 'flagCoder': flagCoder})
     else:
         return HttpResponseRedirect("/")
@@ -1459,43 +1419,36 @@ def change_pwd(request):
             elif Coder.objects.filter(email=recipient):
                 user = Coder.objects.get(email=recipient)
         except:
-            #return render_to_response("sign-password/user-doesnt-exist.html",
-            #                               context_instance=RC(request))
+
             return render(request, 'sign-password/user-doesnt-exist.html')
 
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        token=default_token_generator.make_token(user)
+        token = default_token_generator.make_token(user)
 
-        
         c = {
-                'email':recipient,
-                'uid':uid,
-                'token':token,
-                'id':user.username}
+            'email': recipient,
+            'uid': uid,
+            'token': token,
+            'id': user.username}
 
-
-        body = render_to_string("sign-password/email-reset-pwd.html",c)
+        body = render_to_string("sign-password/email-reset-pwd.html", c)
         subject = "Dr. Scratch: Did you forget your password?"
-        sender ="no-reply@drscratch.org"
+        sender = "no-reply@drscratch.org"
         to = [recipient]
-        email = EmailMessage(subject,body,sender,to)
+        email = EmailMessage(subject, body, sender, to)
         email.send()
-        #return render_to_response("sign-password/email-sended.html",
-        #                        context_instance=RC(request))
+
         return render(request, 'sign-password/email-sended.html')
 
     else:
 
         page = identify_user_type(request)
-        #return render_to_response("sign-password/password.html", 
-        #                        context_instance=RC(request))
+
         return render(request, 'sign-password/password.html')
 
 
-
-def reset_password_confirm(request,uidb64=None,token=None,*arg,**kwargs):
+def reset_password_confirm(request, uidb64=None, token=None, *arg, **kwargs):
     """Confirm change password"""
-
 
     UserModel = get_user_model()
     try:
@@ -1521,7 +1474,7 @@ def reset_password_confirm(request,uidb64=None,token=None,*arg,**kwargs):
                 user.set_password(new_password)
                 user.save()
                 logout(request)
-                user = authenticate(username=user.username, 
+                user = authenticate(username=user.username,
                                     password=new_password)
                 login(request, user)
                 return HttpResponseRedirect('/' + page + '/' + user.username)
@@ -1530,20 +1483,17 @@ def reset_password_confirm(request,uidb64=None,token=None,*arg,**kwargs):
             else:
                 flag_error = True
                 return render(request, 'sign-password/new-password.html',
-                                    {'flag_error':flag_error})
+                              {'flag_error': flag_error})
 
     else:
-         if user is not None and default_token_generator.check_token(user, token):
-             return render(request, 'sign-password/new-password.html')
-         else:
-             return render(request, page + '/main.html')
+        if user is not None and default_token_generator.check_token(user, token):
+            return render(request, 'sign-password/new-password.html')
+        else:
+            return render(request, page + '/main.html')
 
 
-
-#_________________________________ DISCUSS ___________________________________#
 def discuss(request):
     """Forum to get feedback"""
-
 
     comments = dict()
     form = DiscussForm()
@@ -1558,9 +1508,9 @@ def discuss(request):
             nick = user
             date = timezone.now()
             comment = form.cleaned_data["comment"]
-            new_comment = Discuss(nick = nick,
-                                date = date,
-                                comment=comment)
+            new_comment = Discuss(nick=nick,
+                                  date=date,
+                                  comment=comment)
             new_comment.save()
         else:
             comments["form"] = form
@@ -1569,15 +1519,14 @@ def discuss(request):
     lower = 0
     upper = 10
     list_comments = {}
-   
+
     if len(data) > 10:
         for n in range((len(data)/10)+1):
-            list_comments[str(n)]= data[lower:upper-1]
+            list_comments[str(n)] = data[lower:upper-1]
             lower = upper
             upper = upper + 10
     else:
         list_comments[0] = data
-
 
     comments["comments"] = list_comments
 
@@ -1614,7 +1563,7 @@ def statistics(request):
     my_dates = []
 
     for n in date_list:
-        my_dates.append(n.strftime("%d/%m")) #used for x axis in
+        my_dates.append(n.strftime("%d/%m"))
 
     obj = Stats.objects.order_by("-id")[0]
     data = {
@@ -1643,12 +1592,7 @@ def statistics(request):
         }
     }
 
-    #Show general statistics page of Dr. Scratch: www.drscratch.org/statistics
-    #return render_to_response("main/statistics.html",
-    #                                data, context_instance=RC(request))
     return render(request, 'main/statistics.html', data)
-
-
 
 
 """
@@ -1699,12 +1643,6 @@ def proc_initialization(lines, filename):
 """
 
 
-###################################
-##
-##      API PETITIONS
-##
-###################################
-
 def load_json_project(path_projectsb3):
     try:
         zip_file = ZipFile(path_projectsb3, "r")
@@ -1712,6 +1650,7 @@ def load_json_project(path_projectsb3):
         return json_project
     except BadZipfile:
         print('Bad zipfile')
+
 
 def get_analysis_d(request, skill_points=None):
     if request.method == 'POST':
@@ -1721,46 +1660,40 @@ def get_analysis_d(request, skill_points=None):
         else:
             numbers = ''
         skill_rubric = generate_rubric(numbers)
-        
-        
-        path_original_project = request.session.get('current_project_path', None)
-        
+
+        path_original_project = request.session.get(
+            'current_project_path', None)
+
         if path_original_project != None:
             json_scratch_original = load_json_project(path_original_project)
-        
 
-        d = build_dictionary_with_automatic_analysis(request, skill_rubric) 
-        
-        path_compare_project = request.session.get('current_project_path', None)
-        
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+
+        path_compare_project = request.session.get(
+            'current_project_path', None)
+
         if path_compare_project != None:
             json_scratch_compare = load_json_project(path_compare_project)
-            
 
-        dict_scratch_golfing = ScratchGolfing(json_scratch_original, json_scratch_compare).finalize()
+        dict_scratch_golfing = ScratchGolfing(
+            json_scratch_original, json_scratch_compare).finalize()
         dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
         print("Estando en views")
         print(dict_scratch_golfing)
-        #dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()
 
-        
         user = str(identify_user_type(request))
-        
+
         dict_mastery = d[0]['mastery_vanilla']
         dict_dups = d[0]['duplicateScript']
         dict_dead_code = d[0]['deadCode']
         dict_sprite = d[0]['spriteNaming']
         dict_backdrop = d[0]['backdropNaming']
-        
-        #keys_to_remove = [key for value, key in dict_dups.items() if value == {...}]
-        
-        #for key in keys_to_remove:
+
         del dict_dups['duplicateScript']
         del dict_dead_code['deadCode']
         del dict_sprite['spriteNaming']
         del dict_backdrop['backdropNaming']
-            
-        
+
         context = {
             'mastery': dict_mastery,
             'duplicateScript': dict_dups,
@@ -1769,38 +1702,27 @@ def get_analysis_d(request, skill_points=None):
             'backdropNaming': dict_backdrop,
             'scratchGolfing': dict_scratch_golfing,
         }
-        
+
     return JsonResponse(context)
 
 
-###################################
-##
-##      BABIA PROJECTS
-##
-###################################
-
-
 def get_babia(request):
-    # TEMP DATA
+
     numbers = ''
     skill_rubric = generate_rubric(numbers)
 
-    # Create a fake request instead of fill the form ______________________________________
     """
     This is a fake provisional request for testing purposes.
     """
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                        # 'urlProject': 'https://scratch.mit.edu/projects/1350338475/'}
-                        'urlProject': 'https://scratch.mit.edu/projects/1315956606/'}
-                        # 'urlProject': 'https://scratch.mit.edu/projects/290030950/'}
+
+                         'urlProject': 'https://scratch.mit.edu/projects/1315956606/'}
+
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
-    # _____________________________________________________________________________________
-
-
 
     d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
     babia_dict = format_babia_dict(d[0])
@@ -1817,12 +1739,10 @@ def get_babia(request):
     return render(request, 'babia/project_babia.html', context)
 
 
-import random, math
-
 def get_region_for_sprite(sprite_name):
     regions = {
         "Main Game": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
-        "Control del Juego": ["stage", "game over", "restart button", "life"], 
+        "Control del Juego": ["stage", "game over", "restart button", "life"],
         "Puntuación": ["text engine"],
         "Main Menu": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
         "Customization": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
@@ -1834,16 +1754,16 @@ def get_region_for_sprite(sprite_name):
             return region_name
     return "Otros"
 
+
 def format_babia_dict(d: dict):
     global_babia = d['babia']
     deadCode_babia = d['deadCode']['scripts']
 
-    # 1. Configuración de colores (Lógica original)
     colors = {}
     for sprite_name, script_dicc in deadCode_babia.items():
         colors[sprite_name] = {}
         for script_key, script_value in script_dicc.items():
-            colors[sprite_name][script_key] = '#3a85fc' # Azul para código muerto
+            colors[sprite_name][script_key] = '#0D47A1'
 
     city_ai_data = FLAPPY_PERSPECTIVES.get("stage", {
         "verbose": "Vista general del proyecto no disponible.",
@@ -1851,7 +1771,6 @@ def format_babia_dict(d: dict):
         "id_num": "G1"
     })
 
-    # Estructura base de la ciudad
     data = {
         "id": "Stage",
         "children": [],
@@ -1876,40 +1795,39 @@ def format_babia_dict(d: dict):
     total_city_area = 0
     regions_dict = {}
 
-    # 2. ITERAMOS SOBRE LOS SPRITES
     for sprite_key, sprite_item in global_babia['sprites'].items():
-        
+
         script_children = []
 
         script_counter = 1
 
-        # 3. Procesamos los Scripts (Torres dentro del Sprite)
         for script_key, script_value in sprite_item.items():
-            
-            # Gestión de color
+
             if sprite_key not in colors:
                 colors[sprite_key] = {}
             if script_key not in colors[sprite_key]:
                 colors[sprite_key][script_key] = "#ffffff"
 
-            lines_of_code = len([linea for linea in script_value.split('\n') if linea.strip()])
-            
+            lines_of_code = len(
+                [linea for linea in script_value.split('\n') if linea.strip()])
+
             tower_area = math.log(lines_of_code + 1) * 100
 
-            unique_id = f"{sprite_key}_{script_key}_{script_counter}".lower().replace(" ", "_")
+            unique_id = f"{sprite_key}_{script_key}_{script_counter}".lower().replace(
+                " ", "_")
             script_counter += 1
-            
+
             script_data = {
                 "id": unique_id,
                 "nombre_corto": script_key.lower(),
-                "area": tower_area, 
+                "area": tower_area,
                 "Blocks": lines_of_code,
                 "building_color": colors[sprite_key][script_key],
                 "script_blocks": script_value,
                 "id_num": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("id_num", ""),
                 "ai_connections": FLAPPY_PERSPECTIVES.get(unique_id, {}).get("conexiones", "")
             }
-            
+
             script_children.append(script_data)
 
         sprite_fixed_area = 400
@@ -1919,17 +1837,16 @@ def format_babia_dict(d: dict):
             "schematic": "<ul><li>Sin datos esquemáticos.</li></ul>"
         })
 
-        # Creamos el nodo Distrito
         sprite_district = {
-            "id": sprite_key,    # Nombre del Sprite (se verá flotando)
+            "id": sprite_key,
             "children": script_children,
-            "area": sprite_fixed_area, 
+            "area": sprite_fixed_area,
             "district_type": "Sprite",
             "ai_verbose": ai_data["verbose"],
             "ai_schematic": ai_data["schematic"],
             "id_num": ai_data.get("id_num", "")
         }
-        
+
         region_name = get_region_for_sprite(sprite_key)
         if region_name not in regions_dict:
             safe_region_keys = {
@@ -1945,7 +1862,7 @@ def format_babia_dict(d: dict):
 
             json_key = safe_region_keys.get(region_name, "otros")
             region_ai_data = FLAPPY_PERSPECTIVES.get(json_key, {})
-            
+
             regions_dict[region_name] = {
                 "id": region_name,
                 "children": [],
@@ -1962,10 +1879,10 @@ def format_babia_dict(d: dict):
     for region in regions_dict.values():
         data["children"].append(region)
         total_city_area += region["area"]
-        
-    # Guardamos el área total
+
     data["area"] = total_city_area
     return data
+
 
 def format_babia_flat(d: dict) -> list:
     """
@@ -1978,8 +1895,6 @@ def format_babia_flat(d: dict) -> list:
     global_babia = d['babia']
     deadCode_babia = d['deadCode']['scripts']
 
-    # Construimos set de (sprite_normalizado, script_normalizado) con código muerto
-    # Normalizamos a minúsculas sin espacios para comparación robusta
     def norm(s):
         return s.lower().replace(' ', '_').replace('/', '_').strip()
 
@@ -1993,13 +1908,14 @@ def format_babia_flat(d: dict) -> list:
         safe_sprite = sprite_key.replace('/', '_').replace(' ', '_')
         region_name = get_region_for_sprite(sprite_key)
         safe_region = region_name.replace('/', '_').replace(' ', '_')
-        
+
         script_counter = 1
         for script_key, script_value in sprite_item.items():
             is_dead = (norm(sprite_key), norm(script_key)) in dead_set
-            building_color = '#3a85fc' if is_dead else '#ffffff'
+            building_color = '#0D47A1' if is_dead else '#ffffff'
 
-            lines_of_code = len([l for l in script_value.split('\n') if l.strip()])
+            lines_of_code = len(
+                [l for l in script_value.split('\n') if l.strip()])
             tower_area = math.log(lines_of_code + 1) * 100
             safe_script = script_key.replace('/', '_').replace(' ', '_')
             unique_id = f"{safe_sprite}_{safe_script}_{script_counter}".lower()
