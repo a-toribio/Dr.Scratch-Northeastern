@@ -1741,12 +1741,12 @@ def get_babia(request):
 
 def get_region_for_sprite(sprite_name):
     regions = {
-        "Main Game": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
+        "Juego Principal": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
         "Control del Juego": ["stage", "game over", "restart button", "life"],
         "Puntuación": ["text engine"],
-        "Main Menu": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
-        "Customization": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
-        "Rules": ["rules_button", "rules", "back button2"],
+        "Menú Principal": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
+        "Customización": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
+        "Reglas": ["rules_button", "rules", "back button2"],
         "Introducción del Sistema": ["101508108-flappy_bird.1910x1000", "all in one!"]
     }
     for region_name, sprites in regions.items():
@@ -1850,13 +1850,13 @@ def format_babia_dict(d: dict):
         region_name = get_region_for_sprite(sprite_key)
         if region_name not in regions_dict:
             safe_region_keys = {
-                "Main Game": "main_game",
+                "Juego Principal": "main_game",
                 "Control del Juego": "control_del_juego",
                 "Puntuación": "puntuacion",
-                "Main Menu": "main_menu",
+                "Menú Principal": "main_menu",
                 "Fin del Juego": "fin_del_juego",
-                "Customization": "customization",
-                "Rules": "Rules",
+                "Customización": "customization",
+                "Reglas": "Rules",
                 "Introducción del Sistema": "introduccion_del_sistema"
             }
 
