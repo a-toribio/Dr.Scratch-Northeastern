@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>ScratchCity - Dr. Scratch</title>
-  <meta name="description" content="Basic example for CodeCity component.">
+  <meta name="description" content="Ejemplo básico del componente CodeCity.">
   </meta>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
@@ -53,8 +53,8 @@
     
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px;">
         <div style="flex-grow: 1;">
-            <h2 id="panel-title" style="margin: 0; color: #333; font-size: 1.5em;">Select an item</h2>
-            <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Click on the ground or a tower</span>
+            <h2 id="panel-title" style="margin: 0; color: #333; font-size: 1.5em;">Selecciona un elemento</h2>
+            <span id="panel-subtitle" style="font-size: 0.9em; color: #666;">Haz clic en el suelo o en una torre</span>
         </div>
         <div id="nav-history-buttons" style="display: flex; gap: 5px; flex-shrink: 0;">
             <button id="btn-back" onclick="goBack()" disabled style="cursor: pointer; padding: 6px 12px; background: #3a85fc; color: white; border: none; border-radius: 4px; font-weight: bold; opacity: 0.5; font-size: 16px;">&larr;</button>
@@ -63,76 +63,76 @@
     </div>
 
     <div id="view-district" style="display: none;">
-        <p id="selection-type-label">Sprite selected:</p>
-        <h3 id="district-name-display" style="color: #3a85fc; border-left: 4px solid #3a85fc; padding-left: 10px;">NombreSprite</h3>
+        <p id="selection-type-label">Has seleccionado el Sprite:</p>
+        <h3 id="district-name-display" style="color: #3a85fc; border-left: 4px solid #3a85fc; padding-left: 10px;">Nombre del Sprite</h3>
         
         <div id="ai-tabs-container">
             <div class="tabs-header">
-                <button class="tab-btn active" onclick="openTab('tab-verbose', this)">Detailed</button>
-                <button class="tab-btn" onclick="openTab('tab-schematic', this)">Schematic</button>
-                <button class="tab-btn" onclick="openTab('tab-diagram', this)">Diagram</button>
+                <button class="tab-btn active" onclick="openTab('tab-verbose', this)">Detallada</button>
+                <button class="tab-btn" onclick="openTab('tab-schematic', this)">Esquema</button>
+                <button class="tab-btn" onclick="openTab('tab-diagram', this)">Diagrama</button>
             </div>
 
             <div id="tab-verbose" class="tab-content active">
-                <strong>Complete Description:</strong>
+                <strong>Descripción completa:</strong>
                 <p id="ia-verbose-placeholder" style="color: #000000;">
-                    Verbose explanation.
+                    Explicación verbosa.
                 </p>
             </div>
 
             <div id="tab-schematic" class="tab-content">
-                <p>Schematic summary of the district/sprite:</p>
+                <p>Resumen esquemático del distrito/Sprite:</p>
                 </ul>
             </div>
 
             <div id="tab-diagram" class="tab-content">
                 <div id="ia-diagram-placeholder" style="text-align: center; padding: 20px; background: #f9f9f9; border: 1px dashed #ccc; margin-top: 10px;">
-                    <p>Napkin IA</p>
+                    <p>Diagrama generado por IA</p>
                     </div>
             </div>
         </div>
         <hr style="margin: 20px 0; border: 1px solid #eee;">
 
-        <p><strong>Code Towers (Scripts):</strong></p>
+        <p><strong>Scripts (torres de código):</strong></p>
         <ul id="district-scripts-list" style="padding-left: 20px; overflow-y: auto; max-height: 200px;">
             </ul>
     </div>
 
     <div id="view-description" style="display: none;">
-        <h3>Script information</h3>
+        <h3>Información del script</h3>
         <p><strong>ID:</strong> <span id="script-id-display" style="color: #3a85fc; font-weight: bold;"></span></p>
         
         <div class="tabs-header">
-            <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detailed</button>
-            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Schematic</button>
-            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-connections', this)">Connections</button>
+            <button class="tab-btn script-tab-btn active" onclick="openTowerTab('tab-tower-verbose', this)">Detallada</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-schematic', this)">Esquema</button>
+            <button class="tab-btn script-tab-btn" onclick="openTowerTab('tab-tower-connections', this)">Conexiones</button>
         </div>
 
         <div id="tab-tower-verbose" class="tab-content tower-tab-content active">
-            <strong>Complete Description:</strong>
+            <strong>Descripción completa:</strong>
             <p id="script-ai-verbose-placeholder" style="color: #333; margin-top: 10px;">
-                Loading analysis...
+                Cargando análisis...
             </p>
         </div>
 
         <div id="tab-tower-schematic" class="tab-content tower-tab-content">
-            <p><strong>Logic Summary:</strong></p>
+            <p><strong>Resumen lógico:</strong></p>
             <div id="script-ai-schematic-placeholder">
-                No schematic available.
+                Sin esquema disponible.
             </div>
         </div>
 
         <div id="tab-tower-connections" class="tab-content tower-tab-content">
-            <p><strong>Script Communications:</strong></p>
+            <p><strong>Comunicaciones del script:</strong></p>
             <div id="script-ai-connections-placeholder" style="margin-top: 10px;">
-                No connections registered.
+                Sin conexiones registradas.
             </div>
         </div>
 
         <hr style="margin: 20px 0; border: 1px solid #eee;">
 
         <button onclick="showCodeView()" class="button" style="background-color: #3a85fc; color: white; width: 100%; padding: 10px; cursor: pointer; border: none; border-radius: 5px;">
-            View Code Blocks
+            Ver Bloques de Código
         </button>
     </div>
 
@@ -141,7 +141,7 @@
         <pre id="script_blocks" class="blocks"></pre>
         
         <button onclick="hideCodeView()" class="button" style="background-color: #666; color: white; margin-top: 10px;">
-            Hide Code
+            Ocultar Código
         </button>
     </div>
 
@@ -206,11 +206,11 @@
         <div class="building_info" style="width: 100px; height: 100px; overflow: auto;"> 
           <div class="container"> 
             <button id="export_btn" class="button">
-              <span>Export as STL</span>
+              <span>Exportar como STL</span>
             </button> 
           </div> 
-          <h1>Script Selected:</h1> 
-          <pre id="script_blocks" class="blocks">Please, select a building.</pre> 
+          <h1>Script seleccionado:</h1>
+          <pre id="script_blocks" class="blocks">Selecciona un edificio.</pre>
         </div> 
       </div> 
     </a-assets>
@@ -253,20 +253,20 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <!--<a-entity id="leftHand" oculus-touch-controls="hand: left"> <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> </a-entity>-->
     </a-entity>
-    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="View original project in Scratch">
+    <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
       <div class="scratch-icon"></div>
     </a>
     <div class="flow-panel" id="flow-control-panel">
-        <h3>Flow Analysis</h3>
+        <h3>Análisis de Flujo</h3>
         <div class="legend-container">
-            <span class="legend-box" style="background-color: #E91E63;"></span> Emitter<br>
-            <span class="legend-box" style="background-color: #00E5FF; margin-top: 4px;"></span> Receiver<br>
-            <span class="legend-box" style="background-color: #FF6D00; margin-top: 4px;"></span> Variable (set / define)<br>
-            <span class="legend-box" style="background-color: #FFB300; margin-top: 4px;"></span> Variable (use / read)<br>
-            <span class="legend-box" style="background-color: #D6DBDF; margin-top: 4px;"></span> No Relationship
+            <span class="legend-box" style="background-color: #E91E63;"></span> Emisora<br>
+            <span class="legend-box" style="background-color: #00E5FF; margin-top: 4px;"></span> Receptora<br>
+            <span class="legend-box" style="background-color: #FF6D00; margin-top: 4px;"></span> Variable (asignar / definir)<br>
+            <span class="legend-box" style="background-color: #FFB300; margin-top: 4px;"></span> Variable (usar / leer)<br>
+            <span class="legend-box" style="background-color: #D6DBDF; margin-top: 4px;"></span> Sin relación
         </div>
         <div id="flow-panel-content">
-            <p style="font-size: 12px; color: #aaa;">Analyzing blocks...</p>
+            <p style="font-size: 12px; color: #aaa;">Cargando análisis...</p>
         </div>
     </div>
   </a-scene>
@@ -800,10 +800,10 @@
         hideAllViews();
         pushToHistory('broadcast', broadcastData);
 
-        ui.title.innerText = "Broadcast";
-        ui.subtitle.innerText = "System definition";
+        ui.title.innerText = "Mensaje";
+        ui.subtitle.innerText = "Mensaje del sistema";
         let typeLabel = document.getElementById('selection-type-label');
-        if (typeLabel) typeLabel.innerText = "Broadcast selected:";
+        if (typeLabel) typeLabel.innerText = "Has seleccionado el mensaje:";
         ui.districtName.innerText = broadcastData.id;
         
         let verbosePlaceholder = document.getElementById('ia-verbose-placeholder');
@@ -812,10 +812,10 @@
         }
         let schematicTab = document.getElementById('tab-schematic');
         if(schematicTab) {
-            schematicTab.innerHTML = "<p><strong>Schematic summary:</strong></p>" + linkifyReferences(broadcastData.ai_schematic || "<p>Schematic not available.</p>");
+            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(broadcastData.ai_schematic || "<p>Resumen esquemático no disponible.</p>");
         }
 
-        ui.scriptList.innerHTML = "<li style='color:#666;'><em>Has no physical representation in the 3D city.</em></li>";
+        ui.scriptList.innerHTML = "<li style='color:#666;'><em>No tiene una representación física en la ciudad 3D.</em></li>";
         
         views.district.style.display = 'block';
     }
@@ -874,13 +874,13 @@
         if (nodeData.id === "Stage") nodeType = 'city';
         else if (nodeData.node_type === "Region") nodeType = 'region';
         
-        ui.title.innerText = nodeType === 'city' ? "Complete Project" : (nodeType === 'region' ? "District" : "Neighborhood (Sprite)");
-        ui.subtitle.innerText = nodeType === 'city' ? "General View (G1)" : (nodeType === 'region' ? "Sprite Grouping" : "General View of the Object");
+        ui.title.innerText = nodeType === 'city' ? "Proyecto completo" : (nodeType === 'region' ? "Distrito" : "Sprite");
+        ui.subtitle.innerText = nodeType === 'city' ? "Vista general (G1)" : (nodeType === 'region' ? "Grupo de sprites" : "Vista general del Sprite");
         let typeLabel = document.getElementById('selection-type-label');
         if (typeLabel) {
-            if (nodeType === 'city') typeLabel.innerText = "Project selected:";
-            else if (nodeType === 'region') typeLabel.innerText = "District selected:";
-            else typeLabel.innerText = "Sprite selected:";
+            if (nodeType === 'city') typeLabel.innerText = "Has seleccionado el proyecto:";
+            else if (nodeType === 'region') typeLabel.innerText = "Has seleccionado el Distrito:";
+            else typeLabel.innerText = "Has seleccionado el Sprite:";
         }
         ui.districtName.innerText = nodeData.id;
         
@@ -890,7 +890,7 @@
         }
         let schematicTab = document.getElementById('tab-schematic');
         if(schematicTab) {
-            schematicTab.innerHTML = "<p><strong>Schematic summary:</strong></p>" + linkifyReferences(nodeData.ai_schematic || "<p>Schematic not available.</p>");
+            schematicTab.innerHTML = "<p><strong>Resumen esquemático:</strong></p>" + linkifyReferences(nodeData.ai_schematic || "<p>Resumen esquemático no disponible.</p>");
         }
 
         ui.scriptList.innerHTML = "";
@@ -899,15 +899,15 @@
                 let li = document.createElement('li');
                 
                 if (nodeType === 'city') {
-                    li.innerText = "District: " + child.id;
+                    li.innerText = "Distrito: " + child.id;
                 } else if (nodeType === 'region') {
-                    li.innerText = "Neighborhood (Sprite): " + child.id;
+                    li.innerText = "Sprite: " + child.id;
                 } else {
                     let cleanSpriteName = nodeData.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
                     let nombreGenerico = cleanSpriteName + " Script " + (index + 1);
                     let nombreEdificio = child.nombre_natural ? child.nombre_natural : nombreGenerico;
                     
-                    li.innerText = nombreEdificio + " - " + child.Blocks + " blocks";
+                    li.innerText = nombreEdificio + " - " + child.Blocks + " bloques";
                 }
 
                 li.style.cursor = "pointer";
@@ -949,8 +949,8 @@
         currentRawCode = fullData.script_blocks || "";
         ui.codeBlock.innerText = currentRawCode; 
 
-        ui.title.innerText = "Selected Script";
-        ui.subtitle.innerText = "Code Tower";
+        ui.title.innerText = "Script seleccionado";
+        ui.subtitle.innerText = "Torre de código";
 
         let cleanSpriteName = parentDistrict.id.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
         let scriptIndex = parentDistrict.children.findIndex(c => c.id === scriptData.id) + 1;
@@ -963,11 +963,11 @@
         let connectionsPlaceholder = document.getElementById('script-ai-connections-placeholder');
 
         if (verbosePlaceholder) {
-            verbosePlaceholder.innerHTML = linkifyReferences(fullData.ai_verbose) || "Detailed analysis not available for this tower.";
+            verbosePlaceholder.innerHTML = linkifyReferences(fullData.ai_verbose) || "Análisis detallado no disponible para esta torre.";
         }
         
         if (schematicPlaceholder) {
-            schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Schematic not available for this tower.</p>";
+            schematicPlaceholder.innerHTML = linkifyReferences(fullData.ai_schematic) || "<p>Resumen esquemático no disponible para esta torre.</p>";
         }
 
         if (connectionsPlaceholder) {
@@ -1126,7 +1126,7 @@
         let container = document.getElementById('flow-panel-content');
         if (!container) return;
 
-        let html = '<h4>Broadcasts</h4>';
+        let html = '<h4>Mensajes</h4>';
         Object.keys(flowData.broadcasts).sort().forEach(bKey => {
             let bObj = flowData.broadcasts[bKey];
             if (bObj.emit.length > 0 || bObj.receive.length > 0) {
