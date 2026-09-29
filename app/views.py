@@ -1850,13 +1850,13 @@ def format_babia_dict(d: dict):
         region_name = get_region_for_sprite(sprite_key)
         if region_name not in regions_dict:
             safe_region_keys = {
-                "Juego Principal": "main_game",
+                "Juego Principal": "juego_principal",
                 "Control del Juego": "control_del_juego",
                 "Puntuación": "puntuacion",
-                "Menú Principal": "main_menu",
+                "Menú Principal": "menu_principal",
                 "Fin del Juego": "fin_del_juego",
-                "Customización": "customization",
-                "Reglas": "Rules",
+                "Customización": "personalizacion",
+                "Reglas": "reglas",
                 "Introducción del Sistema": "introduccion_del_sistema"
             }
 
