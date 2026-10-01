@@ -8896,6 +8896,8 @@ AFRAME.registerComponent('babia-boats', {
   */
   init: function () {
     this.notiBuffer = new NotiBuffer();
+    this.hoveredEntities = new Set();
+    this.hoverUpdatePending = false;
   },
   /**
   * Called when component is attached and when component data changes.
@@ -8904,6 +8906,26 @@ AFRAME.registerComponent('babia-boats', {
 
   update: function (oldData) {
     updateFunction(this, oldData);
+  },
+  updateHoveredEntity: function (entity, hovered) {
+    if (hovered) {
+      this.hoveredEntities.add(entity);
+    } else {
+      this.hoveredEntities.delete(entity);
+    }
+    if (this.hoverUpdatePending) return;
+
+    this.hoverUpdatePending = true;
+    requestAnimationFrame(() => {
+      this.hoverUpdatePending = false;
+      const hoveredEntities = Array.from(this.hoveredEntities).filter(item => item.isConnected);
+      this.hoveredEntities = new Set(hoveredEntities);
+      hoveredEntities.forEach(item => {
+        if (!item.hoverLegend) return;
+        const hasHoveredDescendant = hoveredEntities.some(other => item !== other && item.contains(other));
+        item.hoverLegend.setAttribute('visible', !hasHoveredDescendant);
+      });
+    });
   },
   /** 
    * Already autoscaled
@@ -10143,6 +10165,27 @@ AFRAME.registerComponent('babia-boats', {
       // dont add events flag (if transparent)
       if (!figure.dontAddEvents) {
         let transparentBox;
+        entity.addEventListener('mouseenter', function () {
+          self.updateHoveredEntity(entity, true);
+          if (entity.legend || entity.hoverLegend) return;
+
+          entity.hoverLegend = generateLegend(figure.name, self.data.legend_scale, self.data.legend_lookat, 'black', 'white');
+          let worldPos = new THREE.Vector3();
+          let coordinates = worldPos.setFromMatrixPosition(entity.object3D.matrixWorld);
+          let bounds = new THREE.Box3().setFromObject(entity.object3D);
+          entity.hoverLegend.setAttribute('position', {
+            x: coordinates.x,
+            y: bounds.max.y + 1,
+            z: coordinates.z
+          });
+          self.el.parentElement.appendChild(entity.hoverLegend);
+        });
+        entity.addEventListener('mouseleave', function () {
+          self.updateHoveredEntity(entity, false);
+          if (!entity.hoverLegend) return;
+          self.el.parentElement.removeChild(entity.hoverLegend);
+          entity.hoverLegend = undefined;
+        });
         entity.addEventListener('click', function (e) {
           // Just launch the event on the child
           if (e.target !== this) return;
@@ -10211,6 +10254,10 @@ AFRAME.registerComponent('babia-boats', {
             if (self.data.highlightQuarterByClick) {
               //entity.setAttribute('babiaxrFirstColor', entity.getAttribute("material")["color"])
               entity.setAttribute('material', 'color', '#bfbfbf');
+            }
+            if (entity.hoverLegend) {
+              self.el.parentElement.removeChild(entity.hoverLegend);
+              entity.hoverLegend = undefined;
             }
             let coordinatesFinal = {
               x: coordinates.x,
@@ -10400,6 +10447,7 @@ AFRAME.registerComponent('babia-boats', {
         }
       });
       entity.addEventListener('mouseenter', function () {
+        self.updateHoveredEntity(entity, true);
         if (!entity.alreadyActive) {
           entityGeometry = entity.getAttribute('geometry');
           let boxPosition = entity.getAttribute('position');
@@ -10455,6 +10503,7 @@ AFRAME.registerComponent('babia-boats', {
         }
       });
       entity.addEventListener('mouseleave', function () {
+        self.updateHoveredEntity(entity, false);
         if (!entity.alreadyActive && entity.legend) {
           entity.legend.setAttribute('visible', false);
           entity.setAttribute('geometry', {
@@ -10502,35 +10551,6 @@ let generateLegend = (name, legend_scale, lookat, colorPlane, colorText, data, f
   let width = 2;
   let height = 1;
   if (name.length > 16) width = name.length / 5;
-  if (data) {
-    let heightText = "\n " + fheight + " (height): " + Math.round(data[fheight] * 100) / 100;
-    if (heightText.length > 16) width = heightText.length / 5;
-    name += heightText;
-    if (farea) {
-      let areaText = "\n " + farea + " (area): " + Math.round(data[farea] * 100) / 100;
-      if (areaText.length > 16 && areaText > heightText) width = areaText.length / 5;
-      name += areaText;
-    } else {
-      let depthText = "\n " + fdepth + " (depth): " + Math.round(data[fdepth] * 100) / 100;
-      if (depthText.length > 16 && depthText > heightText) width = depthText.length / 5;
-      name += depthText;
-      let widthText = "\n " + fwidth + " (width): " + Math.round(data[fwidth] * 100) / 100;
-      if (widthText.length > 16 && widthText > heightText && widthText > depthText) width = widthText.length / 5;
-      name += widthText;
-      height = 1.5;
-    }
-    if (fcolor) {
-      let colorText = "\n " + fcolor;
-      if (typeof data[fcolor] === 'string') {
-        colorText += " (color): " + data[fcolor];
-      } else {
-        colorText += " (color): " + Math.round(data[fcolor] * 100) / 100;
-      }
-      if (colorText.length > 16 && colorText > heightText) width = colorText.length / 5;
-      name += colorText;
-      height += 0.2;
-    }
-  }
   let entity = document.createElement('a-plane');
   entity.setAttribute('babia-lookat', lookat);
   entity.setAttribute('rotation', {
@@ -11554,7 +11574,26 @@ let Zone = class {
       // Titles on quarters
       if (titles) {
         let legend;
+        let hoverLegend;
         let transparentBox;
+        base.addEventListener('mouseenter', function () {
+          if (hoverLegend || legend) return;
+          hoverLegend = generateLegend(this.getAttribute("id"), 'black', 'white');
+          let bounds = new THREE.Box3().setFromObject(base.object3D);
+          let coordinates = new THREE.Vector3().setFromMatrixPosition(base.object3D.matrixWorld);
+          hoverLegend.setAttribute('position', {
+            x: coordinates.x,
+            y: bounds.max.y + 1,
+            z: coordinates.z
+          });
+          hoverLegend.setAttribute('visible', true);
+          rootCodecityEntity.parentElement.appendChild(hoverLegend);
+        });
+        base.addEventListener('mouseleave', function () {
+          if (!hoverLegend) return;
+          rootCodecityEntity.parentElement.removeChild(hoverLegend);
+          hoverLegend = undefined;
+        });
         base.addEventListener('click', function () {
           if (legend) {
             rootCodecityEntity.removeChild(transparentBox);
@@ -12356,14 +12395,6 @@ let countDecimals = function (value) {
 let generateLegend = (name, colorPlane, colorText, data, fheight, farea) => {
   let width = 2;
   if (name.length > 16) width = name.length / 8;
-  if (data) {
-    let heightText = "\n " + fheight + " (height): " + data[fheight];
-    if (heightText.length > 16) width = heightText.length / 8;
-    name += heightText;
-    let areaText = "\n " + farea + " (area): " + data[farea];
-    if (areaText.length > 16 && areaText > heightText) width = areaText.length / 8;
-    name += areaText;
-  }
   let entity = document.createElement('a-plane');
   entity.setAttribute('babia-lookat', "[camera]");
   entity.setAttribute('rotation', {
