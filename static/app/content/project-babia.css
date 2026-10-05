@@ -1,0 +1,223 @@
+
+    .gitlab-corner-wrapper {
+      overflow: hidden;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      right: 0
+    }
+
+    .gitlab-corner {
+      position: absolute;
+      top: -16px;
+      right: -50px;
+      transform: rotate(45deg);
+      background: #548;
+      border: 44px solid #548;
+      border-bottom: none;
+      border-top: #548 solid 16px
+    }
+
+    .gitlab-corner svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: -4px
+    }
+
+    .cls-1 {
+      fill: #fc6d26
+    }
+
+    .cls-2 {
+      fill: #e24329
+    }
+
+    .cls-3 {
+      fill: #fca326
+    }
+
+    .gitlab-corner:hover .cls-1 {
+      animation: cycle .6s
+    }
+
+    .gitlab-corner:hover .cls-2 {
+      animation: cycleMid .6s
+    }
+
+    .gitlab-corner:hover .cls-3 {
+      animation: cycleEnd .6s
+    }
+
+    @keyframes cycle {
+
+      100%,
+      15%,
+      60% {
+        fill: #fc6d26
+      }
+
+      30%,
+      75% {
+        fill: #e24329
+      }
+
+      45%,
+      90% {
+        fill: #fca326
+      }
+    }
+
+    @keyframes cycleMid {
+
+      100%,
+      15%,
+      60% {
+        fill: #e24329
+      }
+
+      30%,
+      75% {
+        fill: #fca326
+      }
+
+      45%,
+      90% {
+        fill: #fc6d26
+      }
+    }
+
+    @keyframes cycleEnd {
+
+      100%,
+      15%,
+      60% {
+        fill: #fca326
+      }
+
+      30%,
+      75% {
+        fill: #fc6d26
+      }
+
+      45%,
+      90% {
+        fill: #e24329
+      }
+    }
+
+    .building_info {
+      position: fixed; 
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: 0.8%;
+      z-index: 9999;
+      width: 30%;
+      height: 95%;
+      background-color: white;
+      border: 1px solid black;
+      padding: 10px; 
+    }
+
+    /* --- Estilos para las pestañas de la IA --- */
+    .tabs-header { 
+        display: flex; 
+        border-bottom: 2px solid #ccc; 
+        margin-top: 15px; 
+    }
+    .tab-btn { 
+        flex: 1; 
+        background: none; 
+        border: none; 
+        padding: 10px 5px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        color: #888; 
+        border-bottom: 3px solid transparent; 
+        transition: 0.3s;
+        font-size: 0.9em;
+    }
+    .tab-btn:hover { background: #f0f0f0; color: #333; }
+    .tab-btn.active { color: #3a85fc; border-bottom-color: #3a85fc; }
+
+    .tab-content { 
+        display: none; 
+        background: #fff; 
+        padding: 15px; 
+        border: 1px solid #ddd; 
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        font-size: 0.95em;
+        line-height: 1.5;
+    }
+    .tab-content.active { display: block; }
+
+    .ai-ref-link {
+        color: #3a85fc;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        transition: color 0.2s;
+    }
+    .ai-ref-link:hover {
+        color: #fc6d26;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+    }
+    .scratch-floating-btn {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        z-index: 10000;
+        background-color: #ff8c00;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .scratch-floating-btn:hover {
+        transform: scale(1.08);
+        background-color: #e67e00;
+        color: white;
+    }
+    .scratch-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        background-image: url('https://scratch.mit.edu/favicon.ico');
+        background-size: cover;
+    }
+    .flow-panel {
+        position: fixed;
+        bottom: 80px; /* Para que quede justo encima del botón de Scratch */
+        left: 25px;
+        z-index: 10000;
+        background-color: rgba(25, 25, 30, 0.95);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+        max-height: 50vh;
+        overflow-y: auto;
+        min-width: 220px;
+        border: 1px solid #444;
+    }
+    .flow-panel h3 { margin-top: 0; margin-bottom: 10px; color: #ff8c00; font-size: 16px; border-bottom: 1px solid #555; padding-bottom: 5px;}
+    .flow-panel h4 { margin-top: 15px; margin-bottom: 8px; color: #3a85fc; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+    .flow-checkbox-label { display: block; margin-bottom: 6px; font-size: 13px; cursor: pointer; transition: color 0.2s;}
+    .flow-checkbox-label:hover { color: #ff8c00; }
+    .flow-checkbox-label input { margin-right: 8px; cursor: pointer;}
+    
+    .legend-box { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; vertical-align: middle;}
+    .legend-container { font-size: 11px; color: #ccc; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #444; }
+  
