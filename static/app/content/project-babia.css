@@ -171,6 +171,8 @@
         bottom: 25px;
         left: 25px;
         z-index: 10000;
+        width: 220px;
+        box-sizing: border-box;
         background-color: #ff8c00;
         color: white;
         padding: 10px 18px;
@@ -181,6 +183,7 @@
         font-size: 16px;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
         display: flex;
+        justify-content: center;
         align-items: center;
         transition: transform 0.2s ease, background-color 0.2s ease;
     }
@@ -196,28 +199,37 @@
         background-image: url('https://scratch.mit.edu/favicon.ico');
         background-size: cover;
     }
-    .flow-panel {
+    .analysis-panels {
         position: fixed;
-        bottom: 80px; /* Para que quede justo encima del botón de Scratch */
+        bottom: 80px;
         left: 25px;
         z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 220px;
+        max-height: 75vh;
+    }
+    .flow-panel {
+        position: static;
         background-color: rgba(25, 25, 30, 0.95);
         color: white;
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
         font-family: Arial, sans-serif;
         box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
-        max-height: 50vh;
+        max-height: 34vh;
         overflow-y: auto;
-        min-width: 220px;
+        min-width: 0;
         border: 1px solid #444;
+        box-sizing: border-box;
     }
-    .flow-panel h3 { margin-top: 0; margin-bottom: 10px; color: #ff8c00; font-size: 16px; border-bottom: 1px solid #555; padding-bottom: 5px;}
-    .flow-panel h4 { margin-top: 15px; margin-bottom: 8px; color: #3a85fc; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
-    .flow-checkbox-label { display: block; margin-bottom: 6px; font-size: 13px; cursor: pointer; transition: color 0.2s;}
+    .flow-panel h3 { margin-top: 0; margin-bottom: 7px; color: #ff8c00; font-size: 14px; border-bottom: 1px solid #555; padding-bottom: 4px;}
+    .flow-panel h4 { margin-top: 10px; margin-bottom: 6px; color: #3a85fc; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;}
+    .flow-checkbox-label { display: block; margin-bottom: 4px; font-size: 12px; cursor: pointer; transition: color 0.2s;}
     .flow-checkbox-label:hover { color: #ff8c00; }
     .flow-checkbox-label input { margin-right: 8px; cursor: pointer;}
     
     .legend-box { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; vertical-align: middle;}
-    .legend-container { font-size: 11px; color: #ccc; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #444; }
+    .legend-container { font-size: 10px; color: #ccc; margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid #444; }
   

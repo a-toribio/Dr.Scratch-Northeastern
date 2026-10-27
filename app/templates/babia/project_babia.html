@@ -182,17 +182,25 @@
     <a id="btn-scratch-link" href="https://scratch.mit.edu/projects/1315956606/" target="_blank" class="scratch-floating-btn" title="Ver proyecto original en Scratch">
       <div class="scratch-icon"></div>
     </a>
-    <div class="flow-panel" id="flow-control-panel">
-        <h3>Análisis de Flujo</h3>
-        <div class="legend-container">
-            <span class="legend-box" style="background-color: #E91E63;"></span> Emisora<br>
-            <span class="legend-box" style="background-color: #00E5FF; margin-top: 4px;"></span> Receptora<br>
-            <span class="legend-box" style="background-color: #FF6D00; margin-top: 4px;"></span> Variable (asignar / definir)<br>
-            <span class="legend-box" style="background-color: #B388FF; margin-top: 4px;"></span> Variable (usar / leer)<br>
-            <span class="legend-box" style="background-color: #D6DBDF; margin-top: 4px;"></span> Sin relación
+    <div class="analysis-panels">
+        <div class="flow-panel" id="flow-control-panel">
+            <h3>Análisis de Flujo</h3>
+            <div class="legend-container">
+                <span class="legend-box" style="background-color: #E91E63;"></span> Emisora<br>
+                <span class="legend-box" style="background-color: #00E5FF; margin-top: 4px;"></span> Receptora<br>
+                <span class="legend-box" style="background-color: #FF6D00; margin-top: 4px;"></span> Variable (asignar / definir)<br>
+                <span class="legend-box" style="background-color: #B388FF; margin-top: 4px;"></span> Variable (usar / leer)<br>
+                <span class="legend-box" style="background-color: #D6DBDF; margin-top: 4px;"></span> Sin relación
+            </div>
+            <div id="flow-panel-content">
+                <p style="font-size: 12px; color: #aaa;">Cargando análisis...</p>
+            </div>
         </div>
-        <div id="flow-panel-content">
-            <p style="font-size: 12px; color: #aaa;">Cargando análisis...</p>
+        <div class="flow-panel sprite-panel" id="sprite-control-panel">
+            <h3>Seleccionar sprites</h3>
+            <div id="sprite-panel-content">
+                <p style="font-size: 12px; color: #aaa;">Cargando sprites...</p>
+            </div>
         </div>
     </div>
   </a-scene>

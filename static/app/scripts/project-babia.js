@@ -20,6 +20,8 @@ window.addEventListener('load', function() {
     }
 });
 
+window.selectedSpriteColors = Object.create(null);
+
 AFRAME.registerComponent('pintor-ciudad', {
     init: function() {
         this.painted = false;
@@ -33,6 +35,13 @@ AFRAME.registerComponent('pintor-ciudad', {
 
                 if (idCaja.endsWith('Stage')) {
                     let colorBase = '#388E3C';
+                    caja.setAttribute('color', colorBase);
+                    caja.setAttribute('babiaxrfirstcolor', colorBase);
+                }
+                else if (idCaja.startsWith('boat-') && (idCaja.match(/\//g) || []).length === 2) {
+                    let nombreSprite = idCaja.substring(idCaja.lastIndexOf('/') + 1);
+                    let coloresSeleccionados = window.selectedSpriteColors || {};
+                    let colorBase = coloresSeleccionados[nombreSprite] || '#A5D6A7';
                     caja.setAttribute('color', colorBase);
                     caja.setAttribute('babiaxrfirstcolor', colorBase);
                 }
@@ -616,6 +625,8 @@ const views = {
     }
 
     let flowData = { broadcasts: {}, variables: {} };
+    let spriteColors = Object.create(null);
+    const SPRITE_HIGHLIGHT_COLOR = '#29B6F6';
     let originalTowerColors = {};
 
     function extractFlowData() {
@@ -624,6 +635,12 @@ const views = {
         projectFlat.forEach(item => {
             if (!originalTowerColors[item.id]) {
                 originalTowerColors[item.id] = item.building_color || '#888888';
+            }
+
+            const pathParts = item.path.split('/');
+            if (pathParts.length >= 4 && pathParts[1] !== 'Memoria_Global') {
+                const spriteName = pathParts[2];
+                spriteColors[spriteName] = SPRITE_HIGHLIGHT_COLOR;
             }
         });
 
@@ -694,32 +711,69 @@ const views = {
 
         console.log("Datos extraídos y unificados correctamente:", flowData);
         buildFlowPanelUI();
+        buildSpritePanelUI();
     }
 
     function buildFlowPanelUI() {
         let container = document.getElementById('flow-panel-content');
         if (!container) return;
 
-        let html = '<h4>Mensajes</h4>';
+        container.innerHTML = '';
+        const appendSection = function(title) {
+            const heading = document.createElement('h4');
+            heading.innerText = title;
+            container.appendChild(heading);
+        };
+        const appendCheckbox = function(target, title, type, key) {
+            const label = document.createElement('label');
+            label.className = 'flow-checkbox-label';
+
+            const checkbox = document.createElement('input');
+            checkbox.className = type === 'sprite' ? 'sprite-checkbox' : 'flow-checkbox';
+            checkbox.type = 'checkbox';
+            checkbox.dataset.type = type;
+            checkbox.dataset.key = key;
+            checkbox.addEventListener('change', updateFlowHighlight);
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(' ' + title));
+            target.appendChild(label);
+        };
+
+        appendSection('Mensajes');
         Object.keys(flowData.broadcasts).sort().forEach(bKey => {
             let bObj = flowData.broadcasts[bKey];
             if (bObj.emit.length > 0 || bObj.receive.length > 0) {
-                html += `<label class="flow-checkbox-label"><input type="checkbox" class="flow-checkbox" value="b_${bKey}"> ${bObj.label}</label>`;
+                appendCheckbox(container, bObj.label, 'broadcast', bKey);
             }
         });
 
-        html += '<h4>Variables</h4>';
+        appendSection('Variables');
         Object.keys(flowData.variables).sort().forEach(vKey => {
             let vObj = flowData.variables[vKey];
             if (vObj.use.length > 0) {
-                html += `<label class="flow-checkbox-label"><input type="checkbox" class="flow-checkbox" value="v_${vKey}"> ${vObj.label}</label>`;
+                appendCheckbox(container, vObj.label, 'variable', vKey);
             }
         });
+    }
 
-        container.innerHTML = html;
+    function buildSpritePanelUI() {
+        let container = document.getElementById('sprite-panel-content');
+        if (!container) return;
 
-        document.querySelectorAll('.flow-checkbox').forEach(cb => {
-            cb.addEventListener('change', updateFlowHighlight);
+        container.innerHTML = '';
+        Object.keys(spriteColors).sort().forEach(spriteName => {
+            const label = document.createElement('label');
+            label.className = 'flow-checkbox-label';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'sprite-checkbox';
+            checkbox.dataset.type = 'sprite';
+            checkbox.dataset.key = spriteName;
+            checkbox.addEventListener('change', updateFlowHighlight);
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(' ' + spriteName));
+            container.appendChild(label);
         });
     }
 
@@ -753,21 +807,33 @@ const views = {
     }
 
     function updateFlowHighlight() {
-        let activeB = []; let activeV = [];
+        let activeB = [];
+        let activeV = [];
+        let activeSprites = [];
         document.querySelectorAll('.flow-checkbox:checked').forEach(cb => {
-            if (cb.value.startsWith('b_')) activeB.push(cb.value.substring(2));
-            if (cb.value.startsWith('v_')) activeV.push(cb.value.substring(2));
+            if (cb.dataset.type === 'broadcast') activeB.push(cb.dataset.key);
+            if (cb.dataset.type === 'variable') activeV.push(cb.dataset.key);
+        });
+        document.querySelectorAll('.sprite-checkbox:checked').forEach(cb => {
+            activeSprites.push(cb.dataset.key);
+        });
+
+        window.selectedSpriteColors = Object.create(null);
+        activeSprites.forEach(spriteName => {
+            window.selectedSpriteColors[spriteName] = spriteColors[spriteName];
         });
 
         projectFlat.forEach(item => {
             item.building_color = originalTowerColors[item.id] || '#888888';
         });
 
-        if (activeB.length > 0 || activeV.length > 0) {
+        const hasFlowHighlights = activeB.length > 0 || activeV.length > 0;
+        if (hasFlowHighlights) {
             let targetColors = {}; 
             
             const VAR_DEFINE_COLOR = '#FF6D00';
             const VAR_USE_COLOR = '#B388FF';
+
             activeV.forEach(v => {
                 let vObj = flowData.variables[v];
                 if (!vObj) return;
