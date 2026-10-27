@@ -1,7 +1,7 @@
 {
     "scratchcity": {
-        "verbose": "El programa es un clon de Flappy Bird con múltiples estados: pantalla de inicio con título [D6] y botón play [D7], juego principal donde [D1] salta al pulsar tecla y evita tubos [D2] y [D3] que se desplazan, sistema de puntuación que dibuja texto en pantalla mediante lápiz [D5], selector de color [D9] que cambia la apariencia del pájaro mediante variables [R20] a [R25], pantalla de reglas [D21] con botón de acceso [D18], y pantalla de game over [D23] con botón de reinicio [D4]. Las colisiones entre [D1] y [D2], [D3], [D24] o [D25] finalizan la partida. Las variables [R33] y [R34] controlan el flujo entre estados. La puntuación máxima se almacena en [R37] y se muestra mediante [D5]. [D1] gestiona el personaje principal del juego. Al iniciar con bandera verde se posiciona en (- 150,0) [E11] y queda oculto en tamaño reducido [E14]. Cuando comienza la partida [E9] se muestra [E13], se sitúa en posición inicial, resetea variables y entra en bucle perpetuo. Responde a pulsaciones de tecla [E6] [E15] aplicando impulso y reproduciendo sonido. Detecta colisiones con [D2], [D3], [D24] y [D25] que activan [E8] enviando [R1] a [D23] y deteniendo el juego. Mantiene orientación fija [E19] y gestión de capas [E18]. Recibe señales de [D4] [R3], [D7] [R9] y [D23] [R69] para reinicio o game over.",
-        "schematic": "<ul><li>Clon de Flappy Bird con múltiples estados: inicio, juego y game over</li><li>Pantalla de inicio con título [D6] y botón play [D7]</li><ul><li>Juego principal: [D1] salta con tecla y evita tubos [D2] y [D3] que se desplazan</li><li>Sistema de puntuación mediante dibujo con lápiz [D5]</li><li>Selector de color [D9] que cambia apariencia de [D1] mediante variables [R20] a [R25]</li></ul><li>Pantalla de reglas [D21] con botón de acceso [D18]</li><li>Pantalla de game over [D23] con botón de reinicio [D4]</li><li>Colisiones entre [D1] y [D2], [D3], [D24] [D25] finalizan la partida</li><li>Variables [R33] y [R34] controlan el flujo entre estados</li><li>Puntuación máxima almacenada en [R37] y mostrada por [D5]</li><li>[D1] gestiona el personaje principal del juego</li><ul><li>Al iniciar con bandera verde se posiciona en (-150,0) [E11] y queda oculto en tamaño reducido [E14]</li></ul><li>Cuando comienza la partida [E9] se muestra [E13], se sitúa en posición inicial, resetea variables y entra en bucle perpetuo</li><li>Responde a pulsaciones de tecla [E6] [E15] aplicando impulso y reproduciendo sonido</li><li>Detecta colisiones con [D2], [D3], [D24] y [D25] que activan [E8] enviando [R1] a [D23] y deteniendo el juego</li><li>Mantiene orientación fija [E19] y gestión de capas [E18]</li><li>Recibe señales de [D4] [R3], [D7] [R9] y [D23] [R69] para reinicio o game</li></ul>",
+        "verbose": "El programa es un clon de Flappy Bird con múltiples estados: pantalla de inicio con título [D6] y botón play [D7], juego principal donde [D1] salta al pulsar tecla y evita tubos [D2] y [D3] que se desplazan, sistema de puntuación que dibuja texto en pantalla mediante lápiz [D5], selector de color [D9] que cambia la apariencia del pájaro mediante la variable [Color], pantalla de reglas [D21] con botón de acceso [D18], y pantalla de game over [D23] con botón de reinicio [D4]. Las colisiones entre [D1] y [D2], [D3], [D24] o [D25] finalizan la partida. Las variables [isGameStart] y [isGameOver] controlan el flujo entre estados. La puntuación máxima se almacena en [Hidh] y se muestra mediante [D5]. [D1] gestiona el personaje principal del juego. Al iniciar con bandera verde se posiciona en (- 150,0) [E11] y queda oculto en tamaño reducido [E14]. Cuando comienza la partida [E9] se muestra [E13], se sitúa en posición inicial, resetea variables y entra en bucle perpetuo. Responde a pulsaciones de tecla [E6] [E15] aplicando impulso y reproduciendo sonido. Detecta colisiones con [D2], [D3], [D24] y [D25] que activan [E8] enviando [gameover] a [D23] y deteniendo el juego. Mantiene orientación fija [E19] y gestión de capas [E18]. Recibe señales de [D4] [GameStart], [D7] [GameStart] y [D23] [stop_game] para reinicio o game over.",
+        "schematic": "<ul><li>Clon de Flappy Bird con múltiples estados: inicio, juego y game over</li><li>Pantalla de inicio con título [D6] y botón play [D7]</li><ul><li>Juego principal: [D1] salta con tecla y evita tubos [D2] y [D3] que se desplazan</li><li>Sistema de puntuación mediante dibujo con lápiz [D5]</li><li>Selector de color [D9] que cambia apariencia de [D1] mediante la variable [Color]</li></ul><li>Pantalla de reglas [D21] con botón de acceso [D18]</li><li>Pantalla de game over [D23] con botón de reinicio [D4]</li><li>Colisiones entre [D1] y [D2], [D3], [D24] [D25] finalizan la partida</li><li>Variables [isGameStart] y [isGameOver] controlan el flujo entre estados</li><li>Puntuación máxima almacenada en [Hidh] y mostrada por [D5]</li><li>[D1] gestiona el personaje principal del juego</li><ul><li>Al iniciar con bandera verde se posiciona en (-150,0) [E11] y queda oculto en tamaño reducido [E14]</li></ul><li>Cuando comienza la partida [E9] se muestra [E13], se sitúa en posición inicial, resetea variables y entra en bucle perpetuo</li><li>Responde a pulsaciones de tecla [E6] [E15] aplicando impulso y reproduciendo sonido</li><li>Detecta colisiones con [D2], [D3], [D24] y [D25] que activan [E8] enviando [gameover] a [D23] y deteniendo el juego</li><li>Mantiene orientación fija [E19] y gestión de capas [E18]</li><li>Recibe señales de [D4] [GameStart], [D7] [GameStart] y [D23] [stop_game] para reinicio o game</li></ul>",
         "id_num": "G1"
     },
     "juego_principal": {
@@ -333,8 +333,8 @@
         "id_num": "E9"
     },
     "flappy_bird_script_2_2": {
-        "verbose": "Al recibir [GameStart], [Flappy Bird] se posiciona en un punto inicial y se ajusta su tamaño. Se detecta continuamente el contacto con [firstPipe], [secondPipe] o el borde, [edge]. Al ocurrir tal contacto, se emite [loss_life], se detienen los demás scripts del sprite y se oculta. Posteriormente se reposiciona y se muestra de nuevo, o se emite [gameover] según corresponda.",
-        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Preparación</li><ul><li>Posicionamiento punto inicial</li><li>Ajuste tamaño</li></ul><li>Detección continua</li><ul><li>Contacto</li><ul><li>[firstPipe]</li><li>[secondPipe]</li><li>[edge]</li></ul></ul><li>Al ocurrir contacto</li><ul><li>Emisión [loss_life]</li><li>Detención demás scripts sprite</li><li>Ocultación</li><li>Reposición y muestra</li><li>O emisión [gameover]</li><li>Según corresponda</li></ul></ul></ul>",
+        "verbose": "Al recibir [GameStart], [Flappy Bird] se posiciona en un punto inicial y se ajusta su tamaño. Se detecta continuamente el contacto con [firstPipe], [secondPipe] o el borde, edge. Al ocurrir tal contacto, se emite [loss_life], se detienen los demás scripts del sprite y se oculta. Posteriormente se reposiciona y se muestra de nuevo, o se emite [gameover] según corresponda.",
+        "schematic": "<ul><li>Recepción [GameStart]</li><ul><li>Preparación</li><ul><li>Posicionamiento punto inicial</li><li>Ajuste tamaño</li></ul><li>Detección continua</li><ul><li>Contacto</li><ul><li>[firstPipe]</li><li>[secondPipe]</li><li>edge</li></ul></ul><li>Al ocurrir contacto</li><ul><li>Emisión [loss_life]</li><li>Detención demás scripts sprite</li><li>Ocultación</li><li>Reposición y muestra</li><li>O emisión [gameover]</li><li>Según corresponda</li></ul></ul></ul>",
         "conexiones": "<p><strong>[gameover]</strong><br>[Flappy Bird] al detectar contacto con obstáculos o borde emite [gameover].</p><ul><li><strong>Recibido por [Game Over Script 1]:</strong> Lo hace mostrarse en primer plano con ajuste de superposición y detener los sonidos.<ul><li>Mostrarse en primer plano y detener sonidos</li></ul></li><li><strong>Recibido por [Game Over Script 2]:</strong> Detiene los demás scripts del sprite emitiendo [stop_game].<ul><li>Detener demás scripts del sprite</li></ul></li><li><strong>Recibido por [Flappy Bird Script 13]:</strong> Lo hace ocultarse y detener sus scripts.<ul><li>Ocultarse y detener sus scripts</li></ul></li><li><strong>Recibido por [secondPipe Script 11]:</strong> Lo hace ocultarse y detener sus scripts.<ul><li>Ocultarse y detener sus scripts</li></ul></li><li><strong>Recibido por [firstPipe Script 10]:</strong> Lo hace ocultarse, detener sus scripts y los sonidos.<ul><li>Ocultarse, detener sus scripts y sonidos</li></ul></li></ul><p><strong>[loss_life]</strong><br>[Flappy Bird] al detectar contacto con obstáculos o borde emite [loss_life].</p><ul><li><strong>Recibido por [Stage Script 8]:</strong> Gestiona la pérdida de vidas mediante [lives], emitiendo [update_hearts].<ul><li>Gestión de pérdida de vidas</li></ul></li><li><strong>Recibido por [life Script 5]:</strong> Gestiona el cambio de disfraz del corazón correspondiente según su posición.<ul><li>Gestión de cambio de disfraz del corazón</li></ul></li></ul>",
         "id_num": "E10"
     },
@@ -369,8 +369,8 @@
         "id_num": "E16"
     },
     "flappy_bird_script_9_9": {
-        "verbose": "Al pulsar la tecla [up arrow], la variable [falling speed] se establece a 10 y se reproduce el sonido [Flapping]. Se espera hasta que la tecla deje de pulsarse. Duplicado funcional del [Flappy Bird Script 1].",
-        "schematic": "<ul><li>Activación</li><ul><li>Pulsación tecla [up arrow]</li></ul><li>Acción</li><ul><li>Establece [falling speed] = 10</li><li>Reproduce sonido [Flapping]</li></ul><li>Espera</li><ul><li>Tecla deje de pulsarse</li></ul><li>Nota</li><ul><li>Duplicado funcional</li><li>[Flappy Bird Script 1]</li></ul></ul>",
+        "verbose": "Al pulsar la tecla up arrow, la variable [falling speed] se establece a 10 y se reproduce el sonido [Flapping]. Se espera hasta que la tecla deje de pulsarse. Duplicado funcional del [Flappy Bird Script 1].",
+        "schematic": "<ul><li>Activación</li><ul><li>Pulsación tecla up arrow</li></ul><li>Acción</li><ul><li>Establece [falling speed] = 10</li><li>Reproduce sonido [Flapping]</li></ul><li>Espera</li><ul><li>Tecla deje de pulsarse</li></ul><li>Nota</li><ul><li>Duplicado funcional</li><li>[Flappy Bird Script 1]</li></ul></ul>",
         "id_num": "E17"
     },
     "flappy_bird_script_10_10": {
@@ -379,13 +379,13 @@
         "id_num": "E18"
     },
     "flappy_bird_script_11_11": {
-        "verbose": "Se cambia al disfraz [pointingDown] y posteriormente a [pointingUp]. Script residual sin condición de activación.",
-        "schematic": "<ul><li>Acción</li><ul><li>Cambio disfraz [pointingDown]</li><li>Cambio disfraz [pointingUp]</li></ul><li>Nota</li><ul><li>Script residual</li><li>Sin condición activación</li></ul></ul>",
+        "verbose": "Se cambia al disfraz pointingDown y posteriormente a pointingUp. Script residual sin condición de activación.",
+        "schematic": "<ul><li>Acción</li><ul><li>Cambio disfraz pointingDown</li><li>Cambio disfraz pointingUp</li></ul><li>Nota</li><ul><li>Script residual</li><li>Sin condición activación</li></ul></ul>",
         "id_num": "E19"
     },
     "flappy_bird_script_12_12": {
-        "verbose": "Se evalúa la variable [direction] sin asignación ni efecto visible. Script residual sin utilidad.",
-        "schematic": "<ul><li>Acción</li><ul><li>Evaluación [direction]</li><li>Sin asignación</li><li>Sin efecto visible</li></ul><li>Nota</li><ul><li>Script residual</li><li>Sin utilidad</li></ul></ul>",
+        "verbose": "Se evalúa la variable direction sin asignación ni efecto visible. Script residual sin utilidad.",
+        "schematic": "<ul><li>Acción</li><ul><li>Evaluación direction</li><li>Sin asignación</li><li>Sin efecto visible</li></ul><li>Nota</li><ul><li>Script residual</li><li>Sin utilidad</li></ul></ul>",
         "id_num": "E20"
     },
     "flappy_bird_script_13_13": {
@@ -548,7 +548,7 @@
     "restart_button_script_5_5": {
         "verbose": "Al pulsar el [Restart Button], se emite [GameStart]. Inicia la transición desde la pantalla de [Fin del Juego] hacia la del [Juego Principal].",
         "schematic": "<ul><li>Activación</li><ul><li>Pulsar [Restart Button]</li></ul><li>Acción</li><ul><li>Emisión [GameStart]</li></ul><li>Función</li><ul><li>Inicia transición</li><li>Desde pantalla [Fin del Juego]</li><li>Hacia pantalla [Juego Principal]</li></ul></ul>",
-        "conexiones": "<p><strong>[GameStart]</strong><br>[Restart Button] al ser pulsado emite [GameStart].</p><ul><li><strong>Recibido por [Stage Script 3]:</strong> Transita la aplicación al estado de [Juego Principal] mediante fondo y variables.<ul><li>Transita a estado [Juego Principal]</li><li>Mediante fondo y variables</li></ul></li><li><strong>Recibido por [Flappy Bird Script 2]:</strong> Hace posicionarse en el punto inicial y detectar el contacto con otros sprites y el borde de la pantalla.<ul><li>Posicionamiento en punto inicial</li><li>Detección de contacto con sprites y borde</li></ul></li><li><strong>Recibido por [Flappy Bird Script 3]:</strong> Gestiona la lógica de la puntuación y la velocidad vertical.<ul><li>Gestión lógica de puntuación y velocidad vertical</li></ul></li><li><strong>Recibido por [Flappy Bird Script 7]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Flappy Bird Script 10]:</strong> Gestiona la lógica de la velocidad y el sonido a través de la detección de clic de ratón.<ul><li>Gestión lógica de velocidad y sonido</li></ul></li><li><strong>Recibido por [Flappy Bird Script 15]:</strong> Gestiona la orientación visual del sprite según el movimiento vertical.<ul><li>Gestión de orientación visual según movimiento</li></ul></li><li><strong>Recibido por [secondPipe Script 2]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [secondPipe Script 3]:</strong> Establece la posición del obstáculo según el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [secondPipe Script 4]:</strong> Gestiona el desplazamiento horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [secondPipe Script 8]:</strong> Lo hace mostrarse en primer plano con ajuste de superposición.<ul><li>Mostrarse en primer plano con ajuste de superposición</li></ul></li><li><strong>Recibido por [firstPipe Script 2]:</strong> Gestiona el desplazamiento en el eje horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [firstPipe Script 3]:</strong> Establece la posición del obstáculo en el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [firstPipe Script 4]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [firstPipe Script 5]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [firstPipe Script 7]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [ground Script 2]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [ground2 Script 3]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Game Over Script 4]:</strong> Hace ocultarse para dar paso al [Juego Principal].<ul><li>Ocultarse para dar paso a [Juego Principal]</li></ul></li></ul>",
+        "conexiones": "<p><strong>[GameStart]</strong><br>[Restart Button] al ser pulsado emite [GameStart].</p><ul><li><strong>Recibido por [Stage Script 3]:</strong> Transita la aplicación al estado de [Juego Principal] mediante fondo y variables.<ul><li>Transita a estado [Juego Principal]</li><li>Mediante fondo y variables</li></ul></li><li><strong>Recibido por [Flappy Bird Script 2]:</strong> Hace posicionarse en el punto inicial y detectar el contacto con otros sprites y el borde de la pantalla.<ul><li>Posicionamiento en punto inicial</li><li>Detección de contacto con sprites y borde</li></ul></li><li><strong>Recibido por [Flappy Bird Script 3]:</strong> Gestiona la lógica de la puntuación y la velocidad vertical.<ul><li>Gestión lógica de puntuación y velocidad vertical</li></ul></li><li><strong>Recibido por [Flappy Bird Script 7]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Flappy Bird Script 10]:</strong> Gestiona la lógica de la velocidad y el sonido a través de la detección de clic de ratón.<ul><li>Gestión lógica de velocidad y sonido</li></ul></li><li><strong>Recibido por [Flappy Bird Script 15]:</strong> Gestiona la orientación visual del sprite según el movimiento vertical.<ul><li>Gestión de orientación visual según movimiento</li></ul></li><li><strong>Recibido por [secondPipe Script 2]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [secondPipe Script 3]:</strong> Establece la posición del obstáculo según el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [secondPipe Script 4]:</strong> Gestiona el desplazamiento horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [secondPipe Script 8]:</strong> Lo hace mostrarse en primer plano con ajuste de superposición.<ul><li>Mostrarse en primer plano con ajuste de superposición</li></ul></li><li><strong>Recibido por [firstPipe Script 2]:</strong> Gestiona el desplazamiento en el eje horizontal, el reaparecimiento cíclico y el cambio de disfraz.<ul><li>Gestión de desplazamiento horizontal y reaparición</li></ul></li><li><strong>Recibido por [firstPipe Script 3]:</strong> Establece la posición del obstáculo en el eje vertical.<ul><li>Establecimiento de posición en eje vertical</li></ul></li><li><strong>Recibido por [firstPipe Script 4]:</strong> Gestiona la puntuación del juego a partir de la detección del paso de [Flappy Bird].<ul><li>Gestión de puntuación del juego</li></ul></li><li><strong>Recibido por [firstPipe Script 5]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [firstPipe Script 7]:</strong> Lo hace mostrarse en primer plano.<ul><li>Mostrarse en primer plano</li></ul></li><li><strong>Recibido por [ground Script 2]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [ground2 Script 3]:</strong> Lo hace mostrarse en pantalla.<ul><li>Mostrarse en pantalla</li></ul></li><li><strong>Recibido por [Game Over Script 3]:</strong> Hace ocultarse para dar paso al [Juego Principal].<ul><li>Ocultarse para dar paso a [Juego Principal]</li></ul></li></ul>",
         "id_num": "E52"
     },
     "text_engine_script_1_1": {
@@ -557,8 +557,8 @@
         "id_num": "E53"
     },
     "text_engine_script_2_2": {
-        "verbose": "Se cambia al disfraz [Lowercase Checker] y posteriormente al disfraz indicado por [letter]. Se evalúa [capslock] y se establece [lowercase?] en función de si el disfraz corresponde a una letra minúscula.",
-        "schematic": "<ul><li>Cambios disfraz</li><ul><li>[Lowercase Checker]</li><li>Disfraz indicado por [letter]</li></ul><li>Evaluación [capslock]</li><li>Establecimiento [lowercase?]</li><ul><li>En función disfraz minúscula</li></ul></ul>",
+        "verbose": "Se cambia al disfraz Lowercase Checker y posteriormente al disfraz indicado por [letter]. Se evalúa [capslock] y se establece [lowercase?] en función de si el disfraz corresponde a una letra minúscula.",
+        "schematic": "<ul><li>Cambios disfraz</li><ul><li>Lowercase Checker</li><li>Disfraz indicado por [letter]</li></ul><li>Evaluación [capslock]</li><li>Establecimiento [lowercase?]</li><ul><li>En función disfraz minúscula</li></ul></ul>",
         "id_num": "E54"
     },
     "text_engine_script_3_3": {
@@ -582,33 +582,33 @@
         "id_num": "E58"
     },
     "text_engine_script_7_7": {
-        "verbose": "Se recibe [N] y se calcula el salto de línea. Si se supera el límite inferior, se marca [end?]. Se desplaza la posición vertical.",
-        "schematic": "<ul><li>Recepción [N]</li><li>Cálculo salto línea</li><li>Evaluación límite inferior</li><ul><li>Si se supera</li><li>Marcado [end?]</li></ul><li>Desplazamiento posición vertical</li></ul>",
+        "verbose": "Se recibe N y se calcula el salto de línea. Si se supera el límite inferior, se marca end?. Se desplaza la posición vertical.",
+        "schematic": "<ul><li>Recepción N</li><li>Cálculo salto línea</li><li>Evaluación límite inferior</li><ul><li>Si se supera</li><li>Marcado end?</li></ul><li>Desplazamiento posición vertical</li></ul>",
         "id_num": "E59"
     },
     "text_engine_script_8_8": {
-        "verbose": "Se establecen el matiz y la luminosidad del lápiz mediante [c] y [b].",
-        "schematic": "<ul><li>Establecimiento matiz lápiz</li><ul><li>Mediante [c]</li></ul><li>Establecimiento luminosidad lápiz</li><ul><li>Mediante [b]</li></ul></ul>",
+        "verbose": "Se establecen el matiz y la luminosidad del lápiz mediante c y b.",
+        "schematic": "<ul><li>Establecimiento matiz lápiz</li><ul><li>Mediante c</li></ul><li>Establecimiento luminosidad lápiz</li><ul><li>Mediante b</li></ul></ul>",
         "id_num": "E60"
     },
     "text_engine_script_9_9": {
-        "verbose": "Se establece [bold] a [b].",
-        "schematic": "<ul><li>Establecimiento [bold]</li><ul><li>A [b]</li></ul></ul>",
+        "verbose": "Se establece [bold] a b.",
+        "schematic": "<ul><li>Establecimiento [bold]</li><ul><li>A b</li></ul></ul>",
         "id_num": "E61"
     },
     "text_engine_script_10_10": {
-        "verbose": "Se establece [italics] a [i] si está entre -11 y 11, o a 0 en caso contrario.",
-        "schematic": "<ul><li>Evaluación [i]</li><li>Condición</li><ul><li>Si entre -11 y 11</li><ul><li>Establece [italics] a [i]</li></ul><li>En caso contrario</li><ul><li>Establece [italics] a 0</li></ul></ul></ul>",
+        "verbose": "Se establece [italics] a i si está entre -11 y 11, o a 0 en caso contrario.",
+        "schematic": "<ul><li>Evaluación i</li><li>Condición</li><ul><li>Si entre -11 y 11</li><ul><li>Establece [italics] a i</li></ul><li>En caso contrario</li><ul><li>Establece [italics] a 0</li></ul></ul></ul>",
         "id_num": "E62"
     },
     "text_engine_script_11_11": {
-        "verbose": "Se establece [underline] a [u] si no es 0, o a 0 en caso contrario.",
-        "schematic": "<ul><li>Evaluación [u]</li><li>Condición</li><ul><li>Si no es 0</li><ul><li>Establece [underline] a [u]</li></ul><li>En caso contrario</li><ul><li>Establece [underline] a 0</li></ul></ul></ul>",
+        "verbose": "Se establece [underline] a u si no es 0, o a 0 en caso contrario.",
+        "schematic": "<ul><li>Evaluación u</li><li>Condición</li><ul><li>Si no es 0</li><ul><li>Establece [underline] a u</li></ul><li>En caso contrario</li><ul><li>Establece [underline] a 0</li></ul></ul></ul>",
         "id_num": "E63"
     },
     "text_engine_script_12_12": {
-        "verbose": "Se establece [capslock] a [c] si está entre -1 y 3, o a 0 en caso contrario.",
-        "schematic": "<ul><li>Evaluación [c]</li><li>Condición</li><ul><li>Si entre -1 y 3</li><ul><li>Establece [capslock] a [c]</li></ul><li>En caso contrario</li><ul><li>Establece [capslock] a 0</li></ul></ul></ul>",
+        "verbose": "Se establece [capslock] a c si está entre -1 y 3, o a 0 en caso contrario.",
+        "schematic": "<ul><li>Evaluación c</li><li>Condición</li><ul><li>Si entre -1 y 3</li><ul><li>Establece [capslock] a c</li></ul><li>En caso contrario</li><ul><li>Establece [capslock] a 0</li></ul></ul></ul>",
         "id_num": "E64"
     },
     "text_engine_script_13_13": {
@@ -622,8 +622,8 @@
         "id_num": "E66"
     },
     "text_engine_script_15_15": {
-        "verbose": "Se establece el color del lápiz mediante [r], [g] y [b].",
-        "schematic": "<ul><li>Establecimiento color lápiz</li><ul><li>Mediante [r]</li><li>Mediante [g]</li><li>Mediante [b]</li></ul></ul>",
+        "verbose": "Se establece el color del lápiz mediante r, g y b.",
+        "schematic": "<ul><li>Establecimiento color lápiz</li><ul><li>Mediante r</li><li>Mediante g</li><li>Mediante b</li></ul></ul>",
         "id_num": "E67"
     },
     "text_engine_script_16_16": {
@@ -1110,7 +1110,7 @@
     "game_over_script_2_2": {
         "verbose": "Al iniciar la aplicación, [Game Over] se posiciona en la coordenada inicial, se lleva al fondo y se oculta.",
         "schematic": "<ul><li>Activación</li><ul><li>Inicio aplicación</li></ul><li>Acciones</li><ul><li>Posicionamiento coordenada inicial</li><li>Lleva al fondo</li><li>Oculta [Game Over]</li></ul></ul>",
-        "conexiones": "<p><strong>[stop_game]</strong><br>[Game Over] al concluir la partida emite [stop_game].</p><ul><li><strong>Recibido por [ground Script 4]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [ground2 Script 5]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [Flappy Bird Script 16]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [secondPipe Script 12]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li><li><strong>Recibido por [firstPipe Script 11]:</strong> Detiene sus scripts.<ul><li>Detener sus scripts</li></ul></li></ul>",
+        "conexiones": "<p>Este script se ejecuta al iniciar y oculta [Game Over]. No emite ni recibe mensajes.</p>",
         "id_num": "E160"
     },
     "game_over_script_3_3": {
@@ -1191,13 +1191,13 @@
         "id_num": "E173"
     },
     "all_in_one!_script_4_4": {
-        "verbose": "Se recibe el mensaje [intro]. Script residual sin utilidad.",
-        "schematic": "<ul><li><strong>Recepción:</strong> [intro]</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
+        "verbose": "Se recibe el mensaje intro. Script residual sin utilidad.",
+        "schematic": "<ul><li><strong>Recepción:</strong> intro</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
         "id_num": "E176"
     },
     "all_in_one!_script_5_5": {
-        "verbose": "Al recibir [intro], no se ejecuta ninguna acción visible. Script residual sin utilidad.",
-        "schematic": "<ul><li><strong>Recepción:</strong> [intro]</li><li><strong>Nota:</strong> Script residual, sin acción visible, sin utilidad</li></ul>",
+        "verbose": "Al recibir intro, no se ejecuta ninguna acción visible. Script residual sin utilidad.",
+        "schematic": "<ul><li><strong>Recepción:</strong> intro</li><li><strong>Nota:</strong> Script residual, sin acción visible, sin utilidad</li></ul>",
         "id_num": "E177"
     },
     "all_in_one!_script_6_6": {
@@ -1222,8 +1222,8 @@
         "id_num": "E182"
     },
     "all_in_one!_script_10_10": {
-        "verbose": "Al iniciar la aplicación, se cambia al disfraz [ghost_nonexistent]. Script residual sin utilidad.",
-        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acción:</strong> Cambio disfraz [ghost_nonexistent]</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
+        "verbose": "Al iniciar la aplicación, se cambia al disfraz ghost_nonexistent. Script residual sin utilidad.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acción:</strong> Cambio disfraz ghost_nonexistent</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
         "id_num": "E182"
     },
     "life_script_1_1": {
@@ -1243,8 +1243,8 @@
         "schematic": "<ul><li><strong>Recepción:</strong> [delete_hearts]</li><li><strong>Acción:</strong> Elimina este clon</li></ul>"
     },
     "life_script_5_5": {
-        "verbose": "Al recibir [loss_life], comprueba si la posición x del clon es igual a -220 + ([lives] * 30). Si se cumple, cambia al disfraz [costume].",
-        "schematic": "<ul><li><strong>Recepción:</strong> [loss_life]</li><li><strong>Condición:</strong> Comprueba si x es igual a -220 + ([lives] * 30)</li><li><strong>Acción si se cumple:</strong> Cambia al disfraz [costume]</li></ul>",
+        "verbose": "Al recibir [loss_life], comprueba si la posición x del clon es igual a -220 + ([lives] * 30). Si se cumple, cambia al disfraz costume.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [loss_life]</li><li><strong>Condición:</strong> Comprueba si x es igual a -220 + ([lives] * 30)</li><li><strong>Acción si se cumple:</strong> Cambia al disfraz costume</li></ul>",
         "conexiones": "<p><strong>[loss_life]</strong><br>[Flappy Bird] emite [loss_life] al perder una vida.</p><ul><li><strong>Recibido por [life Script 5]:</strong> Comprueba la posición x del clon y cambia el disfraz del corazón correspondiente.</li><li><strong>Variable leída:</strong> [lives]</li></ul>"
     },
     "life_script_6_6": {
@@ -1268,8 +1268,8 @@
         "schematic": "<ul><li>[Flappy Bird] al recibir [GameStart] inicializa Score a 0 </li><li>[secondPipe Script 2] incrementa Score cuando personaje pasa posición x de tubería </li><li>[firstPipe Script 4] incrementa Score cuando personaje pasa posición x de tubería </li><li>Leído por:</li><ul><li>[Text Engine Script 13] (mostrar puntuación actual) </li><li>[Text Engine Script 17] (comparar con récord alto) </li></ul></ul>"
     },
     "var_fallingspeed": {
-        "verbose": "[Flappy Bird Script 1], [Flappy Bird Script 9] y [Flappy Bird Script 10] al recibir pulsaciones de tecla [space] o [up arrow], o clic de ratón, establecen falling speed a 10. Al recibir [GameStart] en [Flappy Bird Script 3] lo inicializa a 0. Este valor es leído por [Flappy Bird Script 3] (cambio de posición y) y por [Flappy Bird Script 15] (determinación de ángulo de rotación).",
-        "schematic": "<ul><li>[Flappy Bird Script 1] al pulsar [space] establece falling speed a 10 </li><li>[Flappy Bird Script 9] al pulsar [up arrow] establece falling speed a 10 </li><li>[Flappy Bird Script 10] al clic de ratón establece falling speed a 10 </li><li>[Flappy Bird Script 3] al recibir [GameStart] inicializa falling speed a 0 </li><li>Leído por:</li><ul><li>[Flappy Bird Script 3] (cambio de posición y) </li><li>[Flappy Bird Script 15] (determinación ángulo de rotación) </li></ul></ul>"
+        "verbose": "[Flappy Bird Script 1], [Flappy Bird Script 9] y [Flappy Bird Script 10] al recibir pulsaciones de tecla space o up arrow, o clic de ratón, establecen falling speed a 10. Al recibir [GameStart] en [Flappy Bird Script 3] lo inicializa a 0. Este valor es leído por [Flappy Bird Script 3] (cambio de posición y) y por [Flappy Bird Script 15] (determinación de ángulo de rotación).",
+        "schematic": "<ul><li>[Flappy Bird Script 1] al pulsar space establece falling speed a 10 </li><li>[Flappy Bird Script 9] al pulsar up arrow establece falling speed a 10 </li><li>[Flappy Bird Script 10] al clic de ratón establece falling speed a 10 </li><li>[Flappy Bird Script 3] al recibir [GameStart] inicializa falling speed a 0 </li><li>Leído por:</li><ul><li>[Flappy Bird Script 3] (cambio de posición y) </li><li>[Flappy Bird Script 15] (determinación ángulo de rotación) </li></ul></ul>"
     },
     "var_color": {
         "verbose": "Los botones de color ([Yellow Script 5], [Green Script 5], etc.) al ser pulsados establecen Color a su respectivo valor. Este valor es leído por [Flappy Bird Script 6], donde compara Color con múltiples valores para aplicar el efecto de color correspondiente al disfraz del personaje, y por [flappybirdguy Script 4], donde realiza la misma comparación para actualizar la apariencia de referencia en la pantalla de [Personalización].",
@@ -1336,7 +1336,7 @@
         "schematic": "<ul><li>Ajuste de índice </li><li>[Text Engine Script 2] al ejecutar Check if letter is lowercase </li><ul><li>Compara número de disfraz con 1 </li><li>Establece lowercase? a 100 en consecuencia </li><li>Salvo que capslock esté activo, donde invierte el valor </li></ul><li>Leído por [Text Engine Script 3] </li><ul><li>Multiplica por 67 </li><li>Suma al índice a </li><li>Ajusta posición en data según sea letra mayúscula o minúscula </li></ul></ul>"
     },
     "var_randomnumber": {
-        "verbose": "Cuando la variable randomnumber toma un valor entre 1 y 3 en [secondPipe Script 1], la aplicación configura el obstáculo con el disfraz [upperHole], [middlePipe] o [lowerHole], modificando la disposición del hueco por el que debe pasar [Flappy Bird]. Lo mismo ocurre en [firstPipe Script 1] para la primera tubería, generando variabilidad en el nivel cada vez que los obstáculos se reposicionan.",
-        "schematic": "<ul><li>Selección de disfraz </li><li>Al ejecutar random costume genera un valor aleatorio entre 1 y 3 </li><li>Almacena en randomnumber </li><li>Leído por los scripts de tuberías </li><ul><li>Si es 1 selecciona disfraz [upperHole] </li><li>Si es 2 selecciona disfraz [middlePipe] </li><li>Si es 3 selecciona disfraz [lowerHole] </li></ul><li>Determina configuración del obstáculo en cada aparición </li></ul>"
+        "verbose": "Cuando la variable randomnumber toma un valor entre 1 y 3 en [secondPipe Script 1], la aplicación configura el obstáculo con uno de los disfraces «upperHole», «middlePipe» o «lowerHole», modificando la disposición del hueco por el que debe pasar [Flappy Bird]. Lo mismo ocurre en [firstPipe Script 1] para la primera tubería, generando variabilidad en el nivel cada vez que los obstáculos se reposicionan.",
+        "schematic": "<ul><li>Selección de disfraz </li><li>Al ejecutar random costume genera un valor aleatorio entre 1 y 3 </li><li>Almacena en randomnumber </li><li>Leído por los scripts de tuberías </li><ul><li>Si es 1 selecciona el disfraz «upperHole» </li><li>Si es 2 selecciona el disfraz «middlePipe» </li><li>Si es 3 selecciona el disfraz «lowerHole» </li></ul><li>Determina configuración del obstáculo en cada aparición </li></ul>"
     }
 }

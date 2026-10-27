@@ -193,6 +193,39 @@ const views = {
     var districtIndex = {};
     var scriptIndex = {};
     var referenceMap = {};
+    const scriptReferenceAliases = {
+        flappy_bird_script_1_1: ['Flapping'],
+        'all_in_one!_script_7_7': ['Å'],
+        text_engine_script_2_2: ['letter'],
+        text_engine_script_6_6: ['a', 'data'],
+        text_engine_script_4_4: ['getWordLengths', 'Type'],
+        text_engine_script_5_5: ['printLetter'],
+        text_engine_script_3_3: ['findData', 'data', 'string', 'wordLengths', 'letterSpots', 'words'],
+        text_engine_script_13_13: ['Set Score'],
+        text_engine_script_17_17: ['Update High Score']
+    };
+
+    function normalizeReferenceName(value) {
+        return value.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]/g, "");
+    }
+
+    function registerReference(target, aliases) {
+        let referenceCode = target.data.id_num || target.data.id;
+        if (referenceCode) {
+            referenceMap[referenceCode.toUpperCase()] = target;
+        }
+
+        [target.data.id, target.data.id_num].concat(aliases || []).forEach(alias => {
+            if (!alias) return;
+            let normalizedAlias = normalizeReferenceName(alias);
+            if (normalizedAlias && !referenceMap[normalizedAlias]) {
+                referenceMap[normalizedAlias] = target;
+            }
+        });
+    }
 
     (function buildIndexes() {
         projectFlat.forEach(function(item) {
@@ -219,37 +252,63 @@ const views = {
 
     function buildReferenceMap() {
         if (projectData) {
-            if (projectData.id_num) {
-                referenceMap[projectData.id_num.toUpperCase()] = { type: 'city', data: projectData };
-            }
+            registerReference({ type: 'city', data: projectData }, ['Ciudad Completa']);
 
             if (projectData.broadcast) {
                 projectData.broadcast.forEach(broadcast => {
-                    if (broadcast.id_num) {
-                        referenceMap[broadcast.id_num.toUpperCase()] = { type: 'broadcast', data: broadcast };
-                    }
+                    registerReference({ type: 'broadcast', data: broadcast });
                 });
             }
+
+            projectFlat.forEach(item => {
+                if (!item.script_blocks) return;
+                const messageRegex = /(?:broadcast|enviar|when I receive|al recibir)\s*[[({"]([^\])}"]+?)(?: v)?[\])}"]/gi;
+                let match;
+                while ((match = messageRegex.exec(item.script_blocks)) !== null) {
+                    const messageName = match[1].trim();
+                    if (referenceMap[normalizeReferenceName(messageName)]) continue;
+                    registerReference({
+                        type: 'broadcast',
+                        data: { id: messageName }
+                    });
+                }
+            });
             
             projectData.children.forEach(region => {
-                if (region.id_num) {
-                    referenceMap[region.id_num.toUpperCase()] = { type: 'region', data: region };
-                }
+                let regionTarget = { type: 'region', data: region };
+                let regionAliases = region.id_num === 'B5'
+                    ? ['Fin de Juego']
+                    : region.id_num === 'B6'
+                        ? ['Personalización', 'Customización']
+                        : [];
+                registerReference(regionTarget, regionAliases);
 
                 if (region.children) {
                     region.children.forEach(district => {
-                        if (district.id_num) {
-                            referenceMap[district.id_num.toUpperCase()] = { type: 'district', data: district };
-                        }
+                        let districtTarget = { type: 'district', data: district, parent: region };
+                        registerReference(districtTarget);
                         if (district.children) {
-                            district.children.forEach(script => {
+                            district.children.forEach((script, index) => {
                                 let flatData = projectFlat.find(item => item.id === script.id);
-                                if (flatData && flatData.id_num) {
-                                    referenceMap[flatData.id_num.toUpperCase()] = { type: 'tower', data: flatData, parent: district };
-                                }
+                                if (!flatData) return;
+                                let spriteName = district.id.replace(/_/g, ' ');
+                                let scriptAliases = [
+                                    spriteName + ' Script ' + (index + 1),
+                                    spriteName + ' ' + (index + 1),
+                                    flatData.nombre_natural,
+                                    flatData.nombre_corto,
+                                    ...(scriptReferenceAliases[flatData.id] || [])
+                                ];
+                                registerReference({ type: 'tower', data: flatData, parent: district }, scriptAliases);
                             });
                         }
                     });
+                }
+            });
+
+            projectFlat.forEach(item => {
+                if (item.id.startsWith('var_')) {
+                    registerReference({ type: 'variable', data: item }, [item.id.slice(4)]);
                 }
             });
         }
@@ -269,50 +328,11 @@ const views = {
             let cleanText = innerText.trim();
             let upperText = cleanText.toUpperCase();
 
-            let target = referenceMap[upperText];
+            let target = referenceMap[upperText] || referenceMap[normalizeReferenceName(cleanText)];
 
-            if (!target) {
-                let searchKey = cleanText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
-
-                for (let key in referenceMap) {
-                    let item = referenceMap[key];
-
-                    if (item.type === 'city' && (searchKey === 'stage' || searchKey === 'ciudad_completa')) {
-                        target = item; break;
-                    }
-                    if (item.type === 'district' || item.type === 'region' || item.type === 'broadcast') {
-                        let itemIdNormalized = item.data.id.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
-                        if (itemIdNormalized === searchKey) {
-                            target = item; break;
-                        }
-                    }
-                    if (item.type === 'variable') {
-                        let varNameSinPrefijo = item.data.id.toLowerCase().replace(/^var_/, '');
-                        let varNameNormalized = varNameSinPrefijo.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
-                        
-                        if (varNameNormalized === searchKey || item.data.id.toLowerCase() === searchKey) {
-                            target = item; break;
-                        }
-                    }
-                    if (item.type === 'tower') {
-                        let nomNat = (item.data.nombre_natural || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '_');
-                        let towerId = item.data.id.toLowerCase().replace(/ /g, '_');
-                        
-                        let towerIdWithoutSuffix = towerId.replace(/_\d+$/, ''); 
-
-                        let searchKeyLimpia = searchKey.replace(/_/g, '');
-                        let towerIdLimpia = towerIdWithoutSuffix.replace(/_/g, '');
-
-                        if (nomNat === searchKey || towerId === searchKey || towerIdWithoutSuffix === searchKey || towerIdLimpia === searchKeyLimpia) {
-                            target = item; break;
-                        }
-                    }
-                }
-            }
-
-            if (target && (target.data.id_num || target.type === 'variable' || target.type === 'tower')) {
+            if (target) {
                 
-                let refCode = target.data.id_num ? target.data.id_num.toUpperCase() : target.data.id;
+                let refCode = target.data.id_num ? target.data.id_num.toUpperCase() : target.data.id.toUpperCase();
                 let nombreReal = cleanText; 
 
                 if (cleanText.toUpperCase() === refCode.toUpperCase()) {
@@ -696,6 +716,16 @@ const views = {
             });
         });
 
+        Object.keys(flowData.broadcasts).forEach(broadcastKey => {
+            const broadcast = flowData.broadcasts[broadcastKey];
+            if (!referenceMap[normalizeReferenceName(broadcast.label)]) {
+                registerReference({
+                    type: 'broadcast',
+                    data: { id: broadcast.label }
+                });
+            }
+        });
+
         console.log("Datos extraídos y unificados correctamente:", flowData);
         buildFlowPanelUI();
         buildSpritePanelUI();
@@ -841,19 +871,5 @@ const views = {
     }
 
     setTimeout(extractFlowData, 2000);
-
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            if (typeof projectFlat !== 'undefined' && typeof referenceMap !== 'undefined') {
-                projectFlat.forEach(item => {
-                    if (item.id.startsWith('var_')) {
-                        referenceMap[item.id.toUpperCase()] = { type: 'variable', data: item };
-                        referenceMap[item.id] = { type: 'variable', data: item }; 
-                    }
-                });
-                
-            }
-        }, 1500);
-    });
 
   
