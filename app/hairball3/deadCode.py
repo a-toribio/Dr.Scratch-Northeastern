@@ -105,7 +105,7 @@ class DeadCode(Plugin):
                 
                 # Check dead loop blocks
                 if self.is_loop_block(blocks_dicc) and blocks_dicc["opcode"] not in self.blocks_list:
-                    if blocks_dicc["parent"] == None:
+                    if blocks_dicc.get("topLevel") and blocks_dicc.get("parent") is None:
                         self.handle_loop_block(blocks_dicc, dicc, blocks)                  
         self.blocks_list
     
@@ -125,7 +125,7 @@ class DeadCode(Plugin):
 
 
     def handle_general_block(self, blocks_dicc, dicc, blocks):
-        if blocks_dicc.get("parent") == None:
+        if blocks_dicc.get("topLevel") and blocks_dicc.get("parent") is None:
             self.store_script(dicc, blocks)
 
             if self.has_next_block(blocks_dicc):
@@ -209,4 +209,3 @@ class DeadCode(Plugin):
         dict_result = {'plugin': 'dead_code', 'result': self.dict_mastery, 'babia': self.dict_babia}
 
         return dict_result
-
