@@ -87,6 +87,10 @@ class DeadCode(Plugin):
             self.currScript += 1
             self.dict_babia[self.sprite][f'script_{self.currScript}'] = 0
 
+        # A custom-block definition is a declaration, not an unreachable event script.
+        if blocks_dicc.get("opcode") == "procedures_definition":
+            return
+
         is_event = self.is_event_var(blocks_dicc)
         is_loop = self.is_loop_block(blocks_dicc)
         is_menu = self.is_menu_block(blocks_dicc)
@@ -205,6 +209,4 @@ class DeadCode(Plugin):
         dict_result = {'plugin': 'dead_code', 'result': self.dict_mastery, 'babia': self.dict_babia}
 
         return dict_result
-
-
 
