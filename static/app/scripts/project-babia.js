@@ -27,9 +27,9 @@ function paintCityBoxes(cajas) {
         let idCaja = caja.id || "";
         let colorBase;
 
-        if (idCaja.endsWith('Stage')) {
+        if (idCaja === 'boat-' + window.projectData.tree_root || idCaja === window.projectData.tree_root) {
             colorBase = '#388E3C';
-        } else if (idCaja.startsWith('boat-') && (idCaja.match(/\//g) || []).length === 2) {
+        } else if (idCaja.startsWith('boat-') && (idCaja.match(/\//g) || []).length === 3) {
             let nombreSprite = idCaja.substring(idCaja.lastIndexOf('/') + 1);
             colorBase = window.selectedSpriteColors[nombreSprite] || '#A5D6A7';
         } else if (idCaja.includes('script') || idCaja.includes('var_')) {
@@ -37,7 +37,7 @@ function paintCityBoxes(cajas) {
             if (item) colorBase = item.building_color;
         } else if (idCaja.startsWith('boat-')) {
             let numeroDeBarras = (idCaja.match(/\//g) || []).length;
-            colorBase = numeroDeBarras === 1 ? '#4CAF50' : numeroDeBarras === 2 ? '#A5D6A7' : '#bdefb7';
+            colorBase = numeroDeBarras === 2 ? '#4CAF50' : numeroDeBarras === 3 ? '#A5D6A7' : '#bdefb7';
 
             if (idCaja.includes('Memoria_Global')) {
                 colorBase = '#FFD54F';
@@ -229,7 +229,7 @@ const views = {
 
     (function buildIndexes() {
         projectFlat.forEach(function(item) {
-            var parts = item.path.split('/');
+            var parts = item.path.split('/').filter(Boolean);
             var rootName   = parts[0];  // "ScratchCity"
             var regionName = parts[1];  // "Juego Principal"
             var spriteName = parts[2];  // "flappy_bird"
@@ -423,7 +423,7 @@ const views = {
                 let parts = cleanId.split('/');
                 let baseId = parts[parts.length - 1]; 
                 
-                if (checkId.endsWith('Stage') || checkId === 'boat-Stage' || baseId === 'Stage') {
+                if (checkId === 'boat-' + projectData.tree_root || checkId === projectData.tree_root) {
                     return { type: 'city', data: projectData }; 
                 }
 
@@ -461,7 +461,7 @@ const views = {
         pushToHistory('district', nodeData);
 
         let nodeType = 'district';
-        if (nodeData.id === "Stage") nodeType = 'city';
+        if (nodeData.node_type === "City") nodeType = 'city';
         else if (nodeData.node_type === "Region") nodeType = 'region';
         
         ui.title.innerText = nodeType === 'city' ? "Proyecto completo" : (nodeType === 'region' ? "Distrito" : "Sprite");
@@ -644,7 +644,7 @@ const views = {
                 originalTowerColors[item.id] = item.building_color || '#888888';
             }
 
-            const pathParts = item.path.split('/');
+            const pathParts = item.path.split('/').filter(Boolean);
             if (pathParts.length >= 4 && pathParts[1] !== 'Memoria_Global') {
                 const spriteName = pathParts[2];
                 spriteColors[spriteName] = SPRITE_HIGHLIGHT_COLOR;

@@ -1742,8 +1742,7 @@ def get_babia(request):
 def get_region_for_sprite(sprite_name):
     regions = {
         "Juego Principal": ["flappy bird", "firstpipe", "secondpipe", "ground", "ground2"],
-        "Control del Juego": ["stage"],
-        "Fin del Juego": ["game over", "restart button", "life"],
+        "Control del Juego": ["stage", "game over", "restart button", "life"],
         "Puntuación": ["text engine"],
         "Menú Principal": ["flappy bird title page", "flappy bird sign", "playbutton", "title"],
         "Personalización": ["change color button", "color picker", "flappybirdguy", "yellow", "green", "blue", "pink", "red", "orange", "back button"],
@@ -1766,14 +1765,16 @@ def format_babia_dict(d: dict):
         for script_key, script_value in script_dicc.items():
             colors[sprite_name][script_key] = '#0D47A1'
 
-    city_ai_data = FLAPPY_PERSPECTIVES.get("stage", {
+    city_ai_data = FLAPPY_PERSPECTIVES.get("scratchcity", {
         "verbose": "Vista general del proyecto no disponible.",
         "schematic": "<p>Sin esquema global.</p>",
         "id_num": "G1"
     })
 
     data = {
-        "id": "Stage",
+        "id": "ScratchCity",
+        "node_type": "City",
+        "tree_root": "/ScratchCity",
         "children": [],
         "area": 0,
         "ai_verbose": city_ai_data.get("verbose", ""),
@@ -1855,7 +1856,6 @@ def format_babia_dict(d: dict):
                 "Control del Juego": "control_del_juego",
                 "Puntuación": "puntuacion",
                 "Menú Principal": "menu_principal",
-                "Fin del Juego": "fin_del_juego",
                 "Personalización": "personalizacion",
                 "Reglas": "reglas",
                 "Introducción del Sistema": "introduccion_del_sistema"
@@ -1889,7 +1889,7 @@ def format_babia_flat(d: dict) -> list:
     """
     Genera una lista plana de objetos con campo 'path' para usar con
     babia-treebuilder + babia-boats.
-    Formato: {"path": "ScratchCity/SpriteName/script_id", "area": x, "Blocks": y, ...}
+    Formato: {"path": "/ScratchCity/Region/SpriteName/script_id", "area": x, "Blocks": y, ...}
     """
     import math
 
@@ -1928,7 +1928,7 @@ def format_babia_flat(d: dict) -> list:
             })
 
             flat_list.append({
-                "path": f"Stage/{safe_region}/{safe_sprite}/{unique_id}",
+                "path": f"/ScratchCity/{safe_region}/{safe_sprite}/{unique_id}",
                 "id": unique_id,
                 "nombre_corto": script_key.lower(),
                 "area": tower_area,
@@ -1943,7 +1943,7 @@ def format_babia_flat(d: dict) -> list:
     for key, data in FLAPPY_PERSPECTIVES.items():
         if key.startswith('var_'):
             flat_list.append({
-                "path": f"Stage/Memoria_Global/Variables/{key}",
+                "path": f"/ScratchCity/Memoria_Global/Variables/{key}",
                 "id": key,
                 "nombre_corto": key.replace('var_', ''),
                 "area": 4,

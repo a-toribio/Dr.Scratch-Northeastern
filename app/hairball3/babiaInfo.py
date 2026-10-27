@@ -73,41 +73,18 @@ class Babia(Plugin):
         for key, list_info in self.json_project.items():
             if key == "targets":
                 for dict_target in list_info:
-                    
-                    if dict_target['name'] != 'Stage':
-                        currScript = 0
-                        #print("-------------------------------------------------------------")
-                        self.babia_dict['num_sprites'] += 1
-                        self.babia_dict['sprites'][dict_target['name']] = {}
-                        for dicc_key, dicc_value in dict_target.items():
-                            if dicc_key == "blocks":
-                                blocks_list = [] 
-                                for blocks, blocks_value in dicc_value.items():
-                                    if type(blocks_value) is dict:
-                                        # seach scripts
-                                        
-                                        if blocks_value['topLevel']:
-                                            #print(blocks_list)
-                                            currScript += 1
-                                            #print("-------------------------------------------------------------")
-                                            blocks_list = []
-                                            #self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = 0
-                                            #print(blocks_value)
-                                            script = Script()
-                                            script.set_script_dict(block_dict=dicc_value, start=blocks)
-                                            script_text = script.convert_to_text()
-                                            #print("SCRIPT TEXT--------------------------------------------------------")
-                                            #print(script_text)
-                                            #print("FIN DE SCRIPT TEXT")
-                                        #block = script.convert_block_to_text(blocks_value)
-                                        #print("block:--------------------------",block)
-                                        #blocks_list.append(str(block))
-                                        
-                                        
-                                        #self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] += 1 #Incremet one block 
-                                            self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = script_text
-                                        #self.list_total_blocks.append(blocks_value)
-                                        #self.dict_total_blocks[blocks] = blocks_value
+                    currScript = 0
+                    self.babia_dict['num_sprites'] += 1
+                    self.babia_dict['sprites'][dict_target['name']] = {}
+                    for dicc_key, dicc_value in dict_target.items():
+                        if dicc_key == "blocks":
+                            for blocks, blocks_value in dicc_value.items():
+                                if type(blocks_value) is dict and blocks_value['topLevel']:
+                                    currScript += 1
+                                    script = Script()
+                                    script.set_script_dict(block_dict=dicc_value, start=blocks)
+                                    script_text = script.convert_to_text()
+                                    self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = script_text
 
         """
         for block in self.list_total_blocks:
