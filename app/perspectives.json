@@ -324,7 +324,7 @@
     "stage_script_8_8": {
         "verbose": "Al perder una vida, lo que se traduce a recibir [loss_life], se decrementa [lives], es decir, se pierde una vida, y se notifica la actualización mediante el mensaje [update_hearts].",
         "schematic": "<ul><li>Recepción</li><ul><li>[loss_life]</li></ul><li>Acción</li><ul><li>Decremento [lives]</li><li>Pérdida una vida</li></ul><li>Notificación</li><ul><li>Emisión [update_hearts]</li><li>Actualización sistema vidas</li></ul></ul>",
-        "conexiones": "<p><strong>[update_hearts]</strong><br>[Stage] al recibir [loss_life] emite [update_hearts].</p><ul><li><strong>Recibido por [life Script 5]:</strong> Gestiona el cambio de disfraz del corazón correspondiente según su posición.<ul><li>Gestión de cambio de disfraz del corazón</li></ul></li></ul><p><strong>Variables Globales (Flujos de Datos)</strong><br>[Stage] al recibir [loss_life] decrementa la variable lives en 1.</p><ul><li><strong>Leído por [life Script 5]:</strong> Compara la posición x del clon con el umbral calculado a partir de lives para determinar si debe cambiar al disfraz [dead].<ul><li>Determina cambio a disfraz [dead]</li></ul></li></ul>",
+        "conexiones": "<p><strong>[update_hearts]</strong><br>[Stage] al recibir [loss_life] emite [update_hearts].</p><ul><li>Este mensaje no es el que activa [life Script 5], que recibe [loss_life].</li></ul><p><strong>Variables Globales (Flujos de Datos)</strong><br>[Stage] al recibir [loss_life] decrementa la variable lives en 1.</p><ul><li><strong>Leído por [life Script 5]:</strong> Compara la posición x del clon con -220 + (lives * 30) para cambiar el disfraz del corazón correspondiente.</li></ul>",
         "id_num": "E8"
     },
     "flappy_bird_script_1_1": {
@@ -1226,9 +1226,34 @@
         "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Acción:</strong> Cambio disfraz [ghost_nonexistent]</li><li><strong>Nota:</strong> Script residual, sin utilidad</li></ul>",
         "id_num": "E182"
     },
+    "life_script_1_1": {
+        "verbose": "Al iniciar la aplicación, se inicializa [heartID] a 0 para preparar la identificación de los clones de corazones.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio aplicación</li><li><strong>Inicialización:</strong> Establece [heartID] a 0</li><li><strong>Función:</strong> Preparar la identificación de los clones de corazones</li></ul>"
+    },
+    "life_script_2_2": {
+        "verbose": "Al recibir [gamestart], se reinicia [heartID] y se establece [lives] a 4. Durante la creación de los clones de corazones, se incrementa [heart_count] en cada iteración del bucle.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [gamestart]</li><li><strong>Inicialización:</strong><ul><li>Establece [heartID] a 0</li><li>Establece [lives] a 4</li></ul></li><li><strong>Creación de corazones:</strong><ul><li>Incrementa [heart_count] en cada iteración del bucle</li></ul></li></ul>"
+    },
+    "life_script_3_3": {
+        "verbose": "Al iniciar como clon, incrementa [heartID] y calcula su posición horizontal con la fórmula -220 + (heartID * 30), distribuyendo los corazones en la parte superior de la pantalla.",
+        "schematic": "<ul><li><strong>Activación:</strong> Inicio como clon</li><li><strong>Identificación:</strong> Incrementa [heartID] en 1</li><li><strong>Posicionamiento:</strong><ul><li>Calcula x mediante -220 + (heartID * 30)</li><li>Distribuye los corazones horizontalmente en la parte superior de la pantalla</li></ul></li></ul>"
+    },
+    "life_script_4_4": {
+        "verbose": "Al recibir [delete_hearts], elimina el clon de corazón que ejecuta el script.",
+        "schematic": "<ul><li><strong>Recepción:</strong> [delete_hearts]</li><li><strong>Acción:</strong> Elimina este clon</li></ul>"
+    },
+    "life_script_5_5": {
+        "verbose": "Al recibir [loss_life], comprueba si la posición x del clon es igual a -220 + ([lives] * 30). Si se cumple, cambia al disfraz [costume].",
+        "schematic": "<ul><li><strong>Recepción:</strong> [loss_life]</li><li><strong>Condición:</strong> Comprueba si x es igual a -220 + ([lives] * 30)</li><li><strong>Acción si se cumple:</strong> Cambia al disfraz [costume]</li></ul>",
+        "conexiones": "<p><strong>[loss_life]</strong><br>[Flappy Bird] emite [loss_life] al perder una vida.</p><ul><li><strong>Recibido por [life Script 5]:</strong> Comprueba la posición x del clon y cambia el disfraz del corazón correspondiente.</li><li><strong>Variable leída:</strong> [lives]</li></ul>"
+    },
+    "life_script_6_6": {
+        "verbose": "Al recibir [gamestart], oculta el sprite [life].",
+        "schematic": "<ul><li><strong>Recepción:</strong> [gamestart]</li><li><strong>Acción:</strong> Oculta el sprite [life]</li></ul>"
+    },
     "var_lives": {
-        "verbose": "[Stage] al recibir [loss_life] decrementa lives en 1, y este valor es leído por [life] en su Script 5, donde compara la posición x del clon con el umbral calculado a partir de lives para determinar si debe cambiar al disfraz [dead]. [life] al recibir [GameStart] inicializa lives a 4, y este valor es leído por [life Script 3], donde determina cuántos clones de corazones se crean mediante un bucle repeat que itera lives veces.",
-        "schematic": "<ul><li>[Stage] al recibir [loss_life] decrementa lives en 1 </li><li>Leído por [life] en [life Script 5] </li><ul><li>Compara posición x del clon </li><li>Con umbral calculado desde lives </li><li>Determina cambio a disfraz [dead] </li></ul><li>[life] al recibir [GameStart] inicializa lives a 4 </li><li>Leído por [life Script 3] </li><ul><li>Determina cuántos clones de corazones se crean </li><li>Mediante bucle repeat </li><li>Itera lives veces </li></ul></ul>"
+        "verbose": "[Stage] al recibir [loss_life] decrementa lives en 1. [life Script 5] recibe [loss_life] y compara la posición x del clon con -220 + (lives * 30) para cambiar el disfraz del corazón correspondiente. [life Script 2] al recibir [gamestart] inicializa lives a 4 y lo utiliza para determinar cuántos clones de corazones se crean.",
+        "schematic": "<ul><li>[Stage] al recibir [loss_life] decrementa lives en 1 </li><li>[life Script 5] al recibir [loss_life] lee lives </li><ul><li>Compara x con -220 + (lives * 30) </li><li>Cambia el disfraz del corazón correspondiente </li></ul><li>[life Script 2] al recibir [gamestart] inicializa lives a 4 </li><li>[life Script 2] utiliza lives para determinar cuántos clones crear </li></ul>"
     },
     "var_isgameover": {
         "verbose": "[Stage Script 2] al recibir [GameOver] establece isGameOver a true, y [Stage Script 3] y [Stage Script 6] al recibir [GameStart] lo establecen a false. Este valor es leído por [Stage Script 6] (control de música), por [secondPipe Script 2], [secondPipe Script 4] (detención de generación y movimiento), por [firstPipe Script 4] (detención de puntuación), y por [Flappy Bird Script 2] (determinación de fin de partida).",

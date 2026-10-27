@@ -22,6 +22,35 @@ window.addEventListener('load', function() {
 
 window.selectedSpriteColors = Object.create(null);
 
+function paintCityBoxes(cajas) {
+    cajas.forEach(caja => {
+        let idCaja = caja.id || "";
+        let colorBase;
+
+        if (idCaja.endsWith('Stage')) {
+            colorBase = '#388E3C';
+        } else if (idCaja.startsWith('boat-') && (idCaja.match(/\//g) || []).length === 2) {
+            let nombreSprite = idCaja.substring(idCaja.lastIndexOf('/') + 1);
+            colorBase = window.selectedSpriteColors[nombreSprite] || '#A5D6A7';
+        } else if (idCaja.includes('script') || idCaja.includes('var_')) {
+            let item = window.projectFlat.find(entry => idCaja.includes(entry.id));
+            if (item) colorBase = item.building_color;
+        } else if (idCaja.startsWith('boat-')) {
+            let numeroDeBarras = (idCaja.match(/\//g) || []).length;
+            colorBase = numeroDeBarras === 1 ? '#4CAF50' : numeroDeBarras === 2 ? '#A5D6A7' : '#bdefb7';
+
+            if (idCaja.includes('Memoria_Global')) {
+                colorBase = '#FFD54F';
+            }
+        }
+
+        if (colorBase) {
+            caja.setAttribute('color', colorBase);
+            caja.setAttribute('babiaxrFirstColor', colorBase);
+        }
+    });
+}
+
 AFRAME.registerComponent('pintor-ciudad', {
     init: function() {
         this.painted = false;
@@ -30,49 +59,7 @@ AFRAME.registerComponent('pintor-ciudad', {
         let cajas = this.el.querySelectorAll('a-box');
 
         if (cajas.length > 0 && !this.painted) {
-            cajas.forEach(caja => {
-                let idCaja = caja.id || "";
-
-                if (idCaja.endsWith('Stage')) {
-                    let colorBase = '#388E3C';
-                    caja.setAttribute('color', colorBase);
-                    caja.setAttribute('babiaxrfirstcolor', colorBase);
-                }
-                else if (idCaja.startsWith('boat-') && (idCaja.match(/\//g) || []).length === 2) {
-                    let nombreSprite = idCaja.substring(idCaja.lastIndexOf('/') + 1);
-                    let coloresSeleccionados = window.selectedSpriteColors || {};
-                    let colorBase = coloresSeleccionados[nombreSprite] || '#A5D6A7';
-                    caja.setAttribute('color', colorBase);
-                    caja.setAttribute('babiaxrfirstcolor', colorBase);
-                }
-                else if (idCaja.includes('script') || idCaja.includes('var_')) {
-                    window.projectFlat.forEach(item => {
-                        let scriptId = item.id;
-                        if (idCaja.includes(scriptId)) {
-                            caja.setAttribute('color', item.building_color);
-                            caja.setAttribute('babiaxrfirstcolor', item.building_color);
-                        }
-                    });
-                }
-                else if (idCaja.startsWith('boat-')) {
-                    let numeroDeBarras = (idCaja.match(/\//g) || []).length;
-                    let colorVerde = '#bdefb7';
-
-                    if (numeroDeBarras === 1) {
-                        colorVerde = '#4CAF50';
-                    } else if (numeroDeBarras === 2) {
-                        colorVerde = '#A5D6A7';
-                    }
-
-                    if (idCaja.includes('Memoria_Global')) {
-                        colorVerde = '#FFD54F';
-                    }
-
-                    caja.setAttribute('color', colorVerde);
-                    caja.setAttribute('babiaxrfirstcolor', colorVerde);
-                }
-            });
-
+            paintCityBoxes(cajas);
             this.painted = true;
         }
     }
@@ -626,7 +613,7 @@ const views = {
 
     let flowData = { broadcasts: {}, variables: {} };
     let spriteColors = Object.create(null);
-    const SPRITE_HIGHLIGHT_COLOR = '#29B6F6';
+    const SPRITE_HIGHLIGHT_COLOR = '#FF1744';
     let originalTowerColors = {};
 
     function extractFlowData() {
@@ -777,32 +764,21 @@ const views = {
         });
     }
 
-    function rebuildCity() {
-        let cityEl = document.querySelector('[babia-city], [babia-treecity], [babia], [codecity], [babia-queryjson], #city, #ScratchCity');
-        
-        if (!cityEl) {
-            let firstBuilding = document.querySelector('a-box, a-cylinder');
-            if (firstBuilding) {
-                let current = firstBuilding;
-                while (current.parentNode && current.parentNode.tagName && current.parentNode.tagName.toLowerCase() !== 'a-scene') {
-                    current = current.parentNode;
-                }
-                cityEl = current;
-            }
+    function repaintCity() {
+        let cityEl = document.getElementById('boats-city');
+        let painter = cityEl && cityEl.components && cityEl.components['pintor-ciudad'];
+        let cajas = cityEl && cityEl.querySelectorAll('a-box');
+
+        if (!cityEl || !cajas || cajas.length === 0) {
+            console.warn("No se encontraron las cajas de la ciudad para actualizar los colores.");
+            return;
         }
 
-        if (cityEl) {
-            console.log("Recargando con los nuevos colores...");
-            let parent = cityEl.parentNode;
-            let clone = cityEl.cloneNode(false);
-            
-            parent.removeChild(cityEl);
-            
-            setTimeout(() => {
-                parent.appendChild(clone); 
-            }, 50);
+        paintCityBoxes(cajas);
+        if (painter) {
+            painter.painted = true;
         } else {
-            console.warn("No se encontró el elemento de la ciudad para recargarlo.");
+            console.warn("No se encontró el pintor de la ciudad; los colores actuales se han actualizado.");
         }
     }
 
@@ -861,7 +837,7 @@ const views = {
             });
         }
 
-        rebuildCity();
+        repaintCity();
     }
 
     setTimeout(extractFlowData, 2000);
